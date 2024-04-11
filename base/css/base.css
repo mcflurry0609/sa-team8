@@ -1,0 +1,11 @@
+/* ============================= 主框架 ============================= */
+.layout {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20%;
+    /* 左右空白各多少 可調 */
+}
+
+.wrapper {
+    width: 100%;
+}
