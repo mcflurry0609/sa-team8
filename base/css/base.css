@@ -1,0 +1,16 @@
+/* ============================= 主框架 ============================= */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 25%;
+    /* 左右空白各多少 可調 */
+}
+
+.wrapper {
+    width: 100%;
+}
