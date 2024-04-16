@@ -1,0 +1,53 @@
+.menu,
+.records {
+    border-right: 1px solid #eee;
+}
+
+.tab {
+    background-color: #fff;
+    color: #666;
+}
+
+.tab.active {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.user {
+    background-color: #666;灰
+}
+
+.user .fa-user {
+    color: #f0f0f0;白
+}
+
+.user .userid {
+    color: #f0f0f0;白
+}
+
+.recordtitle .fa-circle-check {
+    color: #03734A;綠
+}
+
+.recordtitle .fa-circle-xmark {
+    color: #BF1523;紅
+}
+
+.recordtitle .fa-circle-question {
+    color: #132240;藍
+}
+
+.timeslot .days {
+    background: #dae3f4;淺藍
+    color: #132241;藍
+}
+
+.timeslot .session {
+    background: #F2F2F2;淺灰
+    color: #000;黑
+}
+
+.applybtn {
+    background-color: #222;黑
+    color: #fff;白
+}

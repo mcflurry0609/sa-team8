@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔仁大學線上請假系統</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
+    <!-- Core theme CSS -->
+    <link href="css/login.css" rel="stylesheet" />
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://kit.fontawesome.com/2261b58659.css" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div>
+        <!-- Login -->
+        <div class="login-card pt-5 pb-3 px-4 mb-5">
+            <img src="pic/logo.png" alt="" style="width: 150px; margin-bottom: 15px;">
+            <form class="login-form mb-3" action="login.php" method="post">
+                <table>
+                    <tr>
+                        <td><h4>輔仁大學帳號</h4>
+                            <input type="text" placeholder="請輸入帳號" class="login-input" name="ac_ID" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h4>輔仁大學密碼</h4>
+                            <div style="position: relative;">
+                                <input type="password" id="passwordInput" placeholder="請輸入密碼" class="login-input" name="ac_password" required>
+                                <i id="togglePassword" class="fa-solid fa-eye" style="position: absolute; right: 10px; top: 35%; transform: translateY(-50%); cursor: pointer;"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="登入" class="btn login"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+    
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // 切换图标
+            if (type === 'password') {
+                togglePassword.classList.remove('fa-eye-slash');
+                togglePassword.classList.add('fa-eye');
+            } else {
+                togglePassword.classList.remove('fa-eye');
+                togglePassword.classList.add('fa-eye-slash');
+            }
+        });
+    </script>    
+
+</body>
+
+</html>
