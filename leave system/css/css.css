@@ -7,13 +7,13 @@
 /* ============================= LAYOUT ============================= */
 body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #fdfdfd;
 }
 
 .layout {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    /* 调整对齐方式 */
     margin: 0 20%;
 }
 
@@ -34,7 +34,7 @@ body {
     text-align: center;
     min-width: 200px;
     height: 100vh;
-    background-color: #fff;
+    background-color: #fdfdfd;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -43,7 +43,7 @@ body {
 .topbar {
     grid-area: topbar;
     box-shadow: 0 -1px 12px rgba(85, 85, 85, .1);
-    background-color: #fff;
+    background-color: #fdfdfd;
     padding: 30px 0 10px 30px;
     position: sticky;
     top: 0;
@@ -87,7 +87,7 @@ h3 {
 }
 
 .menu a {
-    color: #000;
+    color: #222;
     text-decoration: none;
     transition: all 0.375s;
 }
@@ -100,7 +100,7 @@ h3 {
 }
 
 .tab {
-    background-color: #fff;
+    background-color: #fdfdfd;
     color: #666;
     font-size: 14px;
     font-weight: 600;
@@ -114,7 +114,7 @@ h3 {
 
 .tab.active {
     background-color: #f0f0f0;
-    color: #000;
+    color: #222;
 }
 
 .user {
@@ -147,7 +147,7 @@ h3 {
 /* ============================= RECORD ============================= */
 .recordcard {
     align-items: stretch;
-    background: #fff;
+    background: #fdfdfd;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(34, 34, 34, .1);
     cursor: pointer;
@@ -200,6 +200,11 @@ h3 {
     color: #132240;
 }
 
+.openclass{
+    color: #666;
+    font-size: 16px;
+}
+
 .timeslot {
     align-items: flex-start;
     justify-content: space-between;
@@ -239,16 +244,24 @@ h3 {
 
 .timeslot .session {
     background: #F2F2F2;
-    color: #000;
+    color: #222;
 }
 
 /* ============================= DETAIL ============================= */
 .recorddetails {
-    
-    /* 初始隐藏详细信息 */
-    background-color: #fff;
+    background-color: #fdfdfd;
     position: relative;
-    margin-top: 15px;
+    margin-top: 20px;
+}
+
+
+.reason {
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+.doc{
+    margin-bottom: 5px;
 }
 
 .applytime {
@@ -257,33 +270,14 @@ h3 {
     margin: 0;
 }
 
-.reason{
-    max-width: 200px;
-}
-
-.detail{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.detail .reason{
-    margin-right: auto;
-}
-
-.detail a,
-.detail .fa-solid{
-    margin-left: auto;
-}
-
-.detail a{
-    color: #000;
+.recorddetails a {
+    color: #222;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.375s;
 }
 
-.detail .fa-solid {
+.recorddetails .fa-solid {
     margin: 0 5px;
 }
 
@@ -291,8 +285,35 @@ h3 {
     position: absolute;
     bottom: 0px;
     right: 0px;
+    font-weight: 600;
     background-color: #bf1523;
-    color: #fff;
+    color: #fdfdfd;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.accept {
+    position: absolute;
+    bottom: 0px;
+    right: 90px;
+    font-weight: 600;
+    background-color: #03734A;
+    color: #fdfdfd;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reject {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-weight: 600;
+    background-color: #bf1523;
+    color: #fdfdfd;
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
@@ -318,5 +339,5 @@ h3 {
     width: 135px;
     font-size: 20px;
     font-weight: 600;
-    color: #fff;
+    color: #fdfdfd;
 }
