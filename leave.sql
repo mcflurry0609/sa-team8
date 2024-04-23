@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-04-23 09:19:17
--- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.2.12
+-- 產生時間： 2024-04-23 10:01:06
+-- 伺服器版本： 10.4.28-MariaDB
+-- PHP 版本： 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,8 +41,8 @@ INSERT INTO `category` (`category_id`, `category_name`) VALUES
 (2, '病假'),
 (3, '喪假'),
 (4, '生理假'),
-(5, '病假'),
-(6, '陪產假'),
+(5, '陪產假'),
+(6, '心理假'),
 (7, '哺育幼兒假');
 
 -- --------------------------------------------------------
@@ -63,15 +63,15 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`) VALUES
-('D740209514', '電子商務', '資管二', ''),
-('D741201584', '系統分析與設計', '資管二甲', ''),
-('D741202222', '統計學', '資管二甲', ''),
-('D741202457', '經濟學', '資管二甲', ''),
-('D741202468', '經濟學(2)', '資管二乙', ''),
-('D741202492', '資料結構', '資管二甲', ''),
-('D741202795', '導師時間', '資管二甲', ''),
-('D741210681', '資料通訊與網路', '資管二甲', ''),
-('DFTEN00772I', '日文', 'FT-非英文', '');
+('D740209514', '電子商務', '資管二', 'D740209514'),
+('D741201584', '系統分析與設計', '資管二甲', 'D741201584'),
+('D741202222', '統計學', '資管二甲', 'D741202222'),
+('D741202457', '經濟學', '資管二甲', 'D741202457'),
+('D741202468', '經濟學', '資管二乙', 'D741202468'),
+('D741202492', '資料結構', '資管二甲', 'D741202492'),
+('D741202795', '導師時間', '資管二甲', 'D741202795'),
+('D741210681', '資料通訊與網路', '資管二甲', 'D741210681'),
+('DFTEN00772I', '日文', 'FT-非英文', 'DFTEN00772I');
 
 -- --------------------------------------------------------
 
@@ -107,6 +107,20 @@ CREATE TABLE `enrollments` (
   `course_id` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `enrollments`
+--
+
+INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
+('411401085', 'D740209514'),
+('411401085', 'D741202457'),
+('411401085', 'D741202795'),
+('411401085', 'D741210681'),
+('411401229', 'D741201584'),
+('411401229', 'D741202468'),
+('411401229', 'D741202795'),
+('411401229', 'DFTEN00772I');
+
 -- --------------------------------------------------------
 
 --
@@ -123,6 +137,15 @@ CREATE TABLE `leaveapplications` (
   `document_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `approval_status` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `leaveapplications`
+--
+
+INSERT INTO `leaveapplications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `reason`, `document_name`, `approval_status`) VALUES
+(1, '411401085', 'D741210681', 2, '2024-04-24', 'aaaaaaaaaa', 'hi.jpg', '審核中'),
+(2, '411401085', 'DFTEN00772I', 1, '2024-04-21', 'bbbbbb', 'hii.jpg', '已批准'),
+(3, '411401229', 'D741202457', 6, '2024-04-20', 'ccccccccccccc', 'cry.jpg', '已拒絕');
 
 -- --------------------------------------------------------
 
@@ -156,7 +179,12 @@ INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekdays`, `period`, `week`
 (11, 'D741202457', '週三', 'D4', 0),
 (12, 'D741202468', '週四', 'D5', 2),
 (13, 'D741202468', '週四', 'D6', 2),
-(14, 'D741202468', '週四', 'D7', 2);
+(14, 'D741202468', '週四', 'D7', 2),
+(15, 'D741201584', '週二', 'D5', 0),
+(16, 'D741201584', '週二', 'D6', 0),
+(17, 'D741201584', '週二', 'D7', 0),
+(18, 'D741202795', '週三', 'D5', 0),
+(19, 'D741202795', '週三', 'D6', 0);
 
 -- --------------------------------------------------------
 
@@ -246,13 +274,13 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `leaveapplications`
 --
 ALTER TABLE `leaveapplications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- 已傾印資料表的限制式
