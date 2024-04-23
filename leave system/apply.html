@@ -58,8 +58,8 @@
                             </select>
                         </div>
                         <div class="period">
-                            <button class="sessions active">D3</button>
-                            <button class="sessions">D4</button>
+                            <div class="sessions active" id="d3">D3</div>
+                            <div class="sessions" id="d4">D4</div>
                         </div>
                     </div>
                     <div class="reason">
@@ -91,17 +91,17 @@
     </div>
 
     <script>
-        // 選取所有按鈕元素
-        const buttons = document.querySelectorAll('.sessions');
+        // 選擇所有具有 "sessions" class 的元素
+        const sessions = document.querySelectorAll('.sessions');
 
-        // 為每個按鈕新增點擊事件監聽器
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // 如果按鈕已經是active，則移除active狀態；否則加上active狀態
-                if (button.classList.contains('active')) {
-                    button.classList.remove('active');
+        // 對每個 session 元素添加點擊事件監聽器
+        sessions.forEach(session => {
+            session.addEventListener('click', () => {
+                // 如果被點擊的 session 元素已經有 "active" class，則移除它；否則添加它
+                if (session.classList.contains('active')) {
+                    session.classList.remove('active');
                 } else {
-                    button.classList.add('active');
+                    session.classList.add('active');
                 }
             });
         });

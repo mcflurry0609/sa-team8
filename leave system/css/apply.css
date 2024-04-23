@@ -17,7 +17,7 @@ body {
     height: 100vh;
     margin: auto;
     overflow: auto;
-    padding: 40px 64px;
+    padding: 30px 64px;
     position: relative;
     border: 1px solid #eee;
 }
@@ -26,6 +26,7 @@ body {
 h2 {
     font-size: 28px;
     color: #222;
+    margin-top: 0;
 }
 
 /* ============================= FORM ============================= */
@@ -47,23 +48,23 @@ h2 {
         "file file";
 }
 
-.category{
+.category {
     grid-area: category;
 }
 
-.date{
+.date {
     grid-area: date;
 }
 
-.class{
+.class {
     grid-area: class;
 }
 
-.reason{
+.reason {
     grid-area: reason;
 }
 
-.file{
+.file {
     grid-area: file;
 }
 
@@ -106,7 +107,7 @@ h2 {
     margin-top: 12px;
 }
 
-.sessions{
+.sessions {
     align-items: center;
     border: 2px solid #e1e1e1;
     border-radius: 8px;
@@ -129,7 +130,7 @@ h2 {
     color: #3364c7;
 }
 
-.textarea{
+.textarea {
     cursor: text;
     font-size: 16px;
     height: 50px;
@@ -139,21 +140,20 @@ h2 {
 
 /* ============================= FOOTER ============================= */
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     position: fixed;
     bottom: 0;
-    left: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: calc(100% - 208px);
     padding: 20px 0;
-    display: flex;
-    flex-direction: row;
-    padding: 16px 64px;
     background-color: #fdfdfd;
     color: #222;
     text-align: center;
     box-shadow: 0 -4px 16px rgba(85, 85, 85, .1);
     z-index: 999;
+    display: flex;
+    justify-content: center;
 }
 
 .nosend,
@@ -161,21 +161,23 @@ h2 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    display: flex;
+    display: inline-block;
     border: none;
     font-size: 16px;
     font-weight: 600;
     padding: 14px 20px;
     border-radius: 8px;
-    width: 25%;
+    width: calc(50% - 80px);
 }
 
 .nosend {
     background: #adadad;
     color: #fdfdfd;
+    margin: 0 16px 0 64px;
 }
 
 .sendout {
     background: #222;
     color: #fdfdfd;
+    margin: 0 64px 0 16px;
 }
