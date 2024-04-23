@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-04-23 06:03:43
+-- 產生時間： 2024-04-23 09:19:17
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -32,6 +32,19 @@ CREATE TABLE `category` (
   `category_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `category`
+--
+
+INSERT INTO `category` (`category_id`, `category_name`) VALUES
+(1, '事假'),
+(2, '病假'),
+(3, '喪假'),
+(4, '生理假'),
+(5, '病假'),
+(6, '陪產假'),
+(7, '哺育幼兒假');
+
 -- --------------------------------------------------------
 
 --
@@ -40,11 +53,25 @@ CREATE TABLE `category` (
 
 CREATE TABLE `courses` (
   `course_id` varchar(11) NOT NULL,
-  `user_id` char(10) NOT NULL,
   `course_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `course_class` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `notice` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `courses`
+--
+
+INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`) VALUES
+('D740209514', '電子商務', '資管二', ''),
+('D741201584', '系統分析與設計', '資管二甲', ''),
+('D741202222', '統計學', '資管二甲', ''),
+('D741202457', '經濟學', '資管二甲', ''),
+('D741202468', '經濟學(2)', '資管二乙', ''),
+('D741202492', '資料結構', '資管二甲', ''),
+('D741202795', '導師時間', '資管二甲', ''),
+('D741210681', '資料通訊與網路', '資管二甲', ''),
+('DFTEN00772I', '日文', 'FT-非英文', '');
 
 -- --------------------------------------------------------
 
@@ -56,6 +83,18 @@ CREATE TABLE `courseteacher` (
   `user_id` char(10) NOT NULL,
   `course_id` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `courseteacher`
+--
+
+INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
+('0003', 'D741210681'),
+('0005', 'D740209514'),
+('0005', 'D741202457'),
+('0005', 'D741202468'),
+('0006', 'DFTEN00772I'),
+('0007', 'D740209514');
 
 -- --------------------------------------------------------
 
@@ -99,6 +138,26 @@ CREATE TABLE `schedule` (
   `week` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `schedule`
+--
+
+INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekdays`, `period`, `week`) VALUES
+(1, 'D740209514', '週一', 'D5', 0),
+(2, 'D740209514', '週一', 'D6', 0),
+(3, 'D740209514', '週一', 'D7', 0),
+(4, 'DFTEN00772I', '週一', 'D3', 0),
+(5, 'DFTEN00772I', '週一', 'D4', 0),
+(6, 'D741210681', '週二', 'D2', 1),
+(7, 'D741210681', '週二', 'D3', 1),
+(8, 'D741210681', '週二', 'D4', 1),
+(9, 'D741202457', '週三', 'D2', 0),
+(10, 'D741202457', '週三', 'D3', 0),
+(11, 'D741202457', '週三', 'D4', 0),
+(12, 'D741202468', '週四', 'D5', 2),
+(13, 'D741202468', '週四', 'D6', 2),
+(14, 'D741202468', '週四', 'D7', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -111,6 +170,21 @@ CREATE TABLE `users` (
   `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `role` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `users`
+--
+
+INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
+('0001', '0000', '吳濟聰', '教授'),
+('0002', '0000', '蔡幸蓁', '教授'),
+('0003', '0000', '林青峰', '教授'),
+('0004', '0000', '黃曜輝', '教授'),
+('0005', '0000', '許嘉霖', '教授'),
+('0006', '0000', 'Ishikawa Takao', '教授'),
+('0007', '0000', '張銀益', '教授'),
+('411401085', '0000', '朱唯綸', '學生'),
+('411401229', '12345678', '林亨奕', '學生');
 
 --
 -- 已傾印資料表的索引
@@ -126,8 +200,7 @@ ALTER TABLE `category`
 -- 資料表索引 `courses`
 --
 ALTER TABLE `courses`
-  ADD PRIMARY KEY (`course_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`course_id`);
 
 --
 -- 資料表索引 `courseteacher`
@@ -179,17 +252,11 @@ ALTER TABLE `leaveapplications`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 已傾印資料表的限制式
 --
-
---
--- 資料表的限制式 `courses`
---
-ALTER TABLE `courses`
-  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `courseteacher`
