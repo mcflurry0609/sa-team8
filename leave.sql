@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-04-23 10:01:06
--- 伺服器版本： 10.4.28-MariaDB
--- PHP 版本： 8.1.17
+-- 產生時間： 2024-04-24 05:18:05
+-- 伺服器版本： 10.4.32-MariaDB
+-- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,35 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `leave`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `applications`
+--
+
+CREATE TABLE `applications` (
+  `application_id` bigint(20) NOT NULL,
+  `user_id` char(10) NOT NULL,
+  `course_id` varchar(11) NOT NULL,
+  `category_id` int(2) NOT NULL,
+  `date` date NOT NULL,
+  `periods` varchar(10) NOT NULL,
+  `reason` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `doc_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `apply_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(3) NOT NULL DEFAULT '審核中'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `applications`
+--
+
+INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`) VALUES
+(1, '411401085', 'D741210681', 2, '2024-04-24', '', 'aaaaaaaaaa', 'hi.jpg', '2024-04-24 10:28:31', '審核中'),
+(2, '411401085', 'DFTEN00772I', 1, '2024-04-21', '', 'bbbbbb', 'hii.jpg', '2024-04-24 10:28:31', '已批准'),
+(3, '411401229', 'D741202457', 6, '2024-04-20', '', 'ccccccccccccc', 'cry.jpg', '2024-04-24 10:28:31', '已拒絕'),
+(4, '411401229', 'D741201584', 1, '2024-04-23', 'D6D7', 'aaaa', 'sssssss', '2024-04-24 10:28:31', '審核中');
 
 -- --------------------------------------------------------
 
@@ -89,6 +118,7 @@ CREATE TABLE `courseteacher` (
 --
 
 INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
+('0001', 'D741201584'),
 ('0003', 'D741210681'),
 ('0005', 'D740209514'),
 ('0005', 'D741202457'),
@@ -124,32 +154,6 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `leaveapplications`
---
-
-CREATE TABLE `leaveapplications` (
-  `application_id` bigint(20) NOT NULL,
-  `user_id` char(10) NOT NULL,
-  `course_id` varchar(11) NOT NULL,
-  `category_id` int(2) NOT NULL,
-  `date` date NOT NULL,
-  `reason` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `document_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `approval_status` varchar(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `leaveapplications`
---
-
-INSERT INTO `leaveapplications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `reason`, `document_name`, `approval_status`) VALUES
-(1, '411401085', 'D741210681', 2, '2024-04-24', 'aaaaaaaaaa', 'hi.jpg', '審核中'),
-(2, '411401085', 'DFTEN00772I', 1, '2024-04-21', 'bbbbbb', 'hii.jpg', '已批准'),
-(3, '411401229', 'D741202457', 6, '2024-04-20', 'ccccccccccccc', 'cry.jpg', '已拒絕');
-
--- --------------------------------------------------------
-
---
 -- 資料表結構 `schedule`
 --
 
@@ -157,7 +161,7 @@ CREATE TABLE `schedule` (
   `schedule_id` bigint(20) NOT NULL,
   `course_id` varchar(11) NOT NULL,
   `weekdays` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `period` varchar(2) NOT NULL,
+  `period` varchar(10) NOT NULL,
   `week` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -219,6 +223,15 @@ INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
 --
 
 --
+-- 資料表索引 `applications`
+--
+ALTER TABLE `applications`
+  ADD PRIMARY KEY (`application_id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- 資料表索引 `category`
 --
 ALTER TABLE `category`
@@ -245,15 +258,6 @@ ALTER TABLE `enrollments`
   ADD KEY `course_id` (`course_id`);
 
 --
--- 資料表索引 `leaveapplications`
---
-ALTER TABLE `leaveapplications`
-  ADD PRIMARY KEY (`application_id`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- 資料表索引 `schedule`
 --
 ALTER TABLE `schedule`
@@ -271,10 +275,10 @@ ALTER TABLE `users`
 --
 
 --
--- 使用資料表自動遞增(AUTO_INCREMENT) `leaveapplications`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
-ALTER TABLE `leaveapplications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `applications`
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
@@ -285,6 +289,14 @@ ALTER TABLE `schedule`
 --
 -- 已傾印資料表的限制式
 --
+
+--
+-- 資料表的限制式 `applications`
+--
+ALTER TABLE `applications`
+  ADD CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `applications_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `courseteacher`
@@ -299,14 +311,6 @@ ALTER TABLE `courseteacher`
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- 資料表的限制式 `leaveapplications`
---
-ALTER TABLE `leaveapplications`
-  ADD CONSTRAINT `leaveapplications_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `leaveapplications_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `leaveapplications_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `schedule`
