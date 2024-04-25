@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-04-24 05:18:05
+-- 產生時間： 2024-04-25 09:05:05
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -48,7 +48,9 @@ INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_
 (1, '411401085', 'D741210681', 2, '2024-04-24', '', 'aaaaaaaaaa', 'hi.jpg', '2024-04-24 10:28:31', '審核中'),
 (2, '411401085', 'DFTEN00772I', 1, '2024-04-21', '', 'bbbbbb', 'hii.jpg', '2024-04-24 10:28:31', '已批准'),
 (3, '411401229', 'D741202457', 6, '2024-04-20', '', 'ccccccccccccc', 'cry.jpg', '2024-04-24 10:28:31', '已拒絕'),
-(4, '411401229', 'D741201584', 1, '2024-04-23', 'D6D7', 'aaaa', 'sssssss', '2024-04-24 10:28:31', '審核中');
+(4, '411401229', 'D741201584', 1, '2024-04-23', 'D6D7', 'aaaa', 'test.pdf', '2024-04-24 10:28:31', '已批准'),
+(5, '411401085', 'D741201584', 4, '2024-04-24', 'D5D7', '阿阿阿阿阿阿', 'poopoo', '2024-04-25 00:17:26', '已拒絕'),
+(6, '411401229', 'D741202795', 6, '2024-04-17', 'D3D4', 'so tired', 'aaaaaaa', '2024-04-25 00:23:08', '已批准');
 
 -- --------------------------------------------------------
 
@@ -119,6 +121,7 @@ CREATE TABLE `courseteacher` (
 
 INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
 ('0001', 'D741201584'),
+('0001', 'D741202795'),
 ('0003', 'D741210681'),
 ('0005', 'D740209514'),
 ('0005', 'D741202457'),
@@ -160,7 +163,7 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 CREATE TABLE `schedule` (
   `schedule_id` bigint(20) NOT NULL,
   `course_id` varchar(11) NOT NULL,
-  `weekdays` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `weekday` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `period` varchar(10) NOT NULL,
   `week` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -169,7 +172,7 @@ CREATE TABLE `schedule` (
 -- 傾印資料表的資料 `schedule`
 --
 
-INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekdays`, `period`, `week`) VALUES
+INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekday`, `period`, `week`) VALUES
 (1, 'D740209514', '週一', 'D5', 0),
 (2, 'D740209514', '週一', 'D6', 0),
 (3, 'D740209514', '週一', 'D7', 0),
@@ -217,6 +220,30 @@ INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
 ('0007', '0000', '張銀益', '教授'),
 ('411401085', '0000', '朱唯綸', '學生'),
 ('411401229', '12345678', '林亨奕', '學生');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `weekdays`
+--
+
+CREATE TABLE `weekdays` (
+  `weekday_id` int(1) NOT NULL,
+  `weekday` varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `weekdays`
+--
+
+INSERT INTO `weekdays` (`weekday_id`, `weekday`) VALUES
+(1, '週一'),
+(2, '週二'),
+(3, '週三'),
+(4, '週四'),
+(5, '週五'),
+(6, '週六'),
+(7, '週日');
 
 --
 -- 已傾印資料表的索引
@@ -271,6 +298,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- 資料表索引 `weekdays`
+--
+ALTER TABLE `weekdays`
+  ADD PRIMARY KEY (`weekday_id`);
+
+--
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
 --
 
@@ -278,7 +311,7 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
@@ -311,12 +344,6 @@ ALTER TABLE `courseteacher`
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- 資料表的限制式 `schedule`
---
-ALTER TABLE `schedule`
-  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
