@@ -22,7 +22,7 @@
             $_SESSION['user_id']=$row['user_id'];
             $_SESSION['user_name']=$row['user_name'];
             $_SESSION['role']=$row['role'];
-            if ($row['role']==['學生']){
+            if ($row['role']=='學生'){
                 $redirect_url = "record.html";
             }
             else {
