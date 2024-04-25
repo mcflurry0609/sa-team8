@@ -22,7 +22,7 @@
             <div class="menu">
                 <img src="pic/logo.png" alt=""><br>
                 <ul>
-                    <li><a href="record.html">請假審核</a></li>
+                    <li><a href="review.php">請假審核</a></li>
                     <li><a href="logout.php" style="color: #bf1523;">登出</a></li>
                 </ul>
             </div>
