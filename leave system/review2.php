@@ -22,7 +22,7 @@
             <div class="menu">
                 <img src="pic/logo.png" alt=""><br>
                 <ul>
-                    <li><a href="review.php">請假審核</a></li>
+                    <li><a href="record.html">請假審核</a></li>
                     <li><a href="logout.php" style="color: #bf1523;">登出</a></li>
                 </ul>
             </div>
@@ -30,11 +30,11 @@
                 <nav class="topbar fixed-top">
                     <h2>請假審核</h2>
                     <div class="tabs">
-                    <a href="?status="><button id="allBtn" class="tab <?php if(!isset($_GET['status']) || $_GET['status'] == '') echo 'active'; ?>">全部</button></a>
-                    <a href="?status=pending"><button id="pendingBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'pending') echo 'active'; ?>">審核中</button></a>
-                    <a href="?status=approved"><button id="approvedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'approved') echo 'active'; ?>">已批准</button></a>
-                    <a href="?status=rejected"><button id="rejectedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'rejected') echo 'active'; ?>">已拒絕</button></a>
-
+                        <!-- 修改按鈕連結部分 -->
+                        <a href="?status=" id="allBtn" class="tab <?php if(!isset($_GET['status']) || $_GET['status'] == '') echo 'active'; ?>">全部</a>
+                        <a href="?status=pending" id="pendingBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'pending') echo 'active'; ?>">審核中</a>
+                        <a href="?status=approved" id="approvedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'approved') echo 'active'; ?>">已批准</a>
+                        <a href="?status=rejected" id="rejectedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'rejected') echo 'active'; ?>">已拒絕</a>
 
                     </div>
                     <div class="user">
@@ -46,6 +46,7 @@
                 <?php 
                     $link=mysqli_connect('localhost','root');
                     mysqli_select_db($link,'leave');
+                    // 處理GET參數
                     $status_condition = "";
                     if(isset($_GET['status'])){
                         $status = $_GET['status'];
@@ -56,9 +57,10 @@
                         } elseif($status == 'rejected'){
                             $status_condition = "AND applications.status = '已拒絕'";
                         } else {
-                            
+                            // 如果狀態值未知或為空，則顯示全部
                         }
                     }
+
                     $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.apply_time, 
                     courses.course_name, category.category_name, users.user_name, courses.course_class 
                     FROM applications 
@@ -102,7 +104,7 @@
                             <div class="recorddetails" style="display: none;">
                                 <h4 class="reason">'.$row["reason"].'</h4>
                                 <div class="doc">
-                                    <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
+                                    <a href=""><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                 </div>
                                 <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5>
                                 
@@ -114,7 +116,7 @@
                         </div>';
                     }
                 ?>
-                
+
                     
                 </div>
             </div>
@@ -134,6 +136,16 @@
                 });
             });
         });
+
+        function setActive(btnId) {
+        var buttons = document.getElementsByClassName('tab');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
+
+        var activeBtn = document.getElementById(btnId);
+        activeBtn.classList.add('active');
+    }
     
     </script>
 

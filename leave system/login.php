@@ -23,10 +23,12 @@
             $_SESSION['user_name']=$row['user_name'];
             $_SESSION['role']=$row['role'];
             if ($row['role']=='學生'){
-                $redirect_url = "record.html";
+                $redirect_url = "record.php";
             }
-            else {
+            else if ($row['role']=='教授') {
                 $redirect_url = "review.php";
+            }else{
+                
             }
             
             header("Location: $redirect_url");

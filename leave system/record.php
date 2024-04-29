@@ -16,6 +16,7 @@
 <body>
     <?php 
         session_start();
+        $_SESSION['user_id'] = $_SESSION['user_id'];
     ?>
     <div class="layout">
         <div class="wrapper">
@@ -100,8 +101,9 @@
                     ?>   
                 </div>
                 <div class="apply">
-                    <a href="apply.php" class="applybtn">請假申請</a>
-                </div>
+    <a href="apply.html" class="applybtn">請假申請</a>
+</div>
+
             </div>
         </div>
     </div>

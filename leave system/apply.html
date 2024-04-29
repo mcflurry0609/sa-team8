@@ -7,7 +7,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
-    <link href="apply.css" rel="stylesheet" />
+    <link href="css/apply.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
@@ -54,8 +54,7 @@
                                 <option value="">選擇欲請假的課堂</option>
                             </select>
                         </div>
-                        <div class="period">
-                            <div class="sessions" id="periodsList" ></div>
+                        <div class="period" id="periodsList">
                         </div>                        
                     </div>
                     <div class="reason">
@@ -87,14 +86,16 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userId = localStorage.getItem('user_id');
+            const selectedDate = this.value;
         // 监听日期选择框的变化
         const dateInput = document.getElementById('dateInput');
         dateInput.addEventListener('change', function() {
             // 获取选中的日期
             const selectedDate = this.value;
 
-            // 获取选中的学生ID（假设你已经在后台设置了一个名为studentId的变量来存储学生ID）
-            const studentId = '411401085'; // 临时使用，替换为实际获取学生ID的逻辑
+            
 
             // 发送AJAX请求到getcourse.php
             const xhr = new XMLHttpRequest();
@@ -112,7 +113,7 @@
                     }
                 }
             };
-            xhr.send(`user_id=${studentId}&date=${selectedDate}`);
+            xhr.send(`user_id=${userId}&date=${selectedDate}`);
         });
 
         // 监听课程选择下拉菜单的变化
@@ -158,7 +159,8 @@
         // 这里假设你有一个表单，并且表单的 id 是 "myForm"
         });
 
-
+    });
+    
     </script>
 </body>
 </html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>請假申請</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
+    <!-- CSS -->
+    <link href="css/apply.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="layout">
+        <div class="wrapper">
+            <h2>請假申請</h2>
+            <form class="form">
+                <div class="formrow">
+                    <div class="category">
+                        <div class="title">
+                            申請假別
+                            <div class="must">(必填)</div>
+                        </div>
+                        <div class="input">
+                            <select class="inputbox" id="categorySelect">
+                                <option value="">選擇假別</option>
+                                <option value="1">事假</option>
+                                <option value="2">病假</option>
+                                <option value="3">喪假</option>
+                                <option value="4">生理假</option>
+                                <option value="5">陪產假</option>
+                                <option value="6">心理假</option>
+                                <option value="7">哺育幼兒假</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="date">
+                        <div class="title">
+                            請假日期
+                            <div class="must">(必填)</div>
+                        </div>
+                        <div class="input">
+                            <input type="date" class="inputbox" id="dateInput" />
+                        </div>
+                    </div>
+                    <div class="class">
+                        <div class="title">
+                            請假課堂
+                            <div class="must">(必填)</div>
+                        </div>
+                        <div class="input">
+                            <select class="inputbox" id="courseSelect">
+                                <option value="">選擇欲請假的課堂</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userId = localStorage.getItem('user_id');
+            const dateInput = document.getElementById('dateInput');
+            dateInput.addEventListener('change', function() {
+                const selectedDate = this.value;
+                
+                // 使用获取到的用户ID
+                const studentId = userId;
+    
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'getcourse.php', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            const courseSelect = document.getElementById('courseSelect');
+                            courseSelect.innerHTML = xhr.responseText;
+                        } else {
+                            console.error('获取课程信息失败');
+                        }
+                    }
+                };
+                xhr.send(`user_id=${studentId}&date=${selectedDate}`);
+            });
+        });   
+    </script>
+    
+    
+</body>
+</html>
