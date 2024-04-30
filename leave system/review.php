@@ -8,7 +8,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
-    <link href="css/css.css" rel="stylesheet" />
+    <link href="css/csss.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
@@ -41,6 +41,13 @@
                     </div>
                 </nav>
                 <div class="records">
+                    <!-- 搜索框 -->
+                    <div class="search-box" style="">
+                        <input type="text" id="searchInput" placeholder="依課程名稱、學生姓名等搜尋">
+                        <input type="date" id="searchDate">
+                        <button onclick="searchRecords()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+
                 <?php 
                     $link=mysqli_connect('localhost','root');
                     mysqli_select_db($link,'leave');
@@ -95,7 +102,7 @@
                                 <div class="timeslot">
                                     <li class="days">'.$row["date"]." ".$row["category_name"].'</li>
                                     <li class="session">'.$periods.'</li>
-                                    <li>'.$row["user_name"].' 學生</li>
+                                    <li>'.$row["user_id"]." ".$row["user_name"].' 學生</li>
                                 </div>
                             </div>
                             <div class="recorddetails" style="display: none;">
@@ -133,7 +140,32 @@
                 });
             });
         });
-    
+
+        function searchRecords() {
+            // 获取输入框的值
+            var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
+            var searchDate = document.getElementById("searchDate").value;
+
+            // 获取所有的請假紀錄
+            var records = document.querySelectorAll(".recordcard");
+
+            records.forEach(record => {
+                // 获取紀錄中的課程名稱、學生名稱和學號
+                var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
+                var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
+                var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
+                var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0]; // 取得紀錄中的日期部分
+
+                // 如果課程名稱、學生名稱或學號包含搜索的字符串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
+                if ((course.includes(searchInput) || student.includes(searchInput) || studentID.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
+                    record.style.display = "block";
+                } else {
+                    record.style.display = "none";
+                }
+            });
+        }
+
+
     </script>
 
 </body>

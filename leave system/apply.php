@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <a class="nosend" id="changeMindBtn" src="record.php">改變心意</a>
+                    <button class="nosend" id="changeMindBtn" src="record.php">改變心意</button>
                     <button type="submit" class="sendout" id="submitBtn">送出申請</button>
                 </div>
             </form>
@@ -142,8 +142,7 @@
         //     xhr.send(`course_id=${selectedCourseId}`);
         //     });
 
-
-
+        
 
         //     // 获取按钮元素
         //     var changeMindBtn = document.getElementById("changeMindBtn");
