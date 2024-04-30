@@ -15,7 +15,7 @@
     <div class="layout">
         <div class="wrapper">
             <h2>請假申請</h2>
-            <form class="form" enctype="multipart/form-data" action="apply.php" method="post">
+            <form class="form" enctype="multipart/form-data" action="applying.php" method="post">
                 <div class="formrow">
                     <div class="category">
                         <div class="title">
@@ -23,7 +23,7 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <select class="inputbox" id="categorySelect" name="category">
+                            <select class="inputbox" id="categorySelect" name="category" required>
                                 <option value="">選擇假別</option>
                                 <option value="1">事假</option>
                                 <option value="2">病假</option>
@@ -41,7 +41,7 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <input type="date" class="inputbox" id="dateInput" name="date" />
+                            <input type="date" class="inputbox" id="dateInput" name="date" required/>
                         </div>
                     </div>
                     <div class="class">
@@ -50,7 +50,7 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <select class="inputbox" id="courseSelect" name="course">
+                            <select class="inputbox" id="courseSelect" name="course" required>
                                 <option value="">選擇欲請假的課堂</option>
                             </select>
                         </div>
@@ -63,7 +63,7 @@
                             <div class="must">(最多30字)</div>
                         </div>
                         <div class="input">
-                            <textarea class="inputbox textarea" placeholder="請填寫請假原因" maxlength="30" name="reason"></textarea>
+                            <textarea class="inputbox textarea" placeholder="請填寫請假原因" maxlength="30" name="reason" required></textarea>
                         </div>
                     </div>
                     <div class="file">
@@ -73,12 +73,12 @@
                         </div>
                         <div class="" action="upload.php" method="post">
                             <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png"
-                                style="background-color: #fdfdfd;" />
+                                style="background-color: #fdfdfd;" required/>
                         </div>
                     </div>
                 </div>
                 <div class="footer">
-                    <button class="nosend" id="changeMindBtn">改變心意</button>
+                    <a class="nosend" id="changeMindBtn" src="record.php">改變心意</a>
                     <button type="submit" class="sendout" id="submitBtn">送出申請</button>
                 </div>
             </form>
@@ -87,7 +87,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const userId = localStorage.getItem('user_id');
             const selectedDate = this.value;
         // 监听日期选择框的变化
         const dateInput = document.getElementById('dateInput');
