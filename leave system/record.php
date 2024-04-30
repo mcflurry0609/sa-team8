@@ -61,7 +61,8 @@
                         INNER JOIN category USING(category_id) 
                         INNER JOIN courses USING(course_id) 
                         INNER JOIN users ON applications.user_id = users.user_id
-                        WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition;
+                        WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
+                        ORDER BY applications.apply_time DESC";
                         $result=mysqli_query($link,$sql);
                         while($row=mysqli_fetch_assoc($result)){
                             $periods = str_replace('D', ' D', $row["periods"]);
@@ -85,21 +86,24 @@
                                         <li class="session">'.$periods.'</li>
                                         <li>'.$row["user_name"].' 學生</li>
                                     </div>
+                                    
                                 </div>
+                                
                                 <div class="recorddetails" style="display: none;">
                                     <h4 class="reason">'.$row["reason"].'</h4>
                                     <div class="doc">
-                                        <a href="uploads/'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
+                                        <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                     </div>
-                                    <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5>   
+                                    <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5>
+                                    <a href="delete.php?application_id='.$row["application_id"].'" class="cancel" style="color:white;">取消申請</a>  
                                 </div>
                             </div>';
                         }
                     ?>   
                 </div>
                 <div class="apply">
-    <a href="apply.php" class="applybtn">請假申請</a>
-</div>
+                    <a href="apply.php" class="applybtn" style="color: #fdfdfd;">請假申請</a>
+                </div>
 
             </div>
         </div>

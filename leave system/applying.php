@@ -37,13 +37,11 @@ foreach ($periods as $period){
     // 如果一切顺利，尝试上传文件
     } else {
         if (move_uploaded_file($_FILES["proof"]["tmp_name"], $target_file)) {
-            echo "文件 ". htmlspecialchars( basename( $_FILES["proof"]["name"])). " 已上传.";
             // 将数据插入到数据库
             $sql = "INSERT INTO applications (user_id, course_id, category_id, date, reason, doc_name,periods)
             VALUES ('{$_SESSION['user_id']}', '$course_id', '$category_id', '$date', '$reason', '{$target_file}', '$Period')";
             if ($link->query($sql) === TRUE) {
-                echo "新记录插入成功";
-                echo "<script>location.href='record.php'</script>";
+                echo "<script>alert('申請已成功送出！'); window.location.href = 'record.php';</script>";
 
             } else {
                 echo "Error: " . $sql . "<br>" . $link->error;
