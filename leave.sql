@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-04-27 19:09:57
+-- 產生時間： 2024-05-01 15:22:56
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -45,12 +45,7 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`) VALUES
-(1, '411401085', 'D741210681', 2, '2024-04-24', '', 'aaaaaaaaaa', 'hi.jpg', '2024-04-24 10:28:31', '審核中'),
-(2, '411401085', 'DFTEN00772I', 1, '2024-04-21', '', 'bbbbbb', 'hii.jpg', '2024-04-24 10:28:31', '已批准'),
-(3, '411401229', 'D741202457', 6, '2024-04-20', 'D2D3D4', 'ccccccccccccc', 'cry.jpg', '2024-04-24 10:28:31', '已拒絕'),
-(4, '411401229', 'D741201584', 1, '2024-04-23', 'D6D7', 'aaaa', 'test.pdf', '2024-04-24 10:28:31', '已批准'),
-(5, '411401085', 'D741201584', 4, '2024-04-24', 'D5D7', '阿阿阿阿阿阿', 'poopoo', '2024-04-25 00:17:26', '已拒絕'),
-(6, '411401229', 'D741202795', 6, '2024-04-17', 'D3D4', 'so tired', 'aaaaaaa', '2024-04-25 00:23:08', '已批准');
+(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'sss', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准');
 
 -- --------------------------------------------------------
 
@@ -94,15 +89,20 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`) VALUES
+('D740202632', '管理數學', '資管二', ''),
 ('D740209514', '電子商務', '資管二', 'D740209514'),
-('D741201584', '系統分析與設計', '資管二甲', 'D741201584'),
+('D740219411', '雲端應用程式設計', '資管二', ''),
+('D741201584', '系統分析與設計', '資管二甲', ''),
 ('D741202222', '統計學', '資管二甲', 'D741202222'),
 ('D741202457', '經濟學', '資管二甲', 'D741202457'),
-('D741202468', '經濟學', '資管二乙', 'D741202468'),
 ('D741202492', '資料結構', '資管二甲', 'D741202492'),
 ('D741202795', '導師時間', '資管二甲', 'D741202795'),
 ('D741210681', '資料通訊與網路', '資管二甲', 'D741210681'),
-('DFTEN00772I', '日文', 'FT-非英文', 'DFTEN00772I');
+('D742202457', '經濟學', '資管二乙', 'D742202457'),
+('D742202795', '導師時間', '資管二乙', ''),
+('DATP203638F', '羽球', '體育二以上必', ''),
+('DFTEN00772I', '日文', 'FT-非英文', ''),
+('DSTM800530', '企業成敗個案探討', '管理類', '');
 
 -- --------------------------------------------------------
 
@@ -122,12 +122,17 @@ CREATE TABLE `courseteacher` (
 INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
 ('0001', 'D741201584'),
 ('0001', 'D741202795'),
+('0002', 'D741202492'),
 ('0003', 'D741210681'),
+('0004', 'D741202222'),
 ('0005', 'D740209514'),
 ('0005', 'D741202457'),
-('0005', 'D741202468'),
 ('0006', 'DFTEN00772I'),
-('0007', 'D740209514');
+('0007', 'D740209514'),
+('0008', 'DSTM800530'),
+('0009', 'DATP203638F'),
+('0010', 'D740219411'),
+('0011', 'D740202632');
 
 -- --------------------------------------------------------
 
@@ -145,14 +150,26 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
+('411401085', 'D740202632'),
 ('411401085', 'D740209514'),
+('411401085', 'D740219411'),
+('411401085', 'D741201584'),
+('411401085', 'D741202222'),
 ('411401085', 'D741202457'),
-('411401085', 'D741202795'),
+('411401085', 'D741202492'),
 ('411401085', 'D741210681'),
+('411401085', 'D742202795'),
+('411401229', 'D740209514'),
+('411401229', 'D740219411'),
 ('411401229', 'D741201584'),
-('411401229', 'D741202468'),
+('411401229', 'D741202222'),
+('411401229', 'D741202457'),
+('411401229', 'D741202492'),
 ('411401229', 'D741202795'),
-('411401229', 'DFTEN00772I');
+('411401229', 'D741210681'),
+('411401229', 'DATP203638F'),
+('411401229', 'DFTEN00772I'),
+('411401229', 'DSTM800530');
 
 -- --------------------------------------------------------
 
@@ -163,7 +180,7 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 CREATE TABLE `schedule` (
   `schedule_id` bigint(20) NOT NULL,
   `course_id` varchar(11) NOT NULL,
-  `weekday_id` int(1) NOT NULL,
+  `weekday_id` int(2) NOT NULL,
   `period` varchar(10) NOT NULL,
   `week` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -178,20 +195,38 @@ INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekday_id`, `period`, `wee
 (3, 'D740209514', 1, 'D7', 0),
 (4, 'DFTEN00772I', 1, 'D3', 0),
 (5, 'DFTEN00772I', 1, 'D4', 0),
-(6, 'D741210681', 2, 'D2', 1),
-(7, 'D741210681', 2, 'D3', 1),
-(8, 'D741210681', 2, 'D4', 1),
+(6, 'D741210681', 2, 'D2', 0),
+(7, 'D741210681', 2, 'D3', 0),
+(8, 'D741210681', 2, 'D4', 0),
 (9, 'D741202457', 3, 'D2', 0),
 (10, 'D741202457', 3, 'D3', 0),
 (11, 'D741202457', 3, 'D4', 0),
-(12, 'D741202468', 4, 'D5', 2),
-(13, 'D741202468', 4, 'D6', 2),
-(14, 'D741202468', 4, 'D7', 2),
+(12, 'D742202457', 4, 'D5', 0),
+(13, 'D742202457', 4, 'D6', 0),
+(14, 'D742202457', 4, 'D7', 0),
 (15, 'D741201584', 2, 'D5', 0),
 (16, 'D741201584', 2, 'D6', 0),
 (17, 'D741201584', 2, 'D7', 0),
-(18, 'D741202795', 3, 'D5', 0),
-(19, 'D741202795', 3, 'D6', 0);
+(18, 'D741202795', 3, 'D5', 1),
+(19, 'D741202795', 3, 'D6', 1),
+(20, 'D742202795', 3, 'D5', 2),
+(21, 'D742202795', 3, 'D6', 2),
+(22, 'D741202222', 4, 'D2', 0),
+(23, 'D741202222', 4, 'D3', 0),
+(24, 'D741202222', 4, 'D4', 0),
+(25, 'DATP203638F', 5, 'D3', 0),
+(26, 'DATP203638F', 5, 'D4', 0),
+(27, 'D740202632', 5, 'D2', 0),
+(28, 'D740202632', 5, 'D3', 0),
+(29, 'D740202632', 5, 'D4', 0),
+(30, 'D740219411', 5, 'DN', 0),
+(31, 'D740219411', 5, 'D5', 0),
+(32, 'D740219411', 5, 'D6', 0),
+(40, 'DSTM800530', 1, 'D1', 0),
+(41, 'DSTM800530', 1, 'D2', 0),
+(42, 'D741202492', 4, 'D5', 0),
+(43, 'D741202492', 4, 'D6', 0),
+(44, 'D741202492', 4, 'D7', 0);
 
 -- --------------------------------------------------------
 
@@ -218,6 +253,10 @@ INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
 ('0005', '0000', '許嘉霖', '教授'),
 ('0006', '0000', 'Ishikawa Takao', '教授'),
 ('0007', '0000', '張銀益', '教授'),
+('0008', '0000', '國安民', '教授'),
+('0009', '0000', '陳冠旭', '教授'),
+('0010', '0000', '黃懷陞', '教授'),
+('0011', '0000', '鄭美娟', '教授'),
 ('411401085', '0000', '朱唯綸', '學生'),
 ('411401229', '12345678', '林亨奕', '學生');
 
@@ -228,7 +267,7 @@ INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
 --
 
 CREATE TABLE `weekdays` (
-  `weekday_id` int(1) NOT NULL,
+  `weekday_id` int(2) NOT NULL,
   `weekday` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -311,13 +350,13 @@ ALTER TABLE `weekdays`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- 已傾印資料表的限制式
@@ -344,6 +383,12 @@ ALTER TABLE `courseteacher`
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- 資料表的限制式 `schedule`
+--
+ALTER TABLE `schedule`
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
