@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-05-01 15:22:56
+-- 產生時間： 2024-05-01 16:57:38
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -45,7 +45,9 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`) VALUES
-(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'sss', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准');
+(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'sss', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准'),
+(51, '411401229', 'D741202222', 1, '2024-05-02', 'D2D3', 'test', 'uploads/測試用文件test.pdf', '2024-05-01 21:33:23', '已拒絕'),
+(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D3D4', 'test', 'uploads/測試用文件test.pdf', '2024-05-01 22:27:13', '審核中');
 
 -- --------------------------------------------------------
 
@@ -81,28 +83,30 @@ CREATE TABLE `courses` (
   `course_id` varchar(11) NOT NULL,
   `course_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `course_class` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `notice` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+  `notice` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `aon` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `courses`
 --
 
-INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`) VALUES
-('D740202632', '管理數學', '資管二', ''),
-('D740209514', '電子商務', '資管二', 'D740209514'),
-('D740219411', '雲端應用程式設計', '資管二', ''),
-('D741201584', '系統分析與設計', '資管二甲', ''),
-('D741202222', '統計學', '資管二甲', 'D741202222'),
-('D741202457', '經濟學', '資管二甲', 'D741202457'),
-('D741202492', '資料結構', '資管二甲', 'D741202492'),
-('D741202795', '導師時間', '資管二甲', 'D741202795'),
-('D741210681', '資料通訊與網路', '資管二甲', 'D741210681'),
-('D742202457', '經濟學', '資管二乙', 'D742202457'),
-('D742202795', '導師時間', '資管二乙', ''),
-('DATP203638F', '羽球', '體育二以上必', ''),
-('DFTEN00772I', '日文', 'FT-非英文', ''),
-('DSTM800530', '企業成敗個案探討', '管理類', '');
+INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`, `aon`) VALUES
+('D740202632', '管理數學', '資管二', '這是管理數學的請假規則', 0),
+('D740209514', '電子商務', '資管二', '這是電子商務的請假規則', 0),
+('D740219411', '雲端應用程式設計', '資管二', '這是雲端應用程式設計的請假規則', 0),
+('D741201584', '系統分析與設計', '資管二甲', '這是系統分析與設計的請假規則', 0),
+('D741202222', '統計學', '資管二甲', '這是統計學的請假規則', 0),
+('D741202457', '經濟學', '資管二甲', '這是經濟學的請假規則', 0),
+('D741202492', '資料結構', '資管二甲', '這是資料結構的請假規則', 0),
+('D741202795', '導師時間', '資管二甲', '這是導師時間的請假規則', 0),
+('D741210681', '資料通訊與網路', '資管二甲', '這是資料通訊與網路的請假規則', 0),
+('D742202457', '經濟學', '資管二乙', '這是經濟學的請假規則', 0),
+('D742202795', '導師時間', '資管二乙', '這是導師時間的請假規則', 0),
+('DATP203638F', '羽球', '體育二以上必', '這是羽球的請假規則', 0),
+('DFTEN00772I', '日文', 'FT-非英文', '這是日文的請假規則', 0),
+('DNAO123456', '測試不給請假課程', '不給請假', '', 1),
+('DSTM800530', '企業成敗個案探討', '管理類', '這是企業成敗個案探討的請假規則', 0);
 
 -- --------------------------------------------------------
 
@@ -132,7 +136,8 @@ INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
 ('0008', 'DSTM800530'),
 ('0009', 'DATP203638F'),
 ('0010', 'D740219411'),
-('0011', 'D740202632');
+('0011', 'D740202632'),
+('0012', 'DNAO123456');
 
 -- --------------------------------------------------------
 
@@ -159,6 +164,7 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 ('411401085', 'D741202492'),
 ('411401085', 'D741210681'),
 ('411401085', 'D742202795'),
+('411401085', 'DNAO123456'),
 ('411401229', 'D740209514'),
 ('411401229', 'D740219411'),
 ('411401229', 'D741201584'),
@@ -169,6 +175,7 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 ('411401229', 'D741210681'),
 ('411401229', 'DATP203638F'),
 ('411401229', 'DFTEN00772I'),
+('411401229', 'DNAO123456'),
 ('411401229', 'DSTM800530');
 
 -- --------------------------------------------------------
@@ -226,7 +233,9 @@ INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekday_id`, `period`, `wee
 (41, 'DSTM800530', 1, 'D2', 0),
 (42, 'D741202492', 4, 'D5', 0),
 (43, 'D741202492', 4, 'D6', 0),
-(44, 'D741202492', 4, 'D7', 0);
+(44, 'D741202492', 4, 'D7', 0),
+(45, 'DNAO123456', 6, 'D4', 0),
+(46, 'DNAO123456', 6, 'DN', 0);
 
 -- --------------------------------------------------------
 
@@ -257,6 +266,7 @@ INSERT INTO `users` (`user_id`, `password`, `user_name`, `role`) VALUES
 ('0009', '0000', '陳冠旭', '教授'),
 ('0010', '0000', '黃懷陞', '教授'),
 ('0011', '0000', '鄭美娟', '教授'),
+('0012', '0000', '不給請假教授', '教授'),
 ('411401085', '0000', '朱唯綸', '學生'),
 ('411401229', '12345678', '林亨奕', '學生');
 
@@ -350,13 +360,13 @@ ALTER TABLE `weekdays`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- 已傾印資料表的限制式
