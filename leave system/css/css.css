@@ -312,12 +312,17 @@ h3 {
 
 
 .reason {
-    margin: 0 0 10px 0;
-    color: #222;
+    margin: 0 0 0px 0;
+    color: #666;
 }
 
 .doc {
+    margin-top: 10px;
     margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
 }
 
 .applytime {
@@ -327,7 +332,8 @@ h3 {
 }
 
 .recorddetails a {
-    color: #222;
+    color: #666;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.375s;
