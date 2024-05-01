@@ -97,11 +97,11 @@
                                 </div>
                                 
                                 <div class="recorddetails" style="display: none;">
-                                    <h4 class="reason">'.$row["reason"].'</h4>
+                                    <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
                                     <div class="doc">
                                         <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                     </div>
-                                    <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5> 
+                                    <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5> 
                                     <a href="delete.php?application_id='.$row["application_id"].'"><button class="cancel" type="submit" name="cancel">取消申請</button></a>
                                     <a href="alter.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>
                                 </div>

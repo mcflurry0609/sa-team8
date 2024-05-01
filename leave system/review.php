@@ -106,11 +106,11 @@
                                 </div>
                             </div>
                             <div class="recorddetails" style="display: none;">
-                                <h4 class="reason">'.$row["reason"].'</h4>
+                                <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
                                 <div class="doc">
                                     <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                 </div>
-                                <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5>
+                                <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>
                                 
                                 <a href="updatestatus.php?id='.$row["application_id"].'&action=accept"'.$accept_btn_style.'><button class="accept" type="submit" name="accept">接受申請</button></a>
                                 <a href="updatestatus.php?id='.$row["application_id"].'&action=reject"'.$reject_btn_style.'><button class="reject" type="submit" name="reject">拒絕申請</button></a>
