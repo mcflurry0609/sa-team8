@@ -144,6 +144,62 @@ h3 {
     font-size: 16px;
 }
 
+/* ============================= SEARCH BOX ============================= */
+.search-box {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input[type="text"],
+.search-box input[type="date"],
+.search-box button {
+    vertical-align: middle;
+    height: 100%;
+}
+
+.search-box input[type="text"],
+.search-box input[type="date"] {
+    border: 2px solid #e1e1e1;
+    font-size: 14px;
+    font-weight: 600;
+    height: 25px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    margin-right: 10px;
+    width: auto;
+    flex: 1; /* 讓輸入框擴展以填滿可用空間 */
+}
+
+.search-box input[type="text"] {
+    cursor: text;
+}
+
+.search-box input[type="date"] {
+    cursor: pointer;
+}
+
+.search-box button {
+    background-color: transparent;
+    border: none;
+    color: #132241;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 10px;
+    height: 45px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.search-box button:hover {
+    background-color: #e1e1e1;
+}
+
+.search-box button i {
+    line-height: 45px; /* 使 <i> 元素的高度与按钮相同 */
+}
+
 /* ============================= RECORD ============================= */
 .recordcard {
     align-items: stretch;
@@ -200,7 +256,7 @@ h3 {
     color: #132240;
 }
 
-.openclass{
+.openclass {
     color: #666;
     font-size: 16px;
 }
@@ -260,7 +316,7 @@ h3 {
     color: #222;
 }
 
-.doc{
+.doc {
     margin-bottom: 5px;
 }
 
@@ -281,7 +337,20 @@ h3 {
     margin: 0 5px;
 }
 
-.cancel{
+.alter {
+    position: absolute;
+    bottom: 0px;
+    right: 90px;
+    font-weight: 600;
+    background-color: #03734A;
+    color: #fdfdfd;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel {
     position: absolute;
     bottom: 0px;
     right: 0px;

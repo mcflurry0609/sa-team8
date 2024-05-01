@@ -8,7 +8,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
-    <link href="css/csss.css" rel="stylesheet" />
+    <link href="css/css.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
@@ -101,8 +101,9 @@
                                     <div class="doc">
                                         <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                     </div>
-                                    <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5>
-                                    <a href="delete.php?application_id='.$row["application_id"].'" class="cancel" style="color:white;">取消申請</a>  
+                                    <h5 class="applytime">'.$row["apply_time"].' 提出申請</h5> 
+                                    <a href="delete.php?application_id='.$row["application_id"].'"><button class="cancel" type="submit" name="cancel">取消申請</button></a>
+                                    <a href="alter.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>
                                 </div>
                             </div>';
                         }
