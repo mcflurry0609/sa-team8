@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>請假審核</title>
+    <title>任課課程</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
@@ -27,26 +27,87 @@
             </div>
             <div>
                 <nav class="topbar fixed-top">
-                    <h2>請假審核</h2>
-                    <div class="tabs">
-                    <a href="?status="><button id="allBtn" class="tab <?php if(!isset($_GET['status']) || $_GET['status'] == '') echo 'active'; ?>">全部</button></a>
-                    <a href="?status=pending"><button id="pendingBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'pending') echo 'active'; ?>">審核中</button></a>
-                    <a href="?status=approved"><button id="approvedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'approved') echo 'active'; ?>">已批准</button></a>
-                    <a href="?status=rejected"><button id="rejectedBtn" class="tab <?php if(isset($_GET['status']) && $_GET['status'] == 'rejected') echo 'active'; ?>">已拒絕</button></a>
-
-
-                    </div>
+                    <h2>任課課程</h2>
                     <div class="user">
                         <i class="fa-regular fa-user"></i>
                         <span class="userid"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
                     </div>
                 </nav>
                 <div class="records">
-                    <!-- 搜索框 -->
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="依課程名稱、學生姓名等搜尋">
-                        <input type="date" id="searchDate">
-                        <button onclick="searchRecords()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <!-- 預設 -->
+                    <div class="recordcard">
+                        <div class="record">
+                            <div class="recordtitle">
+                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
+                                <h5>尚未設定</h5>
+                                <i class="fa-solid fa-circle-question"></i>
+                            </div>
+                            <div class="timeslot">
+                                <li class="days">單週 星期三</li>
+                                <li class="session">D5 D6</li>
+                                <li>吳濟聰 教授</li>
+                            </div>
+                        </div>
+                        <div class="recorddetails" style="display: none;">
+                            <div class="wrapper2">
+                                <div class="left">
+                                    <a href=""><button class="online">接受線上請假</button></a>
+                                </div>
+                                <div class="right">
+                                    <a href=""><button class="noonline">拒絕線上請假</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 允許 -->
+                    <div class="recordcard">
+                        <div class="record">
+                            <div class="recordtitle">
+                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
+                                <h5>接受線上請假</h5>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="timeslot">
+                                <li class="days">單週 星期三</li>
+                                <li class="session">D5 D6</li>
+                                <li>吳濟聰 教授</li>
+                            </div>
+                        </div>
+                        <div class="recorddetails" style="display: none;">
+                            <div class="wrapper3">
+                                <div class="word">
+                                <h4 class="rules">這是導師時間的請假規則這是導師時間的請假規則這是這是導師時間的請假規則這是導師時間的請假規則這是</h4>
+                                </div>
+                                <div class="item">
+                                    <a href=""><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 拒絕 -->
+                    <div class="recordcard">
+                        <div class="record">
+                            <div class="recordtitle">
+                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
+                                <h5>拒絕線上請假</h5>
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <div class="timeslot">
+                                <li class="days">單週 星期三</li>
+                                <li class="session">D5 D6</li>
+                                <li>吳濟聰 教授</li>
+                            </div>
+                        </div>
+                        <div class="recorddetails" style="display: none;">
+                            <div class="wrapper3">
+                                <div class="word">
+                                    <h4 class="rules">未填寫請假規則</h4>
+                                </div>
+                                <div class="item">
+                                <a href=""><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 <?php 
@@ -93,7 +154,6 @@
                             $accept_btn_style = '';
                             $reject_btn_style = '';
                         }
-                        $doc_name_display = str_replace('uploads/', '', $row["doc_name"]);
                         echo '<div class="recordcard">
                             <div class="record">
                                 <div class="recordtitle">
@@ -110,7 +170,7 @@
                             <div class="recorddetails" style="display: none;">
                                 <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
                                 <div class="doc">
-                                    <a href="'.$row["doc_name"].'" target="_blank"><i class="fa-solid fa-folder"></i>'.$doc_name_display.'</a>
+                                    <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
                                 </div>
                                 <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>
                                 
@@ -125,6 +185,7 @@
                 
                     
                 </div>
+
             </div>
 
         </div>
@@ -142,31 +203,6 @@
                 });
             });
         });
-
-        function searchRecords() {
-            // 获取输入框的值
-            var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
-            var searchDate = document.getElementById("searchDate").value;
-
-            // 获取所有的請假紀錄
-            var records = document.querySelectorAll(".recordcard");
-
-            records.forEach(record => {
-                // 获取紀錄中的課程名稱、學生名稱和學號
-                var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
-                var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
-                var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
-                var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0]; // 取得紀錄中的日期部分
-
-                // 如果課程名稱、學生名稱或學號包含搜索的字符串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
-                if ((course.includes(searchInput) || student.includes(searchInput) || studentID.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
-                    record.style.display = "block";
-                } else {
-                    record.style.display = "none";
-                }
-            });
-        }
-
 
     </script>
 

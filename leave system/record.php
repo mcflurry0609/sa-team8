@@ -21,6 +21,7 @@
                 <img src="pic/logo.png" alt=""><br>
                 <ul>
                     <li><a href="record.php">請假紀錄</a></li>
+                    <li><a href="rules.php">請假規則</a></li>
                     <li><a href="logout.php" style="color: #bf1523;">登出</a></li>
                 </ul>
             </div>
