@@ -42,7 +42,7 @@
                 </nav>
                 <div class="records">
                     <!-- 搜索框 -->
-                    <div class="search-box" style="">
+                    <div class="search-box">
                         <input type="text" id="searchInput" placeholder="依課程名稱、學生姓名等搜尋">
                         <input type="date" id="searchDate">
                         <button onclick="searchRecords()"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -92,6 +92,7 @@
                             $accept_btn_style = '';
                             $reject_btn_style = '';
                         }
+                        $doc_name_display = str_replace('uploads/', '', $row["doc_name"]);
                         echo '<div class="recordcard">
                             <div class="record">
                                 <div class="recordtitle">
@@ -108,7 +109,7 @@
                             <div class="recorddetails" style="display: none;">
                                 <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
                                 <div class="doc">
-                                    <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
+                                    <a href="'.$row["doc_name"].'" target="_blank"><i class="fa-solid fa-folder"></i>'.$doc_name_display.'</a>
                                 </div>
                                 <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>
                                 

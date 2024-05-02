@@ -40,7 +40,7 @@
                 </nav>
                 <div class="records">
                     <!-- 搜索框 -->
-                    <div class="search-box" style="">
+                    <div class="search-box">
                         <input type="text" id="searchInput" placeholder="依課程名稱、教授姓名等搜尋">
                         <input type="date" id="searchDate">
                         <button onclick="searchRecords()"><i class="fa-solid fa-search"></i></button>
@@ -63,13 +63,16 @@
                             }
                         }
                         $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.apply_time, 
-                        courses.course_name, category.category_name, users.user_name, courses.course_class 
-                        FROM applications 
-                        INNER JOIN category USING(category_id) 
-                        INNER JOIN courses USING(course_id) 
-                        INNER JOIN users ON applications.user_id = users.user_id
-                        WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
-                        ORDER BY applications.apply_time DESC";
+                                courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
+                                CONCAT(teachers.user_name, ' 教授') AS teacher_name
+                                FROM applications 
+                                INNER JOIN category USING(category_id) 
+                                INNER JOIN courses USING(course_id) 
+                                INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
+                                INNER JOIN users ON applications.user_id = users.user_id
+                                INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
+                                WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
+                                ORDER BY applications.apply_time DESC";
                         $result=mysqli_query($link,$sql);
                         while($row=mysqli_fetch_assoc($result)){
                             $periods = str_replace('D', ' D', $row["periods"]);
@@ -81,6 +84,7 @@
                             } else {
                                 $status_icon = '<i class="fa-solid fa-circle-question"></i>';
                             }
+                            $doc_name_display = str_replace('uploads/', '', $row["doc_name"]);
                             echo '<div class="recordcard">
                                 <div class="record">
                                     <div class="recordtitle">
@@ -91,23 +95,29 @@
                                     <div class="timeslot">
                                         <li class="days">'.$row["date"]." ".$row["category_name"].'</li>
                                         <li class="session">'.$periods.'</li>
-                                        <li>'.$row["user_name"].' 教授</li>
+                                        <li>'.$row["teacher_name"].'</li>
                                     </div>
                                     
                                 </div>
                                 
                                 <div class="recorddetails" style="display: none;">
                                     <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
+                                    
                                     <div class="doc">
-                                        <a href="'.$row["doc_name"].'"target="_blank"><i class="fa-solid fa-folder"></i>'.$row["doc_name"].'</a>
+                                        <a href="'.$row["doc_name"].'" target="_blank"><i class="fa-solid fa-folder"></i>'.$doc_name_display.'</a>
                                     </div>
-                                    <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5> 
-                                    <a href="delete.php?application_id='.$row["application_id"].'"><button class="cancel" type="submit" name="cancel">取消申請</button></a>
-                                    <a href="alter.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>
-                                </div>
+                                    <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>';
+                            // 只有當請假申請的狀態是審核中時，才顯示取消申請的連結
+                            if ($row["status"] == "審核中") {
+                                echo '<a href="update.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>
+                                <a href="delete.php?application_id='.$row["application_id"].'"><button class="cancel" type="submit" name="cancel">取消申請</button></a>';
+                            }
+                            echo '</div>
                             </div>';
                         }
-                    ?>   
+                    ?>
+
+
                 </div>
                 <div class="apply">
                     <a href="apply.php" class="applybtn" style="color: #fdfdfd;">請假申請</a>
