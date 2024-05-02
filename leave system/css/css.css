@@ -168,7 +168,8 @@ h3 {
     border-radius: 8px;
     margin-right: 10px;
     width: auto;
-    flex: 1; /* 讓輸入框擴展以填滿可用空間 */
+    flex: 1;
+    /* 讓輸入框擴展以填滿可用空間 */
 }
 
 .search-box input[type="text"] {
@@ -197,7 +198,8 @@ h3 {
 }
 
 .search-box button i {
-    line-height: 45px; /* 使 <i> 元素的高度与按钮相同 */
+    line-height: 45px;
+    /* 使 <i> 元素的高度与按钮相同 */
 }
 
 /* ============================= RECORD ============================= */
@@ -388,6 +390,89 @@ h3 {
     right: 0px;
     font-weight: 600;
     background-color: #bf1523;
+    color: #fdfdfd;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ============================= RULES ============================= */
+.wrapper2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "left right";
+}
+
+.left{
+    grid-area: left;
+}
+
+.right{
+    grid-area: right;
+}
+
+.online,
+.noonline {
+    width: 100%;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.online {
+    background-color: #03734A;
+    color: #fdfdfd;
+}
+
+.noonline {
+    background-color: #bf1523;
+    color: #fdfdfd;
+}
+
+.wrapper3 {
+    display: grid;
+    grid-template-columns: 8fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "word item";
+}
+
+.word {
+    grid-area: word;
+    display: flex;
+    align-items: center; /* 將內容垂直置中 */
+}
+
+.item {
+    grid-area: item;
+    display: flex;
+    justify-content: flex-end; /* 將項目靠右對齊 */
+    align-items: center;
+}
+
+.rules {
+    margin: 10px 0;
+    color: #666;
+}
+
+.fa-pen-to-square {
+    color: #222;
+}
+
+
+
+.change {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-weight: 600;
+    background-color: #132241;
     color: #fdfdfd;
     padding: 8px 16px;
     border: none;
