@@ -6,8 +6,12 @@
     $reason=$_POST["reason"];
     $periods = $_POST["periods"];
     $Period = "";
-    foreach ($periods as $period){
-        $Period.=$period;
+    if (empty($periods)) {
+        echo "<script>alert('請選擇節次後再送出申請！'); window.location.href = 'apply.php';</script>";
+        exit; // 停止执行后续代码
+    }
+    foreach ($periods as $period) {
+        $Period .= $period;
     }
     $link=mysqli_connect('localhost','root');
         mysqli_select_db($link,'leave');
