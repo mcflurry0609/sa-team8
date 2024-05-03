@@ -43,15 +43,8 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <select class="inputbox" id="categorySelect" name="category" required>
+                            <select class="inputbox" id="categorySelect" name="category" disabled style="color: black;">
                                 <option value="<?php echo $category_name; ?>"><?php echo $category_name; ?></option>
-                                <option value="1">事假</option>
-                                <option value="2">病假</option>
-                                <option value="3">喪假</option>
-                                <option value="4">生理假</option>
-                                <option value="5">陪產假</option>
-                                <option value="6">心理假</option>
-                                <option value="7">哺育幼兒假</option>
                             </select>
                         </div>
                     </div>
@@ -70,7 +63,7 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <select class="inputbox" id="courseSelect" name="course" required>
+                            <select class="inputbox" id="courseSelect" name="course" disabled style="color: black;">
                                 <option value="<?php echo $course_name; ?>"><?php echo $course_name; ?></option>
                             </select>
                         </div>
@@ -120,7 +113,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <button class="nosend" id="changeMindBtn" src="record.php">改變心意</button>
+                    <a class="nosend" id="changeMindBtn" href="record.php" style="text-decoration-line: none;">改變心意</a>
                     <button type="submit" class="sendout" id="submitBtn">送出申請</button>
                 </div>
             </form>
