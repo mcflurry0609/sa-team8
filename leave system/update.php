@@ -43,10 +43,16 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <div class="inputbox" id="categorySelect" name="category" required>
-                                <?php echo $category_name; ?>
-                                
-                            </div>
+                            <select class="inputbox" id="categorySelect" name="category" required>
+                                <option value="<?php echo $category_name; ?>"><?php echo $category_name; ?></option>
+                                <option value="1">事假</option>
+                                <option value="2">病假</option>
+                                <option value="3">喪假</option>
+                                <option value="4">生理假</option>
+                                <option value="5">陪產假</option>
+                                <option value="6">心理假</option>
+                                <option value="7">哺育幼兒假</option>
+                            </select>
                         </div>
                     </div>
                     <div class="date">
@@ -64,9 +70,9 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <div class="inputbox" id="courseSelect" name="course">
-                                <?php echo $course_name; ?>
-                            </div>
+                            <select class="inputbox" id="courseSelect" name="course" required>
+                                <option value="<?php echo $course_name; ?>"><?php echo $course_name; ?></option>
+                            </select>
                         </div>
                         <div class="period" id="periodsList">
                                 <?php
@@ -114,7 +120,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <a class="nosend" id="changeMindBtn" href="record.php" style="text-decoration-line: none;">改變心意</a>
+                    <button class="nosend" id="changeMindBtn" src="record.php">改變心意</button>
                     <button type="submit" class="sendout" id="submitBtn">送出申請</button>
                 </div>
             </form>
