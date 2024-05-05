@@ -38,13 +38,26 @@
                 $link=mysqli_connect('localhost','root');
                 mysqli_select_db($link,'leave');
                 $user_id = $_SESSION['user_id'];
-                $query = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id, GROUP_CONCAT(schedule.period SEPARATOR ' ') AS periods, users.user_name
-                FROM courseteacher
-                INNER JOIN courses ON courseteacher.course_id = courses.course_id
-                INNER JOIN schedule ON courseteacher.course_id = schedule.course_id
-                INNER JOIN users ON courseteacher.user_id = users.user_id
-                WHERE courseteacher.user_id = '$user_id'
-                GROUP BY courses.course_id";
+                $query = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id, 
+                GROUP_CONCAT(DISTINCT schedule.period SEPARATOR ' ') AS periods, 
+                GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ', ') AS user_names
+                FROM 
+                    courses
+                INNER JOIN 
+                    schedule ON courses.course_id = schedule.course_id
+                INNER JOIN 
+                    courseteacher ON courses.course_id = courseteacher.course_id
+                INNER JOIN 
+                    users ON courseteacher.user_id = users.user_id
+                WHERE 
+                courses.course_id IN (
+                    SELECT DISTINCT course_id 
+                    FROM courseteacher 
+                    WHERE user_id = '$user_id'
+                    )
+                GROUP BY 
+                    courses.course_id";
+
                 $result = mysqli_query($link, $query);
                 if (mysqli_num_rows($result) > 0) {
                     // 顯示每個課程的信息
@@ -58,7 +71,7 @@
                         $periods_array = explode(" ", $periods);
                         sort($periods_array);
                         $sorted_periods = implode(" ", $periods_array);
-                        $user_name = $row['user_name'];
+                        $user_names = $row['user_names'];
                         $notice = $row['notice']; // 新增變量 notice
                         // 根據aon欄位的值決定顯示的狀態
                         $status = "";
@@ -143,7 +156,7 @@
                                 '<div class="timeslot">' .
                                     "<li class='days'>$week_text $weekday_text</li>" . // 動態生成課程時間部分
                                     "<li class='session'>$sorted_periods</li>" . // 這部分可以替換為實際的課程時間
-                                    "<li>$user_name 教授</li>" . // 這部分可以替換為實際的教師名稱
+                                    "<li>$user_names 教授</li>" . // 這部分可以替換為實際的教師名稱
                                 '</div>' .
                             '</div>' .
                             $details_html . // 插入動態生成的詳細信息部分
