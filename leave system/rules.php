@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,131 +35,117 @@
                     </div>
                 </nav>
                 <div class="records">
-                    <!-- 預設 -->
-                    <div class="recordcard">
-                        <div class="record">
-                            <div class="recordtitle">
-                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
-                                <h5>教授尚未設定</h5>
-                                <i class="fa-solid fa-circle-question"></i>
-                            </div>
-                            <div class="timeslot">
-                                <li class="days">單週 星期三</li>
-                                <li class="session">D5 D6</li>
-                                <li>吳濟聰 教授</li>
-                            </div>
-                        </div>
-                        <div class="recorddetails" style="display: none;">
-                            <h4 class="rules">教授尚未設定請假規定</h4>
-                        </div>
-                    </div>
-                    <!-- 允許 -->
-                    <div class="recordcard">
-                        <div class="record">
-                            <div class="recordtitle">
-                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
-                                <h5>接受線上請假</h5>
-                                <i class="fa-solid fa-circle-check"></i>
-                            </div>
-                            <div class="timeslot">
-                                <li class="days">單週 星期三</li>
-                                <li class="session">D5 D6</li>
-                                <li>吳濟聰 教授</li>
-                            </div>
-                        </div>
-                        <div class="recorddetails" style="display: none;">
-                            <h4 class="rules">這是導師時間的請假規則這是導師時間的請假規則這是這是導師時間的請假規則這是導師時間的請假規則這是</h4>
-                        </div>
-                    </div>
-                    <!-- 拒絕 -->
-                    <div class="recordcard">
-                        <div class="record">
-                            <div class="recordtitle">
-                                <h3>導師時間<label for="" class="openclass">&nbsp;&nbsp;資管二甲</label></h3>
-                                <h5>拒絕線上請假</h5>
-                                <i class="fa-solid fa-circle-xmark"></i>
-                            </div>
-                            <div class="timeslot">
-                                <li class="days">單週 星期三</li>
-                                <li class="session">D5 D6</li>
-                                <li>吳濟聰 教授</li>
-                            </div>
-                        </div>
-                        <div class="recorddetails" style="display: none;">
-                            <h4 class="rules">教授拒絕線上請假</h4>
-                        </div>
-                    </div>
+                    
+                <?php
+                    $link=mysqli_connect('localhost','root');
+                    mysqli_select_db($link,'leave');
+                    $user_id = $_SESSION['user_id'];
+                    $query = "SELECT 
+                                courses.course_name,
+                                courses.course_class,
+                                courses.aon,
+                                courses.notice,
+                                schedule.week,
+                                schedule.weekday_id,
+                                GROUP_CONCAT(DISTINCT users.user_name ORDER BY users.user_name SEPARATOR ', ') AS user_names,
+                                GROUP_CONCAT(DISTINCT schedule.period ORDER BY schedule.period SEPARATOR ' ') AS sorted_periods
+                            FROM 
+                                enrollments
+                            JOIN 
+                                courses ON enrollments.course_id = courses.course_id
+                            JOIN 
+                                courseteacher ON courses.course_id = courseteacher.course_id
+                            JOIN 
+                                users ON courseteacher.user_id = users.user_id
+                            LEFT JOIN 
+                                schedule ON courses.course_id = schedule.course_id
+                            WHERE 
+                                enrollments.user_id = '$user_id'
+                            GROUP BY 
+                                courses.course_id
+                            ORDER BY 
+                                schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7')";
+                    $result = mysqli_query($link, $query);
 
-                    <?php 
-                        $link=mysqli_connect('localhost','root');
-                        mysqli_select_db($link,'leave');
-                        $status_condition = "";
-                        if(isset($_GET['status'])){
-                            $status = $_GET['status'];
-                            if($status == 'pending'){
-                                $status_condition = "AND applications.status = '審核中'";
-                            } elseif($status == 'approved'){
-                                $status_condition = "AND applications.status = '已批准'";
-                            } elseif($status == 'rejected'){
-                                $status_condition = "AND applications.status = '已拒絕'";
-                            } else {
-                                
+                    if (mysqli_num_rows($result) > 0) {
+                        // 顯示每個課程的信息
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $course_name = $row['course_name'];
+                            $course_class = $row['course_class'];
+                            $aon = $row['aon'];
+                            $week = $row['week'];
+                            $weekday_id = $row['weekday_id'];
+                            $periods = $row['sorted_periods']; // 注意這裡修改為 sorted_periods
+                            $user_names = $row['user_names']; // 獲取多個教授的名字
+                            $notice = $row['notice']; // 新增變量 notice
+                            // 根據 aon 欄位的值決定顯示的狀態
+                            $status = "";
+                            $icon_class = "";
+                            if ($aon == 0) {
+                                $status = "尚未設定";
+                                $icon_class = "fa-circle-question";
+                            } elseif ($aon == 1) {
+                                $status = "接受線上請假";
+                                $icon_class = "fa-circle-check";
+                            } elseif ($aon == 2) {
+                                $status = "拒絕線上請假";
+                                $icon_class = "fa-circle-xmark";
                             }
+                            // 根據 week 和 weekday_id 動態生成課程時間信息
+                            $week_text = "";
+                            if ($week == 0) {
+                                $week_text = "全週";
+                            } elseif ($week == 1) {
+                                $week_text = "單週";
+                            } elseif ($week == 2) {
+                                $week_text = "雙週";
+                            }
+
+                    // 根據 weekday_id 生成星期幾的文本
+                    $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"];
+                    $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知";
+                    $details_html = "";
+                    if ($aon == 1) {
+                        // 如果 aon 為 1，顯示請假規則和修改鏈接
+                        $details_html = '<div class="recorddetails" style="display: none;">
+                                            <h4 class="rules">'.$notice.'</h4>
+                                        </div>';
+                    } elseif ($aon == 2) {
+                        // 如果 aon 為 2，顯示相應的消息和修改鏈接
+                        $details_html = '<div class="recorddetails" style="display: none;">
+                                            <h4 class="rules">教授拒絕線上請假</h4>
+                                        </div>';
+                    } else {
+                        // 如果 aon 不為 1 或 2，保持原有的按鈕
+                        $details_html = '<div class="recorddetails" style="display: none;">
+                                            <h4 class="rules">教授尚未設定請假規定</h4>
+                                        </div>';
+                    }
+                    echo'<div class="recordcard">' .
+                            '<div class="record">' .
+                                '<div class="recordtitle">' .
+                                    "<h3>$course_name<label for='' class='openclass'>&nbsp;&nbsp;$course_class</label></h3>" .
+                                    "<h5>$status</h5>" .
+                                    "<i class='fa-solid $icon_class'></i>" .
+                                '</div>'.
+                            '<div class="timeslot">'.
+                                "<li class='days'>$week_text $weekday_text</li>" .
+                                "<li class='session'>$periods</li>" . // 注意這裡修改為 $periods
+                                "<li>$user_names 教授</li>" .
+                            '</div>'.
+                        '</div>'.
+                            $details_html . // 注意這裡修改為 $details_html
+                        '</div>';
                         }
-                        $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.apply_time, 
-                                courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
-                                CONCAT(teachers.user_name, ' 教授') AS teacher_name
-                                FROM applications 
-                                INNER JOIN category USING(category_id) 
-                                INNER JOIN courses USING(course_id) 
-                                INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
-                                INNER JOIN users ON applications.user_id = users.user_id
-                                INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
-                                WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
-                                ORDER BY applications.apply_time DESC";
-                        $result=mysqli_query($link,$sql);
-                        while($row=mysqli_fetch_assoc($result)){
-                            $periods = str_replace('D', ' D', $row["periods"]);
-                            $status_icon = '';
-                            if($row["status"] == "已批准") {
-                                $status_icon = '<i class="fa-solid fa-circle-check"></i>';
-                            } elseif ($row["status"] == "已拒絕") {
-                                $status_icon = '<i class="fa-solid fa-circle-xmark"></i>';
-                            } else {
-                                $status_icon = '<i class="fa-solid fa-circle-question"></i>';
-                            }
-                            $doc_name_display = str_replace('uploads/', '', $row["doc_name"]);
-                            echo '<div class="recordcard">
-                                <div class="record">
-                                    <div class="recordtitle">
-                                        <h3>'.$row["course_name"].'<label for="" class="openclass">&nbsp;&nbsp;'.$row["course_class"].'</label></h3>
-                                        <h5>'.$row["status"].'</h5>
-                                        '.$status_icon.'
-                                    </div>
-                                    <div class="timeslot">
-                                        <li class="days">'.$row["date"]." ".$row["category_name"].'</li>
-                                        <li class="session">'.$periods.'</li>
-                                        <li>'.$row["teacher_name"].'</li>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div class="recorddetails" style="display: none;">
-                                    <h4 class="reason"><i class="fa-solid fa-comment"></i>'.$row["reason"].'</h4>
-                                    
-                                    <div class="doc">
-                                        <a href="'.$row["doc_name"].'" target="_blank"><i class="fa-solid fa-folder"></i>'.$doc_name_display.'</a>
-                                    </div>
-                                    <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>';
-                            // 只有當請假申請的狀態是審核中時，才顯示取消申請的連結
-                            if ($row["status"] == "審核中") {
-                                echo '<a href="update.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>
-                                <a href="delete.php?application_id='.$row["application_id"].'"><button class="cancel" type="submit" name="cancel">取消申請</button></a>';
-                            }
-                            echo '</div>
-                            </div>';
-                        }
-                    ?>
+                    } else {
+                        // 如果沒有找到任何課程信息，顯示相應的消息
+                        echo "<p>您尚未任教任何課程。</p>";
+                    }
+                ?>
+
+                    
+
+                    
 
 
                 </div>
