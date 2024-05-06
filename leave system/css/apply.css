@@ -188,17 +188,18 @@ input[type="checkbox"]:checked {
     font-weight: 600;
     padding: 14px 20px;
     border-radius: 8px;
-    width: calc(50% - 80px);
 }
 
 .nosend {
     background: #adadad;
     color: #fdfdfd;
     margin: 0 16px 0 64px;
+    width: 180px;
 }
 
 .sendout {
     background: #222;
     color: #fdfdfd;
     margin: 0 64px 0 16px;
+    width: 220px;
 }
