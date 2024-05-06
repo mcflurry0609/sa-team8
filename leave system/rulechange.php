@@ -63,7 +63,7 @@
                 }
                 ?>
                 <div class="footer">
-                    <a class="nosend" id="changeMindBtn" href="inclass.php">改變心意</a>
+                    <a class="nosend" id="changeMindBtn" href="inclass.php" style="text-decoration-line: none;">改變心意</a>
                     <button type="submit" class="sendout">確認修改</button>
                 </div>
             </form>
