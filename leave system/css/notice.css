@@ -154,7 +154,7 @@ input[type="checkbox"]:checked {
 .textarea {
     cursor: text;
     font-size: 16px;
-    height: auto;
+    height: 180px;
     padding: 14px 0;
     resize: none;
 }
