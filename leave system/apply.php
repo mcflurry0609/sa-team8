@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <button class="nosend" id="changeMindBtn" src="record.php">改變心意</button>
+                    <a class="nosend" id="changeMindBtn" href="record.php" style="text-decoration-line: none;">改變心意</a>
                     <button type="submit" class="sendout" id="submitBtn">送出申請</button>
                 </div>
             </form>
