@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-05-01 16:57:38
+-- 產生時間： 2024-05-06 08:57:19
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -47,7 +47,10 @@ CREATE TABLE `applications` (
 INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`) VALUES
 (50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'sss', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准'),
 (51, '411401229', 'D741202222', 1, '2024-05-02', 'D2D3', 'test', 'uploads/測試用文件test.pdf', '2024-05-01 21:33:23', '已拒絕'),
-(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D3D4', 'test', 'uploads/測試用文件test.pdf', '2024-05-01 22:27:13', '審核中');
+(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D3D4', 'test', 'uploads/測試用文件test.pdf', '2024-05-01 22:27:13', '審核中'),
+(53, '411401085', 'D741201584', 6, '2024-05-14', 'D7', 'sss', 'uploads/411401229林亨奕電子商務作業.pdf', '2024-05-02 16:43:34', '審核中'),
+(54, '411401085', 'D741210681', 4, '2024-05-14', 'D3D4', 'aaaaaaaaaa', '測試用文件test.pdf', '2024-05-02 16:52:28', '已批准'),
+(55, '411401085', 'D740202632', 2, '2024-05-11', 'D3D4', 'bbbbbb', '測試用文件test.pdf', '2024-05-02 16:52:28', '已拒絕');
 
 -- --------------------------------------------------------
 
@@ -83,7 +86,7 @@ CREATE TABLE `courses` (
   `course_id` varchar(11) NOT NULL,
   `course_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `course_class` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `notice` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `notice` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `aon` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -99,13 +102,13 @@ INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`, `ao
 ('D741202222', '統計學', '資管二甲', '這是統計學的請假規則', 0),
 ('D741202457', '經濟學', '資管二甲', '這是經濟學的請假規則', 0),
 ('D741202492', '資料結構', '資管二甲', '這是資料結構的請假規則', 0),
-('D741202795', '導師時間', '資管二甲', '這是導師時間的請假規則', 0),
+('D741202795', '導師時間', '資管二甲', '這是導師時間的請假規則', 2),
 ('D741210681', '資料通訊與網路', '資管二甲', '這是資料通訊與網路的請假規則', 0),
 ('D742202457', '經濟學', '資管二乙', '這是經濟學的請假規則', 0),
 ('D742202795', '導師時間', '資管二乙', '這是導師時間的請假規則', 0),
 ('DATP203638F', '羽球', '體育二以上必', '這是羽球的請假規則', 0),
 ('DFTEN00772I', '日文', 'FT-非英文', '這是日文的請假規則', 0),
-('DNAO123456', '測試不給請假課程', '不給請假', '', 1),
+('DNAO123456', '測試不給請假課程', '不給請假', '', 2),
 ('DSTM800530', '企業成敗個案探討', '管理類', '這是企業成敗個案探討的請假規則', 0);
 
 -- --------------------------------------------------------
@@ -360,7 +363,7 @@ ALTER TABLE `weekdays`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
