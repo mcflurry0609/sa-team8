@@ -8,21 +8,30 @@ if ($link->connect_error) {
     die("连接失败: " . $link->connect_error);
 }
 
-// 获取从前端发送过来的选定的课程ID
 $course_id = $_POST['course_id']; // 注意此处改为正确的参数名
 
 // 构建 SQL 查询语句
-$sql = "SELECT period FROM schedule WHERE course_id = '$course_id'";
+$sql = "SELECT s.period, c.aon 
+        FROM schedule s
+        JOIN courses c ON s.course_id = c.course_id
+        WHERE s.course_id = '$course_id'";
 
 $result = $link->query($sql);
 
 $periods = array();
+$notOnlineLeavePrinted = false;
 
 if ($result->num_rows > 0) {
     // 输出每一行数据
     while ($row = $result->fetch_assoc()) {
-        // 将每个课程的课时信息添加到数组中
-        $periods = array_merge($periods, explode(',', $row["period"]));
+        // 检查课程是否允许线上请假
+        if ($row['aon'] == 2 && !$notOnlineLeavePrinted) {
+            echo "不可線上請假";
+            $notOnlineLeavePrinted = true;
+            break;
+        } else {
+            $periods = array_merge($periods, explode(',', $row["period"]));
+        }
     }
 } else {
     echo "0 结果";
