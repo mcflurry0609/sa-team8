@@ -7,7 +7,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
-    <link href="css/rule.css" rel="stylesheet" />
+    <link href="css/notice.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
@@ -18,13 +18,18 @@
                 <form class="form" enctype="multipart/form-data" action="ruleset.php" method="post">
                     <input type="hidden" name="course_id" value="<?php echo $_GET['course_id']; ?>"> <!-- 將 course_id 作為隱藏字段傳遞 -->
                     <div class="formrow">
-                        <div class="sessions" id="periodsList">
-                            <input type="radio" name="aon" value="1">
-                            <label>可以線上請假</label>
-                        </div>
-                        <div class="sessions" id="periodsList" style="margin-left: 0px;">
-                            <input type="radio" name="aon" value="2">
-                            <label>不能線上請假</label>
+                        <div class="class">
+                            <div class="title">
+                                請假課堂
+                                <div class="must">(必填)</div>
+                            </div>
+                            <div class="input">
+                                <select class="inputbox" id="aon" name="aon" required>
+                                    <option value="">選擇是否接受學生線上請假</option>
+                                    <option value="1">接受線上請假</option>
+                                    <option value="2">拒絕線上請假</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="reason">
                             <div class="title">
