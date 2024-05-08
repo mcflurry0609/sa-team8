@@ -57,6 +57,10 @@ body {
 }
 
 /* ============================= STYLES ============================= */
+a {
+    text-decoration: none;
+}
+
 h2 {
     font-size: 28px;
 }
@@ -139,7 +143,35 @@ h3 {
     width: 24px;
 }
 
-.user .userid {
+.user .userword {
+    color: #f0f0f0;
+    font-size: 16px;
+}
+
+.switch {
+    background-color: #666;
+    border-bottom-left-radius: 90px;
+    border-top-left-radius: 90px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    padding: 8px 14px;
+    position: fixed;
+    right: 20%;
+    top: 50px;
+}
+
+.switch .fa-repeat {
+    color: #f0f0f0;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    width: 24px;
+}
+
+.switch .userword {
     color: #f0f0f0;
     font-size: 16px;
 }
@@ -398,7 +430,7 @@ h3 {
 }
 
 /* ============================= RULES ============================= */
-.wrapper2{
+.wrapper2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0px 10px;
@@ -407,11 +439,11 @@ h3 {
         "left right";
 }
 
-.left{
+.left {
     grid-area: left;
 }
 
-.right{
+.right {
     grid-area: right;
 }
 
@@ -446,13 +478,15 @@ h3 {
 .word {
     grid-area: word;
     display: flex;
-    align-items: center; /* 將內容垂直置中 */
+    align-items: center;
+    /* 將內容垂直置中 */
 }
 
 .item {
     grid-area: item;
     display: flex;
-    justify-content: flex-end; /* 將項目靠右對齊 */
+    justify-content: flex-end;
+    /* 將項目靠右對齊 */
     align-items: center;
 }
 
