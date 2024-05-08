@@ -12,10 +12,57 @@
     <link href="css/css.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
+    <?php
+        // 確保會話已經開始
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // 檢查是否有切換身份的請求
+        if (isset($_POST['switch_role'])) {
+            // 連接到資料庫
+            $link = mysqli_connect('localhost', 'root', '', 'leave');
+
+            // 檢查連接
+            if (!$link) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+
+            // 獲取當前用戶的ID和角色
+            $user_id = $_SESSION['user_id'];
+            $current_role = $_SESSION['role'];
+
+            // 根據當前角色決定新角色
+            $new_role = $current_role == '學生' ? '教授' : '學生';
+
+            // 更新資料庫中的用戶角色
+            $sql = "UPDATE users SET role = ? WHERE user_id = ?";
+            $stmt = mysqli_prepare($link, $sql);
+            mysqli_stmt_bind_param($stmt, "si", $new_role, $user_id);
+            mysqli_stmt_execute($stmt);
+
+            // 檢查是否成功更新
+            if (mysqli_stmt_affected_rows($stmt) > 0) {
+                // 更新會話中的角色
+                $_SESSION['role'] = $new_role;
+                
+                // 根據新角色重定向到相應的頁面
+                $redirect_page = $new_role == '教授' ? 'review.php' : 'record.php';
+                header('Location: ' . $redirect_page);
+                exit;
+            } else {
+                // 處理錯誤情況
+                echo "Error updating record: " . mysqli_error($link);
+            }
+
+            // 關閉語句和連接
+            mysqli_stmt_close($stmt);
+            mysqli_close($link);
+        }
+    ?>
 </head>
 
 <body>
-    
     <div class="layout">
         <div class="wrapper">
             <div class="menu">
@@ -31,11 +78,16 @@
                     <h2>請假規則</h2>
                     <div class="user">
                         <i class="fa-regular fa-user"></i>
-                        <span class="userid"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
+                        <span class="userword"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
                     </div>
+                    <form method="post" action="">
+                        <button type="submit" name="switch_role" class="switch">
+                            <i class="fa-solid fa-repeat"></i>
+                            <span class="userword">切換身分</span>
+                        </button>
+                    </form>
                 </nav>
                 <div class="records">
-                    
                 <?php
                     $link=mysqli_connect('localhost','root');
                     mysqli_select_db($link,'leave');
@@ -142,17 +194,10 @@
                         echo "<p>您尚未任教任何課程。</p>";
                     }
                 ?>
-
-                    
-
-                    
-
-
                 </div>
                 <div class="apply">
                     <a href="apply.php" class="applybtn" style="color: #fdfdfd;">請假申請</a>
                 </div>
-
             </div>
         </div>
     </div>
@@ -193,10 +238,6 @@
                 }
             });
         }
-
-
     </script>
-
 </body>
-
 </html>
