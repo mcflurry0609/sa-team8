@@ -38,7 +38,7 @@ if(isset($_GET['id']) && isset($_GET['action'])) {
     $course_query = "SELECT course_name FROM courses WHERE course_id = '$course_id'";
     $course_result = mysqli_query($link, $course_query);
     $course_name = mysqli_fetch_assoc($course_result)['course_name'];
-
+    
     // Get the user_email from the users table
     $email_query = "SELECT user_email FROM users WHERE user_id = '$user_id'";
     $email_result = mysqli_query($link, $email_query);

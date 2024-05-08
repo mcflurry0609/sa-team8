@@ -30,8 +30,25 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = '學生請假申請通知';
-    $mail->Body    = '學生 ' . $user_name . ' (學號：' . $user_id . ') 已經提交了一份請假申請。請假課程：' . $course_name . '，請假日期：' . $date . '，請假節次：' . $Period . '，假別：' . $category_name . '，申請請假時間：' . $apply_time;
-    $mail->AltBody = '學生 ' . $user_name . ' (學號：' . $user_id . ') 已經提交了一份請假申請。請假課程：' . $course_name . '，請假日期：' . $date . '，請假節次：' . $Period . '，假別：' . $category_name . '，申請請假時間：' . $apply_time;
+    $mail->Body = "教授您好：<br>" .
+              "學生 " . $user_name . "提交了一份新的請假申請。" . "<br><br>" .
+              "請假申請內容：" . "<br>" .
+              "請假學生：" . $user_name . " " . $user_id . "<br>" .
+              "請假課程：" . $course_name . "<br>" .
+              "請假日期：" . $date . "<br>" .
+              "請假節次：" . $Period . "<br>" .
+              "請假假別：" . $category_name . "<br>" .
+              "請假申請時間：" . $apply_time;
+
+    $mail->AltBody = "教授您好：<br>" .
+                    "學生 " . $user_name . "提交了一份新的請假申請。" . "<br><br>" .
+                    "請假申請內容：" . "<br>" .
+                    "請假學生：" . $user_name . " " . $user_id . "<br>" .
+                    "請假課程：" . $course_name . "<br>" .
+                    "請假日期：" . $date . "<br>" .
+                    "請假節次：" . $Period . "<br>" .
+                    "請假假別：" . $category_name . "<br>" .
+                    "請假申請時間：" . $apply_time;
 
     $mail->send();
     echo 'Message has been sent';

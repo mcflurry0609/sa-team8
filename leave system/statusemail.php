@@ -29,8 +29,22 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = '請假申請狀態更新';
-    $mail->Body    = '您的請假申請狀態已經更新為 ' . $new_status . '。請假課程：' . $course_name . '，請假日期：' . $date . '，請假節次：' . $periods . '，送出申請的時間：' . $apply_time;
-    $mail->AltBody = '您的請假申請狀態已經更新為 ' . $new_status . '。請假課程：' . $course_name . '，請假日期：' . $date . '，請假節次：' . $periods . '，送出申請的時間：' . $apply_time;
+    $mail->Body = "您好：<br>" .
+               "您的請假申請審核狀態已更新為 " . $new_status . "。<br><br>" .
+               "請假申請內容：<br>" .
+               "請假課程：" . $course_name . "<br>" .
+               "請假日期：" . $date . "<br>" .
+               "請假節次：" . $periods . "<br>" .
+               "請假申請時間：" . $apply_time . "<br>" .
+               "請假審核狀態：" . $new_status;
+    $mail->AltBody = "您好：<br>" .
+                "您的請假申請審核狀態已更新為「" . $new_status . "」。<br><br>" .
+                "請假申請內容：<br>" .
+                "請假課程：" . $course_name . "<br>" .
+                "請假日期：" . $date . "<br>" .
+                "請假節次：" . $periods . "<br>" .
+                "請假申請時間：" . $apply_time . "<br>" .
+                "請假審核狀態：" . $new_status;
 
     $mail->send();
     echo 'Message has been sent';
