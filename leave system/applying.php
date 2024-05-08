@@ -44,6 +44,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "INSERT INTO applications (user_id, course_id, category_id, date, reason, doc_name,periods)
             VALUES ('{$_SESSION['user_id']}', '$course_id', '$category_id', '$date', '$reason', '{$target_file}', '$Period')";
             if ($link->query($sql) === TRUE) {
+                // Get the user_name from the users table
+                $user_query = "SELECT user_name FROM users WHERE user_id = '{$_SESSION['user_id']}'";
+                $user_result = mysqli_query($link, $user_query);
+                $user_name = mysqli_fetch_assoc($user_result)['user_name'];
+
+                // Get the course_name from the courses table
+                $course_query = "SELECT course_name FROM courses WHERE course_id = '$course_id'";
+                $course_result = mysqli_query($link, $course_query);
+                $course_name = mysqli_fetch_assoc($course_result)['course_name'];
+
+                // Get the category_name from the category table
+                $category_query = "SELECT category_name FROM category WHERE category_id = '$category_id'";
+                $category_result = mysqli_query($link, $category_query);
+                $category_name = mysqli_fetch_assoc($category_result)['category_name'];
+
+                // Get the apply_time from the applications table
+                $apply_time_query = "SELECT apply_time FROM applications WHERE application_id = LAST_INSERT_ID()";
+                $apply_time_result = mysqli_query($link, $apply_time_query);
+                $apply_time = mysqli_fetch_assoc($apply_time_result)['apply_time'];
+
+                // Get the professor's email from the users table
+                $prof_email_query = "SELECT user_email FROM users WHERE user_id = (SELECT user_id FROM courseteacher WHERE course_id = '$course_id')";
+                $prof_email_result = mysqli_query($link, $prof_email_query);
+                $prof_email = mysqli_fetch_assoc($prof_email_result)['user_email'];
+
+                // Include the applyemail.php file to send the email
+                include('applyemail.php');
+
                 echo "<script>alert('申请已成功提交！'); window.location.href = 'record.php';</script>";
             } else {
                 echo "Error: " . $sql . "<br>" . $link->error;
@@ -56,3 +84,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 关闭数据库连接
     $link->close();
 }
+?>
