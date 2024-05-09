@@ -68,6 +68,7 @@
                             </select>
                         </div>
                         <div class="period" id="periodsList">
+                        
                                 <?php
                                 // 连接数据库
                                 $link=mysqli_connect('localhost','root');
@@ -85,12 +86,19 @@
                             
                                 // 输出时段的复选框
                                 while ($period_row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <div class="sessions" id="periodsList">
+                                        <?php
                                     echo "<input type='checkbox' name='periods[]' value='" . $period_row['period'] . "'>" . $period_row['period'] . "<br>";
+                                    ?>
+                                    </div>
+                                    <?php
                                 }
                             
                                 // 关闭数据库连接
                                 mysqli_close($link);
                                 ?>
+                           
                             </div>
                     </div>
                     <div class="reason">
