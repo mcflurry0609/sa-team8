@@ -44,7 +44,7 @@
                         </div>
                         <div class="input">
                             <select class="inputbox" id="categorySelect" name="category" disabled style="color: black;">
-                                <option value="<?php echo $category_name; ?>"><?php echo $category_name; ?></option>
+                                <option value="<?php echo $category_name; ?>"><?php echo $category_name; ?></option> <!--假別不可更改-->
                             </select>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <div class="must">(必填)</div>
                         </div>
                         <div class="input">
-                            <input type="date" class="inputbox" id="dateInput" name="date" readonly/>
+                            <input type="date" class="inputbox" id="dateInput" name="date" readonly value="<?php echo $row['date']; ?>"/> <!--日期不可更改-->
                         </div>
                     </div>
                     <div class="class">
@@ -64,42 +64,29 @@
                         </div>
                         <div class="input">
                             <select class="inputbox" id="courseSelect" name="course" disabled style="color: black;">
-                                <option value="<?php echo $course_name; ?>"><?php echo $course_name; ?></option>
+                                <option value="<?php echo $course_name; ?>"><?php echo $course_name; ?></option> <!--課程不可更改-->
                             </select>
                         </div>
                         <div class="period" id="periodsList">
                         
-                                <?php
-                                // 连接数据库
+                            <?php
                                 $link=mysqli_connect('localhost','root');
                                 mysqli_select_db($link,'leave');
 
-                                // 检查连接是否成功
-                                if ($link->connect_error) {
-                                    die("连接失败: " . $link->connect_error);
-                                }
-
-                                // 获取课程的时段
                                 $course_id = $row['course_id'];
                                 $sql = "SELECT period FROM schedule WHERE course_id = '$course_id'";
                                 $result = mysqli_query($link, $sql);
                             
-                                // 输出时段的复选框
                                 while ($period_row = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                    <div class="sessions" id="periodsList">
-                                        <?php
-                                    echo "<input type='checkbox' name='periods[]' value='" . $period_row['period'] . "'>" . $period_row['period'] . "<br>";
-                                    ?>
-                                    </div>
-                                    <?php
-                                }
-                            
-                                // 关闭数据库连接
-                                mysqli_close($link);
-                                ?>
-                           
+                            ?>
+                                <div class="sessions" id="periodsList"><?php echo "<input type='checkbox' name='periods[]' value='" . $period_row['period'] . "'>" . $period_row['period'] . "<br>";?> <!--輸出課堂節次-->
                             </div>
+                            <?php
+                            }   
+                            mysqli_close($link);
+                            ?>
+                           
+                        </div>
                     </div>
                     <div class="reason">
                         <div class="title">
@@ -107,7 +94,7 @@
                             <div class="must">(最多30字)</div>
                         </div>
                         <div class="input">
-                            <textarea class="inputbox textarea" placeholder="請填寫請假原因" maxlength="30" name="reason" required><?php echo $reason; ?></textarea>
+                            <textarea class="inputbox textarea" placeholder="請填寫請假原因" maxlength="30" name="reason" required><?php echo $reason; ?></textarea> <!--輸出上次的請假事由-->
                         </div>
                     </div>
                     <div class="file">
@@ -115,7 +102,7 @@
                             證明文件
                             <div class="must">(必填)</div>
                         </div>
-                        <div class="" action="upload.php" method="post">
+                        <div class="">
                             <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png" style="background-color: #fdfdfd;" required />
                         </div>
                     </div>
@@ -127,9 +114,6 @@
             </form>
         </div>
     </div>
-    <script>
-        var defaultDate = new Date("<?php echo $date; ?>");
-        document.getElementById("dateInput").valueAsDate = defaultDate;
-    </script>
+    
 </body>
 </html>

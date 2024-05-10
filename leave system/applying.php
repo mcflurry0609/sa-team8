@@ -1,16 +1,7 @@
 <?php
 
-$link=mysqli_connect('localhost','root');
-        mysqli_select_db($link,'leave');
-
-
-if ($link->connect_error) {
-    die("資料庫連接失敗: " . $link->connect_error);
-}
-
-
-
-    
+    $link=mysqli_connect('localhost','root');
+    mysqli_select_db($link,'leave');
     $user_id = $_SESSION['user_id'];
     $category_id = $_POST['category'];
     $date = $_POST['date'];
@@ -28,7 +19,11 @@ if ($link->connect_error) {
 
     $target_dir = "uploads/"; //路徑
     $target_file = $target_dir . basename($_FILES["proof"]["name"]); //檔案名合併路徑
-   
+    if (move_uploaded_file($_FILES["proof"]["tmp_name"], $target_file)) { //將上傳的檔案從臨時目錄移動到你指定的目錄。當一個檔案被上傳時，PHP 會將它存放在一個臨時目錄中，並將這個臨時檔案的路徑存放在 $_FILES['proof']['tmp_name'] 中。你需要使用 move_uploaded_file() 函數來將檔案從臨時目錄移動到你想要的位置
+    } else {
+        echo "抱歉，上傳檔案時出現錯誤。";
+        exit; 
+    }
         
             
             $sql = "INSERT INTO applications (user_id, course_id, category_id, date, reason, doc_name,periods)
