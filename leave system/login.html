@@ -50,7 +50,7 @@
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            // 切换图标
+            //顯示密碼&隱藏密碼
             if (type === 'password') {
                 togglePassword.classList.remove('fa-eye-slash');
                 togglePassword.classList.add('fa-eye');

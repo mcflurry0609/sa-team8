@@ -12,15 +12,12 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
     <?php
-        // 確保會話已經開始
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
 
-        // 檢查是否有切換身份的請求
+        // 切換身份
         if (isset($_POST['switch_role'])) {
             // 連接到資料庫
-            $link = mysqli_connect('localhost', 'root', '', 'leave');
+            $link=mysqli_connect('localhost','root');
+            mysqli_select_db($link,'leave');
 
             // 檢查連接
             if (!$link) {
@@ -31,10 +28,10 @@
             $user_id = $_SESSION['user_id'];
             $current_role = $_SESSION['role'];
 
-            // 根據當前角色決定新角色
+            // 根據當前身份決定新身份
             $new_role = $current_role == '學生' ? '教授' : '學生';
 
-            // 更新資料庫中的用戶角色
+            // 更新資料庫中的用戶身份
             $sql = "UPDATE users SET role = ? WHERE user_id = ?";
             $stmt = mysqli_prepare($link, $sql);
             mysqli_stmt_bind_param($stmt, "si", $new_role, $user_id);
@@ -42,19 +39,19 @@
 
             // 檢查是否成功更新
             if (mysqli_stmt_affected_rows($stmt) > 0) {
-                // 更新會話中的角色
+                // 更新會話中的身份
                 $_SESSION['role'] = $new_role;
                 
-                // 根據新角色重定向到相應的頁面
+                // 根據新身份重定向到相應的頁面
                 $redirect_page = $new_role == '教授' ? 'review.php' : 'record.php';
                 header('Location: ' . $redirect_page);
                 exit;
             } else {
                 // 處理錯誤情況
-                echo "Error updating record: " . mysqli_error($link);
+                echo "資料庫錯誤: " . mysqli_error($link);
             }
 
-            // 關閉語句和連接
+            
             mysqli_stmt_close($stmt);
             mysqli_close($link);
         }
@@ -102,6 +99,7 @@
                     <?php 
                         $link=mysqli_connect('localhost','root');
                         mysqli_select_db($link,'leave');
+                        //篩選請假申請狀態
                         $status_condition = "";
                         if(isset($_GET['status'])){
                             $status = $_GET['status'];
@@ -129,7 +127,7 @@
                         $result=mysqli_query($link,$sql);
                         while($row=mysqli_fetch_assoc($result)){
                             $periods = str_replace('D', ' D', $row["periods"]);
-                            $status_icon = '';
+                            $status_icon = ''; //根據申請狀態切換圖示跟狀態顯示
                             if($row["status"] == "已批准") {
                                 $status_icon = '<i class="fa-solid fa-circle-check"></i>';
                             } elseif ($row["status"] == "已拒絕") {
@@ -191,21 +189,21 @@
         });
 
         function searchRecords() {
-            // 获取输入框的值
+            // 搜尋框
             var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
             var searchDate = document.getElementById("searchDate").value;
 
-            // 获取所有的請假紀錄
+            // 尋找所有的請假紀錄
             var records = document.querySelectorAll(".recordcard");
 
             records.forEach(record => {
-                // 获取紀錄中的課程名稱、學生名稱和學號
+                // 尋找紀錄中的課程名稱、學生名稱和學號
                 var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
                 var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
                 var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
                 var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0]; // 取得紀錄中的日期部分
 
-                // 如果課程名稱、學生名稱或學號包含搜索的字符串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
+                // 如果課程名稱、學生名稱或學號包含搜索的字串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
                 if ((course.includes(searchInput) || student.includes(searchInput) || studentID.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
                     record.style.display = "block";
                 } else {

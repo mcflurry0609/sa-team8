@@ -16,7 +16,6 @@
         $link=mysqli_connect('localhost','root');
         mysqli_select_db($link,'leave');
         $sql="select distinct * from users where user_id='$user_id' and password='$password'";
-        //echo $sql;
         $result=mysqli_query($link,$sql);
         if($row=mysqli_fetch_assoc($result)){
             $_SESSION['user_id']=$row['user_id'];

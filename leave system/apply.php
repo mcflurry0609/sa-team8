@@ -74,7 +74,7 @@
                             證明文件
                             <div class="must">(必填)</div>
                         </div>
-                        <div class="" action="upload.php" method="post">
+                        <div class="">
                             <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png" style="background-color: #fdfdfd;" required />
                         </div>
                     </div>
@@ -88,150 +88,57 @@
     </div>
 
     <script>
-        //     document.addEventListener("DOMContentLoaded", function () {
-        //         const selectedDate = this.value;
-        //     // 监听日期选择框的变化
-        //     const dateInput = document.getElementById('dateInput');
-        //     dateInput.addEventListener('change', function() {
-        //         // 获取选中的日期
-        //         const selectedDate = this.value;
-
-
-
-        //         // 发送AJAX请求到getcourse.php
-        //         const xhr = new XMLHttpRequest();
-        //         xhr.open('POST', 'getcourse.php', true);
-        //         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        //         xhr.onreadystatechange = function() {
-        //             if (xhr.readyState === XMLHttpRequest.DONE) {
-        //                 if (xhr.status === 200) {
-        //                     // 更新课程选择下拉菜单
-        //                     const courseSelect = document.getElementById('courseSelect');
-        //                     courseSelect.innerHTML = xhr.responseText;
-        //                 } else {
-        //                     // 处理错误情况
-        //                     console.error('获取课程信息失败');
-        //                 }
-        //             }
-        //         };
-        //         xhr.send(`user_id=${userId}&date=${selectedDate}`);
-        //     });
-
-        //     // 监听课程选择下拉菜单的变化
-        //     const courseSelect = document.getElementById('courseSelect');
-        //     courseSelect.addEventListener('change', function() {
-        //     // 获取选中的课程ID
-        //     const selectedCourseId = this.value;
-
-        //     // 发送 AJAX 请求到getperiod.php
-        //     const xhr = new XMLHttpRequest();
-        //     xhr.open('POST', 'getperiod.php', true);
-        //     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        //     xhr.onreadystatechange = function() {
-        //     if (xhr.readyState === XMLHttpRequest.DONE) {
-        //         if (xhr.status === 200) {
-        //             // 更新课时信息选择框
-        //             const periodsList = document.getElementById('periodsList');
-        //             periodsList.innerHTML = xhr.responseText;
-        //         } else {
-        //             // 处理错误情况
-        //             console.error('获取课时信息失败');
-        //         }
-        //     }
-        //     };
-        //     xhr.send(`course_id=${selectedCourseId}`);
-        //     });
-
-        
-
-        //     // 获取按钮元素
-        //     var changeMindBtn = document.getElementById("changeMindBtn");
-        //     var submitBtn = document.getElementById("submitBtn");
-
-        //     // 为按钮添加点击事件监听器
-        //     changeMindBtn.addEventListener("click", function() {
-        //         window.location.href = "record.php";
-        //     });
-
-        //     submitBtn.addEventListener("click", function() {
-        //     // 在这里执行按钮被点击后的操作，比如提交表单
-        //     // 例如：document.getElementById("myForm").submit();
-        //     // 这里假设你有一个表单，并且表单的 id 是 "myForm"
-        //     });
-
-        // });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const userId = localStorage.getItem('user_id');
+            document.addEventListener("DOMContentLoaded", function() {
+            
             const selectedDate = this.value;
-            // 监听日期选择框的变化
-            const dateInput = document.getElementById('dateInput');
-            dateInput.addEventListener('change', function() {
-                // 获取选中的日期
-                const selectedDate = this.value;
+            
+            const dateInput = document.getElementById('dateInput');//取得日期
+            dateInput.addEventListener('change', function() {           //監聽日期
+                const selectedDate = this.value; //當前選擇的日期
 
-                // 发送AJAX请求到getcourse.php
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'getcourse.php', true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // 更新课程选择下拉菜单
+                
+                const xhr = new XMLHttpRequest(); //建立ajax request
+                xhr.open('POST', 'getcourse.php', true); //方法post 目的地getcourse.php 設定為非同步請求
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //設定請求頭部，告訴伺服器請求體的內容類型，這裡是表單類型 選擇的日期。
+                xhr.onreadystatechange = function() {       //請求的狀態改變就執行
+                    if (xhr.readyState === XMLHttpRequest.DONE) {   //請求完成就執行
+                        if (xhr.status === 200) {   //200是請求成功
+                            //更新課程的下拉式選單
                             const courseSelect = document.getElementById('courseSelect');
                             courseSelect.innerHTML = xhr.responseText;
                         } else {
-                            // 处理错误情况
-                            console.error('获取课程信息失败');
+                            //錯誤時
+                            console.error('無法獲得課程資訊');
                         }
                     }
                 };
-                xhr.send(`user_id=${userId}&date=${selectedDate}`);
+                xhr.send(`date=${selectedDate}`); //傳值選擇的日期
             });
 
-            // 监听课程选择下拉菜单的变化
-            const courseSelect = document.getElementById('courseSelect');
-            courseSelect.addEventListener('change', function() {
-                // 获取选中的课程ID
-                const selectedCourseId = this.value;
+            
+            const courseSelect = document.getElementById('courseSelect'); //取得下拉式選單的課程
+            courseSelect.addEventListener('change', function() {    //監聽下拉式選單，內容出現變化就執行
+                
+                const selectedCourseId = this.value; //取得當前選擇課程的id
 
-                // 发送 AJAX 请求到getperiod.php
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'getperiod.php', true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // 更新课时信息选择框
+                
+                const xhr = new XMLHttpRequest(); //建立新的ajax請求
+                xhr.open('POST', 'getperiod.php', true); // 方法post 目的地getperiod.php 設定為非同步請求
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //設定請求頭部，告訴伺服器請求體的內容類型，這裡是課程id
+                xhr.onreadystatechange = function() {       //請求的狀態改變就執行
+                    if (xhr.readyState === XMLHttpRequest.DONE) {   //請求完成就執行
+                        if (xhr.status === 200) {   //200是請求成功
+                            // 更新節次選擇
                             const periodsList = document.getElementById('periodsList');
                             periodsList.innerHTML = xhr.responseText;
                         } else {
-                            // 处理错误情况
-                            console.error('获取课时信息失败');
+                            //錯誤時
+                            console.error('無法獲得節次資訊');
                         }
                     }
                 };
-                xhr.send(`course_id=${selectedCourseId}`);
+                xhr.send(`course_id=${selectedCourseId}`);//傳值當前的課程id
             });
-
-
-
-
-            // 获取按钮元素
-            var changeMindBtn = document.getElementById("changeMindBtn");
-            var submitBtn = document.getElementById("submitBtn");
-
-            // 为按钮添加点击事件监听器
-            changeMindBtn.addEventListener("click", function() {
-                window.location.href = "record.php";
-            });
-
-            submitBtn.addEventListener("click", function() {
-                // 在这里执行按钮被点击后的操作，比如提交表单
-                // 例如：document.getElementById("myForm").submit();
-                // 这里假设你有一个表单，并且表单的 id 是 "myForm"
-            });
-
         });
     </script>
 </body>
