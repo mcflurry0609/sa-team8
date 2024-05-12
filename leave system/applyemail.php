@@ -25,7 +25,9 @@ try {
 
     //Recipients
     $mail->setFrom('fjuonlineleavesystem@gmail.com', '輔仁大學線上請假系統通知'); // 寄件者
-    $mail->addAddress($prof_email); // 收件者
+    foreach ($prof_emails as $prof_email) {
+        $mail->addAddress($prof_email); // 收件者
+    }
 
     //Content
     $mail->isHTML(true); //Set email format to HTML
