@@ -12,20 +12,15 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
     <?php
-        // 確保會話已經開始
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        
 
         // 檢查是否有切換身份的請求
         if (isset($_POST['switch_role'])) {
             // 連接到資料庫
-            $link = mysqli_connect('localhost', 'root', '', 'leave');
+            $link = mysqli_connect('localhost', 'root');
+            mysqli_select_db($link, 'leave');
 
-            // 檢查連接
-            if (!$link) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
+           
 
             // 獲取當前用戶的ID和角色
             $user_id = $_SESSION['user_id'];
@@ -93,7 +88,7 @@
                     </form>
                 </nav>
                 <div class="records">
-                    <!-- 搜索框 -->
+                    <!-- 搜尋框 -->
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="依課程名稱、學生姓名等搜尋">
                         <input type="date" id="searchDate">
@@ -102,6 +97,7 @@
                 <?php 
                     $link=mysqli_connect('localhost','root');
                     mysqli_select_db($link,'leave');
+                    //篩選請假申請狀態
                     $status_condition = "";
                     if(isset($_GET['status'])){
                         $status = $_GET['status'];
@@ -128,8 +124,7 @@
                     $result=mysqli_query($link,$sql);
                     while($row=mysqli_fetch_assoc($result)){
                         $periods = str_replace('D', ' D', $row["periods"]);
-                        $status_icon = '';
-                        $status_icon = '';
+                        $status_icon = ''; //根據申請狀態切換圖示跟狀態顯示
                         if($row["status"] == "已批准") {
                             $status_icon = '<i class="fa-solid fa-circle-check"></i>';
                             $accept_btn_style = 'style="display: none;"';
@@ -187,15 +182,15 @@
         });
 
         function searchRecords() {
-            // 获取输入框的值
+            // 搜尋框
             var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
             var searchDate = document.getElementById("searchDate").value;
 
-            // 获取所有的請假紀錄
+            // 尋找所有的請假紀錄
             var records = document.querySelectorAll(".recordcard");
 
             records.forEach(record => {
-                // 获取紀錄中的課程名稱、學生名稱和學號
+                // 尋找紀錄中的課程名稱、學生名稱和學號
                 var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
                 var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
                 var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();

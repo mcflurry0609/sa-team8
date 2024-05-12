@@ -13,20 +13,13 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
     <?php
-        // 確保會話已經開始
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // 檢查是否有切換身份的請求
         if (isset($_POST['switch_role'])) {
             // 連接到資料庫
-            $link = mysqli_connect('localhost', 'root', '', 'leave');
+            $link = mysqli_connect('localhost', 'root');
+            mysqli_select_db($link, 'leave');;
 
-            // 檢查連接
-            if (!$link) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
+            
 
             // 獲取當前用戶的ID和角色
             $user_id = $_SESSION['user_id'];
@@ -92,45 +85,30 @@
                     $link=mysqli_connect('localhost','root');
                     mysqli_select_db($link,'leave');
                     $user_id = $_SESSION['user_id'];
-                    $query = "SELECT 
-                                courses.course_name,
-                                courses.course_class,
-                                courses.aon,
-                                courses.notice,
-                                schedule.week,
-                                schedule.weekday_id,
-                                GROUP_CONCAT(DISTINCT users.user_name ORDER BY users.user_name SEPARATOR ', ') AS user_names,
-                                GROUP_CONCAT(DISTINCT schedule.period ORDER BY schedule.period SEPARATOR ' ') AS sorted_periods
-                            FROM 
-                                enrollments
-                            JOIN 
-                                courses ON enrollments.course_id = courses.course_id
-                            JOIN 
-                                courseteacher ON courses.course_id = courseteacher.course_id
-                            JOIN 
-                                users ON courseteacher.user_id = users.user_id
-                            LEFT JOIN 
-                                schedule ON courses.course_id = schedule.course_id
-                            WHERE 
-                                enrollments.user_id = '$user_id'
-                            GROUP BY 
-                                courses.course_id
-                            ORDER BY 
-                                schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7')";
-                    $result = mysqli_query($link, $query);
+                    $sql = "SELECT courses.course_name,courses.course_class,courses.aon,courses.notice,schedule.week,schedule.weekday_id,
+                            GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ' ') AS user_names, #將多位教授合併用,分開
+                            GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods #將多個節次合併用空白分開
+                            FROM enrollments
+                            JOIN courses ON enrollments.course_id = courses.course_id
+                            JOIN courseteacher ON courses.course_id = courseteacher.course_id
+                            JOIN users ON courseteacher.user_id = users.user_id
+                            LEFT JOIN schedule ON courses.course_id = schedule.course_id
+                            WHERE enrollments.user_id = '$user_id'
+                            GROUP BY courses.course_id
+                            ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4',' DN', 'D5', 'D6', 'D7')"; #先按照weekday_id進行排序，同一天的課程會根據節次排序
+                    $result = mysqli_query($link, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
-                        // 顯示每個課程的信息
                         while ($row = mysqli_fetch_assoc($result)) {
                             $course_name = $row['course_name'];
                             $course_class = $row['course_class'];
                             $aon = $row['aon'];
                             $week = $row['week'];
                             $weekday_id = $row['weekday_id'];
-                            $periods = $row['sorted_periods']; // 注意這裡修改為 sorted_periods
-                            $user_names = $row['user_names']; // 獲取多個教授的名字
-                            $notice = $row['notice']; // 新增變量 notice
-                            // 根據 aon 欄位的值決定顯示的狀態
+                            $periods = $row['sorted_periods']; 
+                            $user_names = $row['user_names']; 
+                            $notice = $row['notice']; 
+                            // 根據 aon 欄位的值顯示相關圖是跟狀態
                             $status = "";
                             $icon_class = "";
                             if ($aon == 0) {
@@ -143,7 +121,7 @@
                                 $status = "拒絕線上請假";
                                 $icon_class = "fa-circle-xmark";
                             }
-                            // 根據 week 和 weekday_id 動態生成課程時間信息
+                            // 根據 week 顯示上課的週次
                             $week_text = "";
                             if ($week == 0) {
                                 $week_text = "全週";
@@ -153,22 +131,21 @@
                                 $week_text = "雙週";
                             }
 
-                    // 根據 weekday_id 生成星期幾的文本
-                    $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"];
-                    $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知";
+                    $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"]; //$weekday_text[1]是"週一" $weekday_text[2]是"週二"
+                    $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知"; //如果$weekday_text[$weekday_id]存在 $weekday_text就設定成$weekday_text[$weekday_id]否則未知
                     $details_html = "";
                     if ($aon == 1) {
-                        // 如果 aon 為 1，顯示請假規則和修改鏈接
+                        //可以線上請假，顯示規則
                         $details_html = '<div class="recorddetails" style="display: none;">
                                             <h4 class="rules">'.$notice.'</h4>
                                         </div>';
                     } elseif ($aon == 2) {
-                        // 如果 aon 為 2，顯示相應的消息和修改鏈接
+                        //不可線上請假
                         $details_html = '<div class="recorddetails" style="display: none;">
                                             <h4 class="rules">教授拒絕線上請假</h4>
                                         </div>';
                     } else {
-                        // 如果 aon 不為 1 或 2，保持原有的按鈕
+                        //教授尚未設定相關請假規則
                         $details_html = '<div class="recorddetails" style="display: none;">
                                             <h4 class="rules">教授尚未設定請假規定</h4>
                                         </div>';
@@ -182,11 +159,11 @@
                                 '</div>'.
                             '<div class="timeslot">'.
                                 "<li class='days'>$week_text $weekday_text</li>" .
-                                "<li class='session'>$periods</li>" . // 注意這裡修改為 $periods
+                                "<li class='session'>$periods</li>" . 
                                 "<li>$user_names 教授</li>" .
                             '</div>'.
                         '</div>'.
-                            $details_html . // 注意這裡修改為 $details_html
+                            $details_html .
                         '</div>';
                         }
                     } else {
@@ -203,6 +180,7 @@
     </div>
 
     <script>
+        // 處理展開請假規則
         document.addEventListener("DOMContentLoaded", function () {
             const record = document.querySelectorAll(".record");
 
@@ -214,30 +192,6 @@
                 });
             });
         });
-
-        function searchRecords() {
-            // 获取输入框的值
-            var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
-            var searchDate = document.getElementById("searchDate").value;
-
-            // 获取所有的請假紀錄
-            var records = document.querySelectorAll(".recordcard");
-
-            records.forEach(record => {
-                // 获取紀錄中的課程名稱、學生名稱和學號
-                var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
-                var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
-                var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
-                var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0]; // 取得紀錄中的日期部分
-
-                // 如果課程名稱、學生名稱或學號包含搜索的字符串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
-                if ((course.includes(searchInput) || student.includes(searchInput) || studentID.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
-                    record.style.display = "block";
-                } else {
-                    record.style.display = "none";
-                }
-            });
-        }
     </script>
 </body>
 </html>

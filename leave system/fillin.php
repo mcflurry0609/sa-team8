@@ -16,7 +16,7 @@
         <div class="wrapper">
         <h2>規則修改</h2>
                 <form class="form" enctype="multipart/form-data" action="ruleset.php" method="post">
-                    <input type="hidden" name="course_id" value="<?php echo $_GET['course_id']; ?>"> <!-- 將 course_id 作為隱藏字段傳遞 -->
+                    <input type="hidden" name="course_id" value="<?php echo $_GET['course_id']; ?>"> <!-- 將 course_id 作為隱藏字段傳遞之後POST出去 -->
                     <div class="formrow">
                         <div class="class">
                             <div class="title">

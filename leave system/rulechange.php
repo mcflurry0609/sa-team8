@@ -26,16 +26,15 @@
                     $row = mysqli_fetch_assoc($result);
                     $aon = $row['aon'];
                     $notice = $row['notice'];
-                    // 根據 aon 的值動態生成選項
                     $aon_option1 = '';
                     $aon_option2 = '';
+                    //根據之前的aon顯示選項
                     if ($aon == 1) {
                         $aon_option1 = 'selected';
                     } elseif ($aon == 2) {
                         $aon_option2 = 'selected';
                     }                    
-                    echo '
-                        <input type="hidden" name="course_id" value="' . $course_id . '"> <!-- 將 course_id 作為隱藏字段傳遞 -->
+                    echo '<input type="hidden" name="course_id" value="' . $course_id . '"> <!-- 將 course_id 作為隱藏字段傳遞 -->
                         <div class="formrow">
                             <div class="class">
                             <div class="title">
@@ -58,8 +57,7 @@
                                     <textarea class="inputbox textarea" placeholder="請填寫請假規則" maxlength="200" name="notice" required>' . $notice . '</textarea>
                                 </div>
                             </div>
-                        </div>
-                    ';
+                        </div>';
                 }
                 ?>
                 <div class="footer">

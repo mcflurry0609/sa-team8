@@ -19,10 +19,7 @@
             $link=mysqli_connect('localhost','root');
             mysqli_select_db($link,'leave');
 
-            // 檢查連接
-            if (!$link) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
+           
 
             // 獲取當前用戶的ID和角色
             $user_id = $_SESSION['user_id'];
@@ -90,7 +87,7 @@
                     </form>
                 </nav>
                 <div class="records">
-                    <!-- 搜索框 -->
+                    <!-- 搜尋框 -->
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="依課程名稱、教授姓名等搜尋">
                         <input type="date" id="searchDate">
@@ -197,7 +194,7 @@
             var records = document.querySelectorAll(".recordcard");
 
             records.forEach(record => {
-                // 尋找紀錄中的課程名稱、學生名稱和學號
+                // 尋找紀錄中的課程名稱、教授名稱
                 var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
                 var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
                 var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();

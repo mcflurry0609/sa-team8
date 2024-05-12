@@ -12,11 +12,6 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
     <?php
-        // 確保會話已經開始
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // 檢查是否有切換身份的請求
         if (isset($_POST['switch_role'])) {
             // 連接到資料庫
@@ -90,43 +85,30 @@
                 $link=mysqli_connect('localhost','root');
                 mysqli_select_db($link,'leave');
                 $user_id = $_SESSION['user_id'];
-                $query = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id, 
-                GROUP_CONCAT(DISTINCT schedule.period SEPARATOR ' ') AS periods, 
-                GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ', ') AS user_names
-                FROM 
-                    courses
-                INNER JOIN 
-                    schedule ON courses.course_id = schedule.course_id
-                INNER JOIN 
-                    courseteacher ON courses.course_id = courseteacher.course_id
-                INNER JOIN 
-                    users ON courseteacher.user_id = users.user_id
-                WHERE 
-                    courses.course_id IN (
-                    SELECT DISTINCT course_id 
-                    FROM courseteacher 
-                        WHERE user_id = '$user_id'
-                        )
-                    GROUP BY 
-                        courses.course_id";
-                $result = mysqli_query($link, $query);
+                $sql = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id, 
+                GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods,
+                GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ' ') AS user_names
+                FROM courses
+                INNER JOIN schedule ON courses.course_id = schedule.course_id
+                INNER JOIN courseteacher ON courses.course_id = courseteacher.course_id
+                INNER JOIN users ON courseteacher.user_id = users.user_id
+                WHERE courses.course_id IN (SELECT DISTINCT course_id FROM courseteacher WHERE user_id = '$user_id')
+                GROUP BY courses.course_id
+                ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4',' DN', 'D5', 'D6', 'D7')";
+                $result = mysqli_query($link, $sql);
                 if (mysqli_num_rows($result) > 0) {
-                    // 顯示每個課程的信息
                     while ($row = mysqli_fetch_assoc($result)) {
                         $course_name = $row['course_name'];
                         $course_class = $row['course_class'];
                         $aon = $row['aon'];
                         $week = $row['week'];
                         $weekday_id = $row['weekday_id'];
-                        $periods = $row['periods'];
-                        $periods_array = explode(" ", $periods);
-                        sort($periods_array);
-                        $sorted_periods = implode(" ", $periods_array);
+                        $periods = $row['sorted_periods']; 
                         $user_names = $row['user_names'];
-                        $notice = $row['notice']; // 新增變量 notice
-                        // 根據aon欄位的值決定顯示的狀態
+                        $notice = $row['notice']; 
                         $status = "";
                         $icon_class = "";
+                        // 根據 aon 欄位的值顯示相關圖是跟狀態
                         if ($aon == 0) {
                             $status = "尚未設定";
                             $icon_class = "fa-circle-question";
@@ -137,7 +119,7 @@
                             $status = "拒絕線上請假";
                             $icon_class = "fa-circle-xmark";
                         }
-                        // 根據week和weekday_id動態生成課程時間信息
+                        // 根據 week 顯示上課的週次
                         $week_text = "";
                         if ($week == 0) {
                             $week_text = "全週";
@@ -147,16 +129,12 @@
                             $week_text = "雙週";
                         }
 
-                        // 根據weekday_id生成星期幾的文本
-                        $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"];
-                        $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知";
-
-                        // 根據aon值來動態生成課程詳細信息部分
+                        $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"]; //$weekday_text[1]是"週一" $weekday_text[2]是"週二"
+                        $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知"; //如果$weekday_text[$weekday_id]存在 $weekday_text就設定成$weekday_text[$weekday_id]否則未知
                         $details_html = "";
                         if ($aon == 1) {
-                            // 如果aon為1，顯示請假規則和修改鏈接
-                            $details_html = '
-                                <div class="recorddetails" style="display: none;">
+                            //開放線上請假 顯示修改按鈕
+                            $details_html = '<div class="recorddetails" style="display: none;">
                                     <div class="wrapper3">
                                         <div class="word">
                                             <h4 class="rules">' . $notice . '</h4>
@@ -165,12 +143,10 @@
                                             <a href="rulechange.php?course_id=' . $row["course_id"] . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
                                         </div>
                                     </div>
-                                </div>
-                            ';
+                                </div>';
                         } elseif ($aon == 2) {
-                            // 如果aon為2，顯示相應的消息和修改鏈接
-                            $details_html = '
-                                <div class="recorddetails" style="display: none;">
+                            // 不開放線上請假 顯示修改按鈕
+                            $details_html = '<div class="recorddetails" style="display: none;">
                                     <div class="wrapper3">
                                         <div class="word">
                                             <h4 class="rules">未開放線上請假</h4>
@@ -179,12 +155,10 @@
                                             <a href="rulechange.php?course_id=' . $row["course_id"] . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
                                         </div>
                                     </div>
-                                </div>
-                            ';
+                                </div>';
                         } else {
-                            // 如果aon不為1或2，保持原有的按鈕
-                            $details_html = '
-                                <div class="recorddetails" style="display: none;">
+                            // 如果aon不是1或2，保持原有的按鈕
+                            $details_html = '<div class="recorddetails" style="display: none;">
                                     <div class="wrapper2">
                                         <div class="left">
                                             <a href="fillin.php?course_id=' . $row["course_id"] . '"><button class="online">接受線上請假</button></a>
@@ -193,8 +167,7 @@
                                             <a href="deny.php?course_id=' . $row["course_id"] . '"><button class="noonline">拒絕線上請假</button></a>
                                         </div>
                                     </div>
-                                </div>
-                            ';
+                                </div>';
                         }
 
                         echo '<div class="recordcard">' .
@@ -205,12 +178,12 @@
                                     "<i class='fa-solid $icon_class'></i>" .
                                 '</div>' .
                                 '<div class="timeslot">' .
-                                    "<li class='days'>$week_text $weekday_text</li>" . // 動態生成課程時間部分
-                                    "<li class='session'>$sorted_periods</li>" . // 這部分可以替換為實際的課程時間
-                                    "<li>$user_names 教授</li>" . // 這部分可以替換為實際的教師名稱
+                                    "<li class='days'>$week_text $weekday_text</li>" . 
+                                    "<li class='session'>$periods</li>" . 
+                                    "<li>$user_names 教授</li>" . 
                                 '</div>' .
                             '</div>' .
-                            $details_html . // 插入動態生成的詳細信息部分
+                            $details_html . 
                         '</div>';
                     }
                 } else {
@@ -223,6 +196,7 @@
     </div>
 
     <script>
+        // 處理展開請假規則
         document.addEventListener("DOMContentLoaded", function () {
             const record = document.querySelectorAll(".record");
 

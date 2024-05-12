@@ -2,10 +2,10 @@
     $link=mysqli_connect('localhost','root');
     mysqli_select_db($link,'leave');
     if (isset($_GET['course_id'])) {
-        // Sanitize the input to prevent SQL injection
+        // 避免sql注入 mysqli_real_escape_string可以將'轉換成\' "轉換成\"
         $course_id = mysqli_real_escape_string($link, $_GET['course_id']);
     
-        // Update the 'aon' field in the 'courses' table for the specified course ID
+        // 更新aon 更改課程接受請假與否
         $sql = "UPDATE courses SET aon = 2 WHERE course_id = '$course_id'";
         if(mysqli_query($link,$sql)){
             echo 
