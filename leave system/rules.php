@@ -63,6 +63,7 @@
                 <ul>
                     <li><a href="record.php">請假紀錄</a></li>
                     <li><a href="rules.php">請假規則</a></li>
+                   
                     <li><a href="logout.php" style="color: #bf1523;">登出</a></li>
                 </ul>
             </div>
@@ -71,7 +72,7 @@
                     <h2>請假規則</h2>
                     <div class="user">
                         <i class="fa-regular fa-user"></i>
-                        <span class="userword"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
+                        <span class="userword"><a href="person.php"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></a></span>
                     </div>
                     <form method="post" action="">
                         <button type="submit" name="switch_role" class="switch">

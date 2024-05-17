@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +11,14 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
     <?php
-
         // 切換身份
         if (isset($_POST['switch_role'])) {
             // 連接到資料庫
             $link=mysqli_connect('localhost','root');
             mysqli_select_db($link,'leave');
-
-           
-
             // 獲取當前用戶的ID和角色
             $user_id = $_SESSION['user_id'];
             $current_role = $_SESSION['role'];
-
             // 根據當前身份決定新身份
             $new_role = $current_role == '學生' ? '教授' : '學生';
 
@@ -64,6 +57,7 @@
                 <ul>
                     <li><a href="record.php">請假紀錄</a></li>
                     <li><a href="rules.php">請假規則</a></li>
+                    
                     <li><a href="logout.php" style="color: #bf1523;">登出</a></li>
                 </ul>
             </div>
@@ -78,7 +72,7 @@
                     </div>
                     <div class="user">
                         <i class="fa-regular fa-user"></i>
-                        <span class="userword"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
+                        <span class="userword"><a href="person.php"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></a></span>
                     </div>
                     <form method="post" action="">
                         <button type="submit" name="switch_role" class="switch">
