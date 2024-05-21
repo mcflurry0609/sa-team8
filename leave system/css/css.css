@@ -338,6 +338,12 @@ h3 {
     color: #222;
 }
 
+.rejectreason {
+    color: #BF1523;
+    padding: 5px 0;
+    margin: 0;
+}
+
 /* ============================= DETAIL ============================= */
 .recorddetails {
     background-color: #fdfdfd;

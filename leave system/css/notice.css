@@ -17,7 +17,7 @@ body {
     height: 100vh;
     margin: auto;
     overflow: auto;
-    padding: 30px 64px 130px 64px;
+    padding: 50px 64px;
     position: relative;
     border: 1px solid #eee;
 }
@@ -35,42 +35,8 @@ h2 {
     flex-direction: column;
 }
 
-.formrow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    gap: 20px 12px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        "category date"
-        "class class"
-        "reason reason"
-        "file file"
-        "beforehand beforehand";
-}
-
-.category {
-    grid-area: category;
-}
-
-.date {
-    grid-area: date;
-}
-
-.class {
-    grid-area: class;
-}
-
-.reason {
-    grid-area: reason;
-}
-
-.file {
-    grid-area: file;
-}
-
-.beforehand{
-    grid-area: beforehand;
+.formgap {
+    margin-bottom: 20px;
 }
 
 .title {
@@ -129,26 +95,38 @@ h2 {
 }
 
 input[type="checkbox"] {
-    -webkit-appearance: none; /* 移除浏览器默认样式 */
+    -webkit-appearance: none;
+    /* 移除浏览器默认样式 */
     -moz-appearance: none;
     appearance: none;
-    border: none; /* 移除原始边框样式 */
+    border: none;
+    /* 移除原始边框样式 */
     border-radius: 8px;
-    width: 15px; /* 设置复选框的宽度 */
-    height: 15px; /* 设置复选框的高度 */
-    position: relative; /* 使伪元素相对于复选框定位 */
+    width: 15px;
+    /* 设置复选框的宽度 */
+    height: 15px;
+    /* 设置复选框的高度 */
+    position: relative;
+    /* 使伪元素相对于复选框定位 */
     background-color: #eee;
 }
 
 /* 自定义勾选状态下的样式 */
 input[type="checkbox"]:checked::before {
-    content: "✔"; /* 使用伪元素在复选框前面插入打勾符号 */
-    font-size: 10px; /* 设置打勾符号的大小 */
-    color: #fdfdfd; /* 设置打勾符号的颜色 */
-    position: absolute; /* 相对于复选框定位 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 居中对齐 */
+    content: "✔";
+    /* 使用伪元素在复选框前面插入打勾符号 */
+    font-size: 10px;
+    /* 设置打勾符号的大小 */
+    color: #fdfdfd;
+    /* 设置打勾符号的颜色 */
+    position: absolute;
+    /* 相对于复选框定位 */
+    top: 50%;
+    /* 垂直居中 */
+    left: 50%;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 居中对齐 */
 }
 
 /* 自定义勾选状态下的背景颜色 */
@@ -159,7 +137,7 @@ input[type="checkbox"]:checked {
 .textarea {
     cursor: text;
     font-size: 16px;
-    height: 180px;
+    height: 100px;
     padding: 14px 0;
     resize: none;
 }
@@ -168,7 +146,7 @@ input[type="checkbox"]:checked {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
-    gap:25px 20px;
+    gap: 10px 10px;
 }
 
 /* ============================= FOOTER ============================= */
