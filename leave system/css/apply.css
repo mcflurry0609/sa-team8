@@ -124,26 +124,38 @@ h2 {
 }
 
 input[type="checkbox"] {
-    -webkit-appearance: none; /* 移除浏览器默认样式 */
+    -webkit-appearance: none;
+    /* 移除浏览器默认样式 */
     -moz-appearance: none;
     appearance: none;
-    border: none; /* 移除原始边框样式 */
+    border: none;
+    /* 移除原始边框样式 */
     border-radius: 8px;
-    width: 15px; /* 设置复选框的宽度 */
-    height: 15px; /* 设置复选框的高度 */
-    position: relative; /* 使伪元素相对于复选框定位 */
+    width: 15px;
+    /* 设置复选框的宽度 */
+    height: 15px;
+    /* 设置复选框的高度 */
+    position: relative;
+    /* 使伪元素相对于复选框定位 */
     background-color: #eee;
 }
 
 /* 自定义勾选状态下的样式 */
 input[type="checkbox"]:checked::before {
-    content: "✔"; /* 使用伪元素在复选框前面插入打勾符号 */
-    font-size: 10px; /* 设置打勾符号的大小 */
-    color: #fdfdfd; /* 设置打勾符号的颜色 */
-    position: absolute; /* 相对于复选框定位 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 居中对齐 */
+    content: "✔";
+    /* 使用伪元素在复选框前面插入打勾符号 */
+    font-size: 10px;
+    /* 设置打勾符号的大小 */
+    color: #fdfdfd;
+    /* 设置打勾符号的颜色 */
+    position: absolute;
+    /* 相对于复选框定位 */
+    top: 50%;
+    /* 垂直居中 */
+    left: 50%;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 居中对齐 */
 }
 
 /* 自定义勾选状态下的背景颜色 */
@@ -157,6 +169,25 @@ input[type="checkbox"]:checked {
     height: auto;
     padding: 14px 0;
     resize: none;
+}
+
+/* ============================= PERSON ============================= */
+.person {
+    position: absolute;
+    top: 600px;
+    left: 43%;
+    right: 43%;
+    display: inline-block;
+    padding: 10px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
 }
 
 /* ============================= FOOTER ============================= */

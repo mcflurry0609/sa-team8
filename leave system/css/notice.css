@@ -17,7 +17,7 @@ body {
     height: 100vh;
     margin: auto;
     overflow: auto;
-    padding: 30px 64px;
+    padding: 30px 64px 130px 64px;
     position: relative;
     border: 1px solid #eee;
 }
@@ -166,7 +166,7 @@ input[type="checkbox"]:checked {
 
 .beforehand {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     gap:25px 20px;
 }
