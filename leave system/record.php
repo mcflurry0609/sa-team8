@@ -151,6 +151,9 @@
                                         <a href="'.$row["doc_name"].'" target="_blank"><i class="fa-solid fa-folder"></i>'.$doc_name_display.'</a>
                                     </div>
                                     <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>';
+                            if ($row["status"] == "已拒絕") {
+                                echo '<h4 class="rejectreason"><i class="fa-solid fa-reply"></i>教授回覆 : '.$row["doc_name"].'</h4>';
+                            }
                             // 只有當請假申請的狀態是審核中時，才顯示取消申請的連結
                             if ($row["status"] == "審核中") {
                                 echo '<a href="update.php?application_id='.$row["application_id"].'"><button class="alter" type="submit" name="alter">修改申請</button></a>

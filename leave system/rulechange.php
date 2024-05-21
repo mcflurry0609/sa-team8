@@ -35,8 +35,8 @@
                         $aon_option2 = 'selected';
                     }                    
                     echo '<input type="hidden" name="course_id" value="' . $course_id . '"> <!-- 將 course_id 作為隱藏字段傳遞 -->
-                        <div class="formrow">
-                            <div class="class">
+                        <div class="">
+                            <div class="online formgap">
                                 <div class="title">
                                     請假課堂
                                     <div class="must">(必填)</div>
@@ -48,7 +48,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="reason">
+                            <div class="notice formgap">
                                 <div class="title">
                                     請假規則
                                     <div class="must">(最多200字)</div>
