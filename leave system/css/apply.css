@@ -190,6 +190,20 @@ input[type="checkbox"]:checked {
     color: #333;
 }
 
+.formgap{
+    margin-bottom: 20px;
+}
+
+.check {
+    display: flex;
+    gap: 0px; /* 調整兩個選項之間的間距 */
+}
+
+.check input[type="radio"],
+.check label {
+    margin-right: 10px; /* 調整每個選項內的間距 */
+}
+
 /* ============================= FOOTER ============================= */
 .footer {
     position: fixed;
