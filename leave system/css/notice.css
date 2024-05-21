@@ -45,7 +45,8 @@ h2 {
         "category date"
         "class class"
         "reason reason"
-        "file file";
+        "file file"
+        "beforehand beforehand";
 }
 
 .category {
@@ -66,6 +67,10 @@ h2 {
 
 .file {
     grid-area: file;
+}
+
+.beforehand{
+    grid-area: beforehand;
 }
 
 .title {
