@@ -40,6 +40,78 @@
                                 <textarea class="inputbox textarea" placeholder="請填寫請假規則" maxlength="200" name="notice" required></textarea>
                             </div>
                         </div>
+                        <div class="beforehand">
+                            <div class="0">
+                                <div class="title">事假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="1">
+                                <div class="title">病假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="2">
+                                <div class="title">喪假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="3">
+                                <div class="title">生理假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="4">
+                                <div class="title">陪產假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="5">
+                                <div class="title">心理假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="6">
+                                <div class="title">哺育幼兒假：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="category" required>
+                                        <option value="">請選擇</option>
+                                        <option value="1">只能事前</option>
+                                        <option value="2">不限制</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="footer">
                         <a class="nosend" id="changeMindBtn" href="inclass.php" style="text-decoration-line: none;">改變心意</a>
