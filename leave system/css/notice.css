@@ -159,6 +159,13 @@ input[type="checkbox"]:checked {
     resize: none;
 }
 
+.beforehand {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap:25px 20px;
+}
+
 /* ============================= FOOTER ============================= */
 .footer {
     position: fixed;
