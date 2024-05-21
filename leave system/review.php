@@ -78,7 +78,7 @@
                     </div>
                     <div class="user">
                         <i class="fa-regular fa-user"></i>
-                        <span class="userword"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></span>
+                        <span class="userword"><a href="person.php"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></a></span>
                     </div>
                     <form method="post" action="">
                         <button type="submit" name="switch_role" class="switch">

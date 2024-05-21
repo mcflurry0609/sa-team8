@@ -37,17 +37,17 @@
                     echo '<input type="hidden" name="course_id" value="' . $course_id . '"> <!-- 將 course_id 作為隱藏字段傳遞 -->
                         <div class="formrow">
                             <div class="class">
-                            <div class="title">
-                                請假課堂
-                                <div class="must">(必填)</div>
+                                <div class="title">
+                                    請假課堂
+                                    <div class="must">(必填)</div>
+                                </div>
+                                <div class="input">
+                                    <select class="inputbox" id="aon" name="aon" required>
+                                        <option value="1" ' . $aon_option1 . '>接受線上請假</option>
+                                        <option value="2" ' . $aon_option2 . '>拒絕線上請假</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="input">
-                                <select class="inputbox" id="aon" name="aon" required>
-                                    <option value="1" ' . $aon_option1 . '>接受線上請假</option>
-                                    <option value="2" ' . $aon_option2 . '>拒絕線上請假</option>
-                                </select>
-                            </div>
-                        </div>
                             <div class="reason">
                                 <div class="title">
                                     請假規則
@@ -60,6 +60,7 @@
                         </div>';
                 }
                 ?>
+
                 <div class="footer">
                     <a class="nosend" id="changeMindBtn" href="inclass.php" style="text-decoration-line: none;">改變心意</a>
                     <button type="submit" class="sendout">確認修改</button>
