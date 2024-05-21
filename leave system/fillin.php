@@ -12,13 +12,18 @@
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <style>
+        .formgap{
+            margin-bottom: 20px;
+        }
+    </style>
     <div class="layout">
         <div class="wrapper">
         <h2>規則修改</h2>
                 <form class="form" enctype="multipart/form-data" action="ruleset.php" method="post">
                     <input type="hidden" name="course_id" value="<?php echo $_GET['course_id']; ?>"> <!-- 將 course_id 作為隱藏字段傳遞之後POST出去 -->
-                    <div class="formrow">
-                        <div class="class">
+                    <div class="">
+                        <div class="online formgap">
                             <div class="title">
                                 請假課堂
                                 <div class="must">(必填)</div>
@@ -31,7 +36,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="reason">
+                        <div class="notice formgap">
                             <div class="title">
                                 請假規則
                                 <div class="must">(最多200字)</div>
