@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2024-05-22 11:35:04
--- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.2.12
+-- 主機： localhost
+-- 產生時間： 2024 年 05 月 22 日 17:28
+-- 伺服器版本： 10.4.28-MariaDB
+-- PHP 版本： 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -256,29 +256,30 @@ CREATE TABLE `users` (
   `password` varchar(30) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `role` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+  `role` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `notify` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `users`
 --
 
-INSERT INTO `users` (`user_id`, `password`, `user_email`, `user_name`, `role`) VALUES
-('0001', '0000', 'tibby494171@gmail.com', '吳濟聰', '教授'),
-('0002', '0000', '', '蔡幸蓁', '教授'),
-('0003', '0000', '', '林青峰', '教授'),
-('0004', '0000', '', '黃曜輝', '教授'),
-('0005', '0000', '', '許嘉霖', '教授'),
-('0006', '0000', '', 'Ishikawa Takao', '教授'),
-('0007', '0000', '', '張銀益', '教授'),
-('0008', '0000', '', '國安民', '教授'),
-('0009', '0000', '', '陳冠旭', '教授'),
-('0010', '0000', '', '黃懷陞', '教授'),
-('0011', '0000', '', '鄭美娟', '教授'),
-('0012', '0000', '', '不給請假教授', '教授'),
-('411401001', '0000', 'tibby494171@gmail.com', '泥巴', '助教'),
-('411401085', '0000', 'tibby494171@gmail.com', '朱唯綸', '學生'),
-('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生');
+INSERT INTO `users` (`user_id`, `password`, `user_email`, `user_name`, `role`, `notify`) VALUES
+('0001', '0000', 'tibby494171@gmail.com', '吳濟聰', '教授', ''),
+('0002', '0000', '0002@gmail.com', '蔡幸蓁', '教授', 'no'),
+('0003', '0000', '', '林青峰', '教授', ''),
+('0004', '0000', '', '黃曜輝', '教授', ''),
+('0005', '0000', '', '許嘉霖', '教授', ''),
+('0006', '0000', '', 'Ishikawa Takao', '教授', ''),
+('0007', '0000', '', '張銀益', '教授', ''),
+('0008', '0000', '', '國安民', '教授', ''),
+('0009', '0000', '', '陳冠旭', '教授', ''),
+('0010', '0000', '', '黃懷陞', '教授', ''),
+('0011', '0000', '', '鄭美娟', '教授', ''),
+('0012', '0000', '', '不給請假教授', '教授', ''),
+('411401001', '0000', 'tibby494171@gmail.com', '泥巴', '助教', ''),
+('411401085', '0000', 'tibby494171@gmail.com', '朱唯綸', '學生', ''),
+('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生', 'no');
 
 -- --------------------------------------------------------
 
