@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 
 <head>
     <meta charset="UTF-8">
@@ -14,52 +14,81 @@
 </head>
 
 <body>
-    <style>
+    <?php
+        session_start();
+        $user_id = $_SESSION['user_id'];
+        $user_name = $_SESSION['user_name'];
+        $role = $_SESSION['role'];
 
-    </style>
+        $link = mysqli_connect('localhost', 'root', '', 'leave');
+        if (!$link) {
+            die("連接失敗：" . mysqli_connect_error());
+        }
+
+        $sql = "SELECT * FROM users WHERE user_id='$user_id'";
+        $result = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        mysqli_close($link);
+    ?>
     <div class="layout">
         <div class="wrapper">
             <h2>個人頁面</h2>
-            <form class="form" method="post" action="record.php">
+            <form class="form" method="post" action="update_person.php">
                 <div class="">
                     <div class="name formgap">
                         <div class="title">姓名</div>
                         <div class="input">
-                            <input type="text" class="inputbox" name="user_name">
+                            <input type="text" class="inputbox" name="user_name" value="<?php echo $row['user_name']; ?>" readonly>
                         </div>
                     </div>
                     <div class="id formgap">
                         <div class="title">學號</div>
                         <div class="input">
-                            <input type="text" class="inputbox" name="user_id">
+                            <input type="text" class="inputbox" name="user_id" value="<?php echo $row['user_id']; ?>" readonly>
                         </div>
                     </div>
                     <div class="role formgap">
                         <div class="title">身分</div>
                         <div class="input">
-                            <input type="text" class="inputbox" name="role">
+                            <input type="text" class="inputbox" name="role" value="<?php echo $row['role']; ?>" readonly>
                         </div>
                     </div>
                     <div class="notify formgap">
                         <div class="title">是否希望收到通知</div>
-                        <div class="check">
-                            <input type="radio" name="" id="on"><label for="on">是</label>
-                            <input type="radio" name="" id="off"><label for="off">否</label>
-                        </div>
+                        <select class="check" name="notify" onchange="checkEmail(this)">
+                            <option value="yes" <?php if ($row['notify'] == 'yes') echo 'selected'; ?>>是</option>
+                            <option value="no" <?php if ($row['notify'] == 'no') echo 'selected'; ?>>否</option>
+                        </select>
                     </div>
-                    <div class="gmail formgap">
-                        <div class="title">Gmail</div>
+                    <div class="email formgap">
+                        <div class="title">Email</div>
                         <div class="input">
-                            <input type="email" class="inputbox" name="gmail">
+                            <input type="email" class="inputbox" name="email" value="<?php echo $row['user_email']; ?>" <?php if ($row['notify'] == 'yes') echo 'required'; ?>>
                         </div>
                     </div>
                 </div>
                 <div class="footer">
-                    <!-- 返回按下去回上一頁 -->
-                    <a class="nosend" id="changeMindBtn" href="//" style="text-decoration-line: none;">返回</a>
+                    <a class="nosend" id="changeMindBtn" href="javascript:history.back()" style="text-decoration-line: none;">返回</a>
                     <button type="submit" class="sendout" id="submitBtn">儲存</button>
                 </div>
             </form>
+            <script>
+                function checkEmail(selectObj) {
+                    var emailInput = document.getElementsByName('email')[0];
+                    if (selectObj.value === 'yes') {
+                        emailInput.required = true;
+                    } else {
+                        emailInput.required = false;
+                    }
+                }
+                document.addEventListener('DOMContentLoaded', function () {
+                    checkEmail(document.getElementsByName('notify')[0]);
+                });
+            </script>
         </div>
     </div>
 </body>
+
+</html>
+
