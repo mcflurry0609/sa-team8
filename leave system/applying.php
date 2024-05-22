@@ -50,12 +50,13 @@
                 $apply_time_result = mysqli_query($link, $apply_time_query);
                 $apply_time = mysqli_fetch_assoc($apply_time_result)['apply_time'];
 
-                $prof_email_query = "SELECT GROUP_CONCAT(user_email) as emails FROM users WHERE user_id IN (SELECT user_id FROM courseteacher WHERE course_id = '$course_id')"; //子查詢多位教授將他們的電子信箱存進字串
+                $prof_email_query = "SELECT GROUP_CONCAT(user_email) as emails FROM users WHERE user_id IN (SELECT user_id FROM courseteacher WHERE course_id = '$course_id') AND notify != 'no'"; //子查詢多位教授將他們的電子信箱存進字串
                 $prof_email_result = mysqli_query($link, $prof_email_query);
                 $prof_emails = explode(',', mysqli_fetch_assoc($prof_email_result)['emails']); // 用逗號分割字串儲存進陣列
-
-
-                include('applyemail.php');
+                
+                if (!empty($prof_emails)) {
+                    include('applyemail.php');
+                }
 
                 echo "<script>alert('申請已成功送出！您在該課程中已核准之請假次數：$approved_count'); window.location.href = 'record.php';</script>";
             } else {
