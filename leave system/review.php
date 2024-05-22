@@ -11,49 +11,7 @@
     <link href="css/css.css" rel="stylesheet" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
-    <?php
-        
-
-        // 檢查是否有切換身份的請求
-        if (isset($_POST['switch_role'])) {
-            // 連接到資料庫
-            $link = mysqli_connect('localhost', 'root');
-            mysqli_select_db($link, 'leave');
-
-           
-
-            // 獲取當前用戶的ID和角色
-            $user_id = $_SESSION['user_id'];
-            $current_role = $_SESSION['role'];
-
-            // 根據當前角色決定新角色
-            $new_role = $current_role == '學生' ? '教授' : '學生';
-
-            // 更新資料庫中的用戶角色
-            $sql = "UPDATE users SET role = ? WHERE user_id = ?";
-            $stmt = mysqli_prepare($link, $sql);
-            mysqli_stmt_bind_param($stmt, "si", $new_role, $user_id);
-            mysqli_stmt_execute($stmt);
-
-            // 檢查是否成功更新
-            if (mysqli_stmt_affected_rows($stmt) > 0) {
-                // 更新會話中的角色
-                $_SESSION['role'] = $new_role;
-                
-                // 根據新角色重定向到相應的頁面
-                $redirect_page = $new_role == '教授' ? 'review.php' : 'record.php';
-                header('Location: ' . $redirect_page);
-                exit;
-            } else {
-                // 處理錯誤情況
-                echo "Error updating record: " . mysqli_error($link);
-            }
-
-            // 關閉語句和連接
-            mysqli_stmt_close($stmt);
-            mysqli_close($link);
-        }
-    ?>
+    
 </head>
 
 <body>
@@ -80,12 +38,53 @@
                         <i class="fa-regular fa-user"></i>
                         <span class="userword"><a href="person.php"><?php echo $_SESSION['user_name']." ".$_SESSION['role'];?></a></span>
                     </div>
-                    <form method="post" action="">
-                        <button type="submit" name="switch_role" class="switch">
-                            <i class="fa-solid fa-repeat"></i>
-                            <span class="userword">切換身分</span>
-                        </button>
-                    </form>
+                    <?php
+                        $current_user_id = $_SESSION['user_id'];
+
+                        $link = mysqli_connect('localhost', 'root');
+                        mysqli_select_db($link, 'leave');
+
+                        // 檢查連接是否成功
+                        if (!$link) {
+                            die("連接資料庫失敗: " . mysqli_connect_error());
+                        }
+
+                        // 查詢當前使用者是否在courses表格的assistant欄位中
+                        $query = "SELECT * FROM courses WHERE assistant = ?";
+                        $stmt = mysqli_prepare($link, $query);
+                        mysqli_stmt_bind_param($stmt, 'i', $current_user_id);
+                        mysqli_stmt_execute($stmt);
+                        $result = mysqli_stmt_get_result($stmt);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            // 當前使用者存在於assistant欄位中，顯示表單
+                            echo '
+                            <form method="post" action="">
+                                <input type="hidden" name="current_page" value="' . basename($_SERVER['PHP_SELF']) . '">
+                                <button type="submit" name="switch_role" class="switch">
+                                    <i class="fa-solid fa-repeat"></i>
+                                    <span class="userword">切換身分</span>
+                                </button>
+                            </form>';
+                        }
+
+                        // 釋放資源並關閉連接
+                        mysqli_free_result($result);
+                        mysqli_stmt_close($stmt);
+                        mysqli_close($link);
+                    ?>
+                    <?php
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['switch_role'])) {
+                            $current_page = $_POST['current_page'];
+
+                            if ($current_page == 'record.php' || $current_page == 'rules.php') {
+                                header('Location: review.php');
+                            } elseif ($current_page == 'review.php' || $current_page == 'inclass.php') {
+                                header('Location: record.php');
+                            }
+                            exit();
+                        }
+                    ?>
                 </nav>
                 <div class="records">
                     <!-- 搜尋框 -->

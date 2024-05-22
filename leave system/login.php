@@ -21,14 +21,14 @@
             $_SESSION['user_id']=$row['user_id'];
             $_SESSION['user_name']=$row['user_name'];
             $_SESSION['role']=$row['role'];
-            if ($row['role']=='學生'){
+            if ($row['role'] == '學生' || $row['role'] == '助教') {
                 $redirect_url = "record.php";
-            }
-            else if ($row['role']=='教授') {
+            } else if ($row['role'] == '教授') {
                 $redirect_url = "review.php";
-            }else{
-                
+            } else {
+                // 其他情況的處理
             }
+            
             
             header("Location: $redirect_url");
             exit; 
