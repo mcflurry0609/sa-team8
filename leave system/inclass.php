@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,6 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/2261b58659.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
     <div class="layout">
         <div class="wrapper">
@@ -36,12 +34,10 @@
                     $link = mysqli_connect('localhost', 'root');
                     mysqli_select_db($link, 'leave');
 
-                    // 檢查連接是否成功
                     if (!$link) {
                         die("連接資料庫失敗: " . mysqli_connect_error());
                     }
 
-                    // 查詢當前使用者是否在courses表格的assistant欄位中
                     $query = "SELECT * FROM courses WHERE assistant = ?";
                     $stmt = mysqli_prepare($link, $query);
                     mysqli_stmt_bind_param($stmt, 'i', $current_user_id);
@@ -49,7 +45,6 @@
                     $result = mysqli_stmt_get_result($stmt);
 
                     if (mysqli_num_rows($result) > 0) {
-                        // 當前使用者存在於assistant欄位中，顯示表單
                         echo '
                         <form method="post" action="">
                             <input type="hidden" name="current_page" value="' . basename($_SERVER['PHP_SELF']) . '">
@@ -60,7 +55,6 @@
                         </form>';
                     }
 
-                    // 釋放資源並關閉連接
                     mysqli_free_result($result);
                     mysqli_stmt_close($stmt);
                     mysqli_close($link);
@@ -80,33 +74,34 @@
             </nav>
             <div class="records">
             <?php
-                $link=mysqli_connect('localhost','root');
-                mysqli_select_db($link,'leave');
+                $link = mysqli_connect('localhost', 'root');
+                mysqli_select_db($link, 'leave');
                 $user_id = $_SESSION['user_id'];
                 $sql = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id, 
-                GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods,
-                GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ' ') AS user_names
-                FROM courses
-                INNER JOIN schedule ON courses.course_id = schedule.course_id
-                INNER JOIN courseteacher ON courses.course_id = courseteacher.course_id
-                INNER JOIN users ON courseteacher.user_id = users.user_id
-                WHERE courses.course_id IN (SELECT DISTINCT course_id FROM courseteacher WHERE user_id = '$user_id')
-                GROUP BY courses.course_id
-                ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4',' DN', 'D5', 'D6', 'D7')";
+                        GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods,
+                        GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ' ') AS user_names
+                        FROM courses
+                        INNER JOIN schedule ON courses.course_id = schedule.course_id
+                        INNER JOIN courseteacher ON courses.course_id = courseteacher.course_id
+                        INNER JOIN users ON courseteacher.user_id = users.user_id
+                        WHERE courses.course_id IN (SELECT DISTINCT course_id FROM courseteacher WHERE user_id = '$user_id')
+                        GROUP BY courses.course_id
+                        ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4',' DN', 'D5', 'D6', 'D7')";
                 $result = mysqli_query($link, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
+                        $course_id = $row['course_id'];
                         $course_name = $row['course_name'];
                         $course_class = $row['course_class'];
                         $aon = $row['aon'];
                         $week = $row['week'];
                         $weekday_id = $row['weekday_id'];
-                        $periods = $row['sorted_periods']; 
+                        $periods = $row['sorted_periods'];
                         $user_names = $row['user_names'];
-                        $notice = nl2br($row['notice']); 
+                        $notice = nl2br($row['notice']);
                         $status = "";
                         $icon_class = "";
-                        // 根據 aon 欄位的值顯示相關圖是跟狀態
+                        
                         if ($aon == 0) {
                             $status = "尚未設定";
                             $icon_class = "fa-circle-question";
@@ -117,7 +112,7 @@
                             $status = "拒絕線上請假";
                             $icon_class = "fa-circle-xmark";
                         }
-                        // 根據 week 顯示上課的週次
+
                         $week_text = "";
                         if ($week == 0) {
                             $week_text = "全週";
@@ -127,68 +122,78 @@
                             $week_text = "雙週";
                         }
 
-                        $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"]; //$weekday_text[1]是"週一" $weekday_text[2]是"週二"
-                        $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知"; //如果$weekday_text[$weekday_id]存在 $weekday_text就設定成$weekday_text[$weekday_id]否則未知
+                        $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"];
+                        $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知";
+
+                        $rule_query = "SELECT GROUP_CONCAT(category.category_name SEPARATOR ' ') AS category_names
+                                       FROM leaverule
+                                       JOIN category ON leaverule.category_id = category.category_id
+                                       WHERE leaverule.course_id = '$course_id' AND leaverule.rule = 0";
+                        $rule_result = mysqli_query($link, $rule_query);
+                        $rules_html = '';
+
+                        if ($rule_row = mysqli_fetch_assoc($rule_result)) {
+                            $category_names = $rule_row['category_names'];
+                            if (!empty($category_names)) {
+                                $rules_html = '<h4 class="rules"><i class="fa-solid fa-triangle-exclamation"></i> 必須課前請假：' . $category_names . '</h4>';
+                            }
+                        }
+
                         $details_html = '';
                         if ($aon == 1) {
-                            //開放線上請假 顯示修改按鈕
                             $details_html = '<div class="recorddetails" style="display: none;">
-                                    <div class="wrapper3">
-                                        <div class="word">
-                                            <div>
-                                                <h4 class="rules">' . $notice . '</h4>
-                                                <h4 class="rules"><i class="fa-solid fa-triangle-exclamation"></i>必須課前請假：事假</h4>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <a href="rulechange.php?course_id=' . $row["course_id"] . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
-                                        </div>
-                                    </div>
-                                </div>';
+                                                <div class="wrapper3">
+                                                    <div class="word">
+                                                        <div>
+                                                            <h4 class="rules">' . $notice . '</h4>' . $rules_html . '
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <a href="rulechange.php?course_id=' . $course_id . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
+                                                    </div>
+                                                </div>
+                                             </div>';
                         } elseif ($aon == 2) {
-                            // 不開放線上請假 顯示修改按鈕
                             $details_html = '<div class="recorddetails" style="display: none;">
-                                    <div class="wrapper3">
-                                        <div class="word">
-                                            <h4 class="rules">未開放線上請假</h4>
-                                        </div>
-                                        <div class="item">
-                                            <a href="rulechange.php?course_id=' . $row["course_id"] . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
-                                        </div>
-                                    </div>
-                                </div>';
+                                                <div class="wrapper3">
+                                                    <div class="word">
+                                                        <h4 class="rules">未開放線上請假</h4>
+                                                    </div>
+                                                    <div class="item">
+                                                        <a href="rulechange.php?course_id=' . $course_id . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
+                                                    </div>
+                                                </div>
+                                             </div>';
                         } else {
-                            // 如果aon不是1或2，保持原有的按鈕
                             $details_html = '<div class="recorddetails" style="display: none;">
-                                    <div class="wrapper2">
-                                        <div class="left">
-                                            <a href="fillin.php?course_id=' . $row["course_id"] . '"><button class="online">接受線上請假</button></a>
-                                        </div>
-                                        <div class="right">
-                                            <a href="deny.php?course_id=' . $row["course_id"] . '"><button class="noonline">拒絕線上請假</button></a>
-                                        </div>
-                                    </div>
-                                </div>';
+                                                <div class="wrapper2">
+                                                    <div class="left">
+                                                        <a href="fillin.php?course_id=' . $course_id . '"><button class="online">接受線上請假</button></a>
+                                                    </div>
+                                                    <div class="right">
+                                                        <a href="deny.php?course_id=' . $course_id . '"><button class="noonline">拒絕線上請假</button></a>
+                                                    </div>
+                                                </div>
+                                             </div>';
                         }
 
                         echo '<div class="recordcard">' .
-                            '<div class="record">' .
-                                '<div class="recordtitle">' .
-                                    "<h3>$course_name<label for='' class='openclass'>&nbsp;&nbsp;$course_class</label></h3>" .
-                                    "<h5>$status</h5>" .
-                                    "<i class='fa-solid $icon_class'></i>" .
+                                '<div class="record">' .
+                                    '<div class="recordtitle">' .
+                                        "<h3>$course_name<label for='' class='openclass'>&nbsp;&nbsp;$course_class</label></h3>" .
+                                        "<h5>$status</h5>" .
+                                        "<i class='fa-solid $icon_class'></i>" .
+                                    '</div>' .
+                                    '<div class="timeslot">' .
+                                        "<li class='days'>$week_text $weekday_text</li>" .
+                                        "<li class='session'>$periods</li>" .
+                                        "<li>$user_names 教授</li>" .
+                                    '</div>' .
                                 '</div>' .
-                                '<div class="timeslot">' .
-                                    "<li class='days'>$week_text $weekday_text</li>" . 
-                                    "<li class='session'>$periods</li>" . 
-                                    "<li>$user_names 教授</li>" . 
-                                '</div>' .
-                            '</div>' .
-                            $details_html . 
-                        '</div>';
+                                $details_html .
+                             '</div>';
                     }
                 } else {
-                    // 如果沒有找到任何課程信息，顯示相應的消息
                     echo "<p>您尚未任教任何課程。</p>";
                 }
             ?>
@@ -197,7 +202,6 @@
     </div>
 
     <script>
-        // 處理展開請假規則
         document.addEventListener("DOMContentLoaded", function () {
             const record = document.querySelectorAll(".record");
 
