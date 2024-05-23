@@ -103,7 +103,7 @@
                         $weekday_id = $row['weekday_id'];
                         $periods = $row['sorted_periods']; 
                         $user_names = $row['user_names'];
-                        $notice = $row['notice']; 
+                        $notice = nl2br($row['notice']); 
                         $status = "";
                         $icon_class = "";
                         // 根據 aon 欄位的值顯示相關圖是跟狀態
@@ -129,13 +129,16 @@
 
                         $weekday_text = ["未知", "週一", "週二", "週三", "週四", "週五", "週六", "週日"]; //$weekday_text[1]是"週一" $weekday_text[2]是"週二"
                         $weekday_text = isset($weekday_text[$weekday_id]) ? $weekday_text[$weekday_id] : "未知"; //如果$weekday_text[$weekday_id]存在 $weekday_text就設定成$weekday_text[$weekday_id]否則未知
-                        $details_html = "";
+                        $details_html = '';
                         if ($aon == 1) {
                             //開放線上請假 顯示修改按鈕
                             $details_html = '<div class="recorddetails" style="display: none;">
                                     <div class="wrapper3">
                                         <div class="word">
-                                            <h4 class="rules">' . $notice . '</h4>
+                                            <div>
+                                                <h4 class="rules">' . $notice . '</h4>
+                                                <h4 class="rules"><i class="fa-solid fa-triangle-exclamation"></i>必須課前請假：事假</h4>
+                                            </div>
                                         </div>
                                         <div class="item">
                                             <a href="rulechange.php?course_id=' . $row["course_id"] . '"><h2><i class="fa-solid fa-pen-to-square"></i></h2></a>
@@ -202,7 +205,6 @@
                 title.addEventListener("click", function () {
                     const details = this.nextElementSibling;
                     details.style.display = details.style.display === "none" ? "block" : "none";
-                   
                 });
             });
         });

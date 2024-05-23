@@ -108,7 +108,7 @@
                             $weekday_id = $row['weekday_id'];
                             $periods = $row['sorted_periods']; 
                             $user_names = $row['user_names']; 
-                            $notice = $row['notice']; 
+                            $notice = nl2br($row['notice']); 
                             // 根據 aon 欄位的值顯示相關圖是跟狀態
                             $status = "";
                             $icon_class = "";
@@ -139,6 +139,7 @@
                         //可以線上請假，顯示規則
                         $details_html = '<div class="recorddetails" style="display: none;">
                                             <h4 class="rules">'.$notice.'</h4>
+                                            <h4 class="rules"><i class="fa-solid fa-triangle-exclamation"></i>必須課前請假：事假</h4>
                                         </div>';
                     } elseif ($aon == 2) {
                         //不可線上請假
