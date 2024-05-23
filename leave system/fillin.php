@@ -46,76 +46,33 @@
                             </div>
                         </div>
                         <div class="beforehand">
-                            <div class="0">
-                                <div class="title">事假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
+                        <?php
+                            // 假別選項
+                            $leave_options = array(
+                                array("事假", "1"),
+                                array("病假", "2"),
+                                array("喪假", "3"),
+                                array("生理假", "4"),
+                                array("陪產假", "5"),
+                                array("心理假", "6"),
+                                array("哺育幼兒假", "7")
+                            );
+
+                            // 動態生成每個假別的選項
+                            foreach ($leave_options as $option) {
+                                [$category_name, $category_id] = $option;
+                            ?>
+                                <div class="<?= $category_id ?>">
+                                    <div class="title"><?= $category_name ?>：</div>
+                                    <div class="input">
+                                        <select class="inputbox" id="categorySelect" name="rules[<?= $category_id ?>]" required>
+                                            <option value="">請選擇</option>
+                                            <option value="0">必須課前請假</option>
+                                            <option value="1">無限制</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="1">
-                                <div class="title">病假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="2">
-                                <div class="title">喪假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="3">
-                                <div class="title">生理假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="4">
-                                <div class="title">陪產假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="5">
-                                <div class="title">心理假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="6">
-                                <div class="title">哺育幼兒假：</div>
-                                <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="category" required>
-                                        <option value="">請選擇</option>
-                                        <option value="1">只能事前</option>
-                                        <option value="2">不限制</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <?php } ?>
                         </div>
                     </div>
                     <div class="footer">

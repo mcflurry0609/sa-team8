@@ -28,7 +28,7 @@
                     $notice = $row['notice'];
                     $aon_option1 = '';
                     $aon_option2 = '';
-                    //根據之前的aon顯示選項
+                    // 根據之前的aon顯示選項
                     if ($aon == 1) {
                         $aon_option1 = 'selected';
                     } elseif ($aon == 2) {
@@ -58,6 +58,55 @@
                                 </div>
                             </div>
                         </div>';
+
+                    // 假別選項
+                    $leave_options = array(
+                        array("事假", "1"),
+                        array("病假", "2"),
+                        array("喪假", "3"),
+                        array("生理假", "4"),
+                        array("陪產假", "5"),
+                        array("心理假", "6"),
+                        array("哺育幼兒假", "7")
+                    );
+
+                    echo '<div class="beforehand">';
+
+                    // 獲取該課堂的請假規則
+                    $rule_query = "SELECT category_id, rule FROM leaverule WHERE course_id = '$course_id'";
+                    $rule_result = mysqli_query($link, $rule_query);
+                    $rules = array();
+                    while ($rule_row = mysqli_fetch_assoc($rule_result)) {
+                        $rules[$rule_row['category_id']] = $rule_row['rule'];
+                    }
+
+                    // 動態生成每個假別的選項
+                    foreach ($leave_options as $option) {
+                        [$category_name, $category_id] = $option;
+                        $rule_value_0 = '';
+                        $rule_value_1 = '';
+
+                        // 根據之前的規則顯示選項
+                        if (isset($rules[$category_id])) {
+                            if ($rules[$category_id] == 0) {
+                                $rule_value_0 = 'selected';
+                            } elseif ($rules[$category_id] == 1) {
+                                $rule_value_1 = 'selected';
+                            }
+                        }
+
+                        echo '<div class="' . $category_id . '">
+                                <div class="title">' . $category_name . '：</div>
+                                <div class="input">
+                                    <select class="inputbox" id="categorySelect" name="rules[' . $category_id . ']" required>
+                                        <option value="">請選擇</option>
+                                        <option value="0" ' . $rule_value_0 . '>必須課前請假</option>
+                                        <option value="1" ' . $rule_value_1 . '>無限制</option>
+                                    </select>
+                                </div>
+                              </div>';
+                    }
+                    echo '</div>';
                 }
                 ?>
 
