@@ -498,6 +498,8 @@ h3 {
 }
 
 .rules {
+    display: block;
+    /* 確保 h4 標籤是塊級元素 */
     margin: 10px 0;
     color: #666;
 }
@@ -505,8 +507,6 @@ h3 {
 .fa-pen-to-square {
     color: #222;
 }
-
-
 
 .change {
     position: absolute;
