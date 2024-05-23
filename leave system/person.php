@@ -58,8 +58,8 @@
                         <div class="title">是否希望收到通知</div>
                         <div class="input">
                             <select class="check inputbox" name="notify" onchange="checkEmail(this)">
-                                <option value="yes" <?php if ($row['notify'] == 1 ) echo 'selected'; ?>>是</option>
-                                <option value="no" <?php if ($row['notify'] == 0 ) echo 'selected'; ?>>否</option>
+                                <option value="1" <?php if ($row['notify'] == 1 ) echo 'selected'; ?>>是</option>
+                                <option value="0" <?php if ($row['notify'] == 0 ) echo 'selected'; ?>>否</option>
                             </select>
                         </div>                       
                     </div>
@@ -78,7 +78,7 @@
             <script>
                 function checkEmail(selectObj) {
                     var emailInput = document.getElementsByName('email')[0];
-                    if (selectObj.value === 'yes') {
+                    if (selectObj.value === '1') {
                         emailInput.required = true;
                     } else {
                         emailInput.required = false;
