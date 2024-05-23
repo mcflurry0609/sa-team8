@@ -50,7 +50,7 @@
                 $apply_time_result = mysqli_query($link, $apply_time_query);
                 $apply_time = mysqli_fetch_assoc($apply_time_result)['apply_time'];
 
-                $prof_email_query = "SELECT GROUP_CONCAT(user_email) as emails FROM users WHERE user_id IN (SELECT user_id FROM courseteacher WHERE course_id = '$course_id') AND notify != 'no'"; //子查詢多位教授將他們的電子信箱存進字串
+                $prof_email_query = "SELECT GROUP_CONCAT(user_email) as emails FROM users WHERE user_id IN (SELECT user_id FROM courseteacher WHERE course_id = '$course_id') AND notify != 0 "; //子查詢多位教授將他們的電子信箱存進字串
                 $prof_email_result = mysqli_query($link, $prof_email_query);
                 $prof_emails = explode(',', mysqli_fetch_assoc($prof_email_result)['emails']); // 用逗號分割字串儲存進陣列
                 
