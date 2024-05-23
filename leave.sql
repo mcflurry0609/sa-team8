@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2024 年 05 月 22 日 17:28
--- 伺服器版本： 10.4.28-MariaDB
--- PHP 版本： 8.2.4
+-- 主機： 127.0.0.1
+-- 產生時間： 2024-05-23 03:50:22
+-- 伺服器版本： 10.4.32-MariaDB
+-- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -90,7 +90,7 @@ CREATE TABLE `courses` (
   `course_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `course_class` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `notice` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `aon` int(1) NOT NULL,
+  `aon` int(1) NOT NULL COMMENT '0：未設定 1：允許線上請假 2：1：不允許線上請假',
   `assistant` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -102,7 +102,7 @@ INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`, `ao
 ('D740202632', '管理數學', '資管二', 'test', 0, ''),
 ('D740209514', '電子商務', '資管二', '接受線上請假', 2, ''),
 ('D740219411', '雲端應用程式設計', '資管二', 'test   ', 0, ''),
-('D741201584', '系統分析與設計', '資管二甲', '要事先請假', 0, ''),
+('D741201584', '系統分析與設計', '資管二甲', '假別請假規則測試', 1, ''),
 ('D741202222', '統計學', '資管二甲', 'test\r\n                      ', 0, '411401001'),
 ('D741202457', '經濟學', '資管二甲', 'test', 1, ''),
 ('D741202492', '資料結構', '資管二甲', 'test', 0, ''),
@@ -189,6 +189,59 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `leaverule`
+--
+
+CREATE TABLE `leaverule` (
+  `rule_id` bigint(20) NOT NULL,
+  `course_id` varchar(11) NOT NULL,
+  `category_id` int(2) NOT NULL,
+  `rule` int(1) NOT NULL COMMENT '0: 只能事前請假, 1: 不限制'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `leaverule`
+--
+
+INSERT INTO `leaverule` (`rule_id`, `course_id`, `category_id`, `rule`) VALUES
+(9, 'D741201584', 1, 1),
+(10, 'D741201584', 2, 1),
+(11, 'D741201584', 3, 0),
+(12, 'D741201584', 4, 0),
+(13, 'D741201584', 5, 0),
+(14, 'D741201584', 6, 1),
+(15, 'D741201584', 7, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `period_time`
+--
+
+CREATE TABLE `period_time` (
+  `period` varchar(10) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `period_time`
+--
+
+INSERT INTO `period_time` (`period`, `start_time`, `end_time`) VALUES
+('D1', '08:10:00', '09:00:00'),
+('D2', '09:10:00', '10:00:00'),
+('D3', '10:10:00', '11:00:00'),
+('D4', '11:10:00', '12:00:00'),
+('D5', '13:40:00', '14:30:00'),
+('D6', '14:40:00', '15:30:00'),
+('D7', '15:40:00', '16:30:00'),
+('D8', '16:40:00', '17:30:00'),
+('DN', '12:40:00', '13:30:00');
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `schedule`
 --
 
@@ -257,7 +310,7 @@ CREATE TABLE `users` (
   `user_email` varchar(50) NOT NULL,
   `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `role` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `notify` varchar(3) NOT NULL
+  `notify` int(1) NOT NULL COMMENT '0：接收通知 1：不接收通知\r\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -265,21 +318,21 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `password`, `user_email`, `user_name`, `role`, `notify`) VALUES
-('0001', '0000', 'tibby494171@gmail.com', '吳濟聰', '教授', ''),
-('0002', '0000', '0002@gmail.com', '蔡幸蓁', '教授', 'no'),
-('0003', '0000', '', '林青峰', '教授', ''),
-('0004', '0000', '', '黃曜輝', '教授', ''),
-('0005', '0000', '', '許嘉霖', '教授', ''),
-('0006', '0000', '', 'Ishikawa Takao', '教授', ''),
-('0007', '0000', '', '張銀益', '教授', ''),
-('0008', '0000', '', '國安民', '教授', ''),
-('0009', '0000', '', '陳冠旭', '教授', ''),
-('0010', '0000', '', '黃懷陞', '教授', ''),
-('0011', '0000', '', '鄭美娟', '教授', ''),
-('0012', '0000', '', '不給請假教授', '教授', ''),
-('411401001', '0000', 'tibby494171@gmail.com', '泥巴', '助教', ''),
-('411401085', '0000', 'tibby494171@gmail.com', '朱唯綸', '學生', ''),
-('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生', 'no');
+('0001', '0000', 'tibby494171@gmail.com', '吳濟聰', '教授', 0),
+('0002', '0000', '', '蔡幸蓁', '教授', 0),
+('0003', '0000', '', '林青峰', '教授', 0),
+('0004', '0000', '', '黃曜輝', '教授', 0),
+('0005', '0000', '', '許嘉霖', '教授', 0),
+('0006', '0000', '', 'Ishikawa Takao', '教授', 0),
+('0007', '0000', '', '張銀益', '教授', 0),
+('0008', '0000', '', '國安民', '教授', 0),
+('0009', '0000', '', '陳冠旭', '教授', 0),
+('0010', '0000', '', '黃懷陞', '教授', 0),
+('0011', '0000', '', '鄭美娟', '教授', 0),
+('0012', '0000', '', '不給請假教授', '教授', 0),
+('411401001', '0000', 'tibby494171@gmail.com', '泥巴', '助教', 0),
+('411401085', '0000', 'tibby494171@gmail.com', '朱唯綸', '學生', 0),
+('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生', 0);
 
 -- --------------------------------------------------------
 
@@ -345,6 +398,20 @@ ALTER TABLE `enrollments`
   ADD KEY `course_id` (`course_id`);
 
 --
+-- 資料表索引 `leaverule`
+--
+ALTER TABLE `leaverule`
+  ADD PRIMARY KEY (`rule_id`),
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- 資料表索引 `period_time`
+--
+ALTER TABLE `period_time`
+  ADD PRIMARY KEY (`period`);
+
+--
 -- 資料表索引 `schedule`
 --
 ALTER TABLE `schedule`
@@ -372,6 +439,12 @@ ALTER TABLE `weekdays`
 --
 ALTER TABLE `applications`
   MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `leaverule`
+--
+ALTER TABLE `leaverule`
+  MODIFY `rule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
@@ -404,6 +477,13 @@ ALTER TABLE `courseteacher`
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- 資料表的限制式 `leaverule`
+--
+ALTER TABLE `leaverule`
+  ADD CONSTRAINT `leaverule_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `leaverule_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `schedule`
