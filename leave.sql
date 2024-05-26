@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-05-23 03:50:22
+-- 產生時間： 2024-05-26 04:48:58
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -37,23 +37,24 @@ CREATE TABLE `applications` (
   `reason` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `doc_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `apply_time` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` varchar(3) NOT NULL DEFAULT '審核中'
+  `status` varchar(3) NOT NULL DEFAULT '審核中',
+  `rejectreason` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `applications`
 --
 
-INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`) VALUES
-(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准'),
-(51, '411401229', 'D741202222', 1, '2024-05-02', 'D2D3', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 21:33:23', '已拒絕'),
-(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D4', 'test', 'uploads/輔仁大學學生請假規則.pdf', '2024-05-01 22:27:13', '已批准'),
-(54, '411401229', 'D741202492', 2, '2024-05-09', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 11:51:30', '已批准'),
-(55, '411401229', 'D741201584', 1, '2024-05-14', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 12:09:09', '已批准'),
-(60, '411401085', 'D741201584', 6, '2024-05-07', 'D5D6', '阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕'),
-(61, '411401085', 'D741201584', 1, '2024-05-14', 'D5', 'bbbbbbbbbbbbbbb', '測試用文件test.pdf', '2024-05-08 17:19:24', '審核中'),
-(62, '411401085', 'D741210681', 2, '2024-05-07', 'D3D4', 'ccccccccccccccc', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕'),
-(74, '411401229', 'D741201584', 1, '2024-05-14', 'D5D6', 'test', 'uploads/測試用文件test.pdf', '2024-05-13 14:13:01', '審核中');
+INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`, `rejectreason`) VALUES
+(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准', ''),
+(51, '411401229', 'D741202222', 1, '2024-05-02', 'D2D3', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 21:33:23', '已拒絕', ''),
+(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D4', 'test', 'uploads/輔仁大學學生請假規則.pdf', '2024-05-01 22:27:13', '已批准', ''),
+(54, '411401229', 'D741202492', 2, '2024-05-09', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 11:51:30', '已批准', ''),
+(55, '411401229', 'D741201584', 1, '2024-05-14', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 12:09:09', '已批准', ''),
+(60, '411401085', 'D741201584', 6, '2024-05-07', 'D5D6', '阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕', ''),
+(61, '411401085', 'D741201584', 1, '2024-05-14', 'D5', 'bbbbbbbbbbbbbbb', '測試用文件test.pdf', '2024-05-08 17:19:24', '審核中', ''),
+(62, '411401085', 'D741210681', 2, '2024-05-07', 'D3D4', 'ccccccccccccccc', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕', ''),
+(74, '411401229', 'D741201584', 1, '2024-05-14', 'D5D6', 'test', 'uploads/測試用文件test.pdf', '2024-05-13 14:13:01', '審核中', '');
 
 -- --------------------------------------------------------
 
