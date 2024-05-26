@@ -109,18 +109,19 @@
                                 
                             }
                         }
-                        $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.apply_time, 
-                                courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
-                                GROUP_CONCAT(teachers.user_name SEPARATOR ' ') AS teacher_names
-                                FROM applications 
-                                INNER JOIN category USING(category_id) 
-                                INNER JOIN courses USING(course_id) 
-                                INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
-                                INNER JOIN users ON applications.user_id = users.user_id
-                                INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
-                                WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
-                                GROUP BY applications.application_id
-                                ORDER BY applications.apply_time DESC";
+                        $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.rejectreason, applications.apply_time, 
+                                    courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
+                                    GROUP_CONCAT(teachers.user_name SEPARATOR ' ') AS teacher_names
+                                    FROM applications 
+                                    INNER JOIN category USING(category_id) 
+                                    INNER JOIN courses USING(course_id) 
+                                    INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
+                                    INNER JOIN users ON applications.user_id = users.user_id
+                                    INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
+                                    WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
+                                    GROUP BY applications.application_id
+                                    ORDER BY applications.apply_time DESC";
+
                         $result=mysqli_query($link,$sql);
                         while($row=mysqli_fetch_assoc($result)){
                             $periods = str_replace('D', ' D', $row["periods"]);
@@ -156,7 +157,7 @@
                                     </div>
                                     <h5 class="applytime"><i class="fa-solid fa-circle-exclamation"></i>'.$row["apply_time"].' 提出申請</h5>';
                             if ($row["status"] == "已拒絕") {
-                                echo '<h4 class="rejectreason"><i class="fa-solid fa-reply"></i>教授回覆 : '.$row["doc_name"].'</h4>';
+                                echo '<h4 class="rejectreason"><i class="fa-solid fa-reply"></i>教授回覆 : '.$row["rejectreason"].'</h4>';
                             }
                             // 只有當請假申請的狀態是審核中時，才顯示取消申請的連結
                             if ($row["status"] == "審核中") {

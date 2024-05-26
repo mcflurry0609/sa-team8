@@ -48,14 +48,8 @@ if(isset($_GET['id']) && isset($_GET['action'])) {
     include('statusemail.php');
     
     if($update_result) {
-        if($action === 'reject') {
-            header("Location: rejectreason.php");
-            exit(); 
-        }
-        else{
-            header("Location: review.php");
-            exit();
-        }
+        header("Location: review.php");
+        exit();
     } else {
         echo "批准失敗，請重新批准";
         header("Location: review.php");
