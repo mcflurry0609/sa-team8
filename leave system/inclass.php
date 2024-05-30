@@ -187,7 +187,7 @@
                                     '<div class="timeslot">' .
                                         "<li class='days'>$week_text $weekday_text</li>" .
                                         "<li class='session'>$periods</li>" .
-                                        "<li>$user_names 教授</li>" .
+                                        "<li>$user_names ". $_SESSION['role'] ."</li>" .
                                     '</div>' .
                                 '</div>' .
                                 $details_html .

@@ -118,8 +118,10 @@
                     INNER JOIN schedule USING(course_id) 
                     INNER JOIN courses USING(course_id) 
                     INNER JOIN users ON applications.user_id = users.user_id
-                    WHERE courseteacher.user_id = ".$_SESSION['user_id']." ".$status_condition."
+                    WHERE (courseteacher.user_id = ".$_SESSION['user_id']." OR courses.assistant = '".$_SESSION['user_id']."') ".$status_condition."
                     ORDER BY applications.apply_time DESC";
+
+
                     $result=mysqli_query($link,$sql);
                     while($row=mysqli_fetch_assoc($result)){
                         $periods = str_replace('D', ' D', $row["periods"]);

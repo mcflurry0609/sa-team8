@@ -30,8 +30,7 @@
                             </div>
                             <div class="input">
                                 <select class="inputbox" id="aon" name="aon" required>
-                                    <option value="">選擇是否接受學生線上請假</option>
-                                    <option value="1">接受線上請假</option>
+                                    <option value="1" selected>接受線上請假</option>
                                     <option value="2">拒絕線上請假</option>
                                 </select>
                             </div>
@@ -66,9 +65,8 @@
                                     <div class="title"><?= $category_name ?>：</div>
                                     <div class="input">
                                         <select class="inputbox" id="categorySelect" name="rules[<?= $category_id ?>]" required>
-                                            <option value="">請選擇</option>
                                             <option value="0">必須課前請假</option>
-                                            <option value="1">無限制</option>
+                                            <option value="1" selected>無限制</option>
                                         </select>
                                     </div>
                                 </div>
