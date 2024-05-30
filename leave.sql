@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-05-26 04:48:58
+-- 產生時間： 2024-05-30 10:12:43
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -46,15 +46,11 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`application_id`, `user_id`, `course_id`, `category_id`, `date`, `periods`, `reason`, `doc_name`, `apply_time`, `status`, `rejectreason`) VALUES
-(50, '411401229', 'D741201584', 2, '2024-05-14', 'D5', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 11:34:04', '已批准', ''),
-(51, '411401229', 'D741202222', 1, '2024-05-02', 'D2D3', 'pedro pedro', 'uploads/測試用文件test.pdf', '2024-05-01 21:33:23', '已拒絕', ''),
-(52, '411401229', 'D741202457', 1, '2024-05-08', 'D2D4', 'test', 'uploads/輔仁大學學生請假規則.pdf', '2024-05-01 22:27:13', '已批准', ''),
-(54, '411401229', 'D741202492', 2, '2024-05-09', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 11:51:30', '已批准', ''),
-(55, '411401229', 'D741201584', 1, '2024-05-14', 'D6D7', 'test', 'uploads/測試用文件test.pdf', '2024-05-08 12:09:09', '已批准', ''),
-(60, '411401085', 'D741201584', 6, '2024-05-07', 'D5D6', '阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿阿', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕', ''),
-(61, '411401085', 'D741201584', 1, '2024-05-14', 'D5', 'bbbbbbbbbbbbbbb', '測試用文件test.pdf', '2024-05-08 17:19:24', '審核中', ''),
-(62, '411401085', 'D741210681', 2, '2024-05-07', 'D3D4', 'ccccccccccccccc', '測試用文件test.pdf', '2024-05-08 17:18:24', '已拒絕', ''),
-(74, '411401229', 'D741201584', 1, '2024-05-14', 'D5D6', 'test', 'uploads/測試用文件test.pdf', '2024-05-13 14:13:01', '審核中', '');
+(75, '411401229', 'D741201584', 1, '2024-05-28', 'D5', '測試', 'uploads/測試用文件test.pdf', '2024-05-26 10:54:38', '已拒絕', '不可以這樣子請假喔'),
+(76, '411401229', 'D741201584', 1, '2024-05-28', 'D5D6', '拜託讓我請假啦', 'uploads/測試用文件test.pdf', '2024-05-26 10:56:24', '已批准', ''),
+(77, '411401001', 'D742202795', 1, '2024-05-08', 'D5D6', '助教請假測試', 'uploads/測試用文件test.pdf', '2024-05-30 09:24:24', '審核中', ''),
+(79, '411401229', 'D741202222', 1, '2024-05-30', 'D2D3', '請假測是', 'uploads/測試用文件test.pdf', '2024-05-30 10:11:16', '審核中', ''),
+(80, '411401229', 'D741202223', 1, '2024-05-30', 'DN', '吃飯飯', 'uploads/測試用文件test.pdf', '2024-05-30 14:08:17', '審核中', '');
 
 -- --------------------------------------------------------
 
@@ -105,9 +101,10 @@ INSERT INTO `courses` (`course_id`, `course_name`, `course_class`, `notice`, `ao
 ('D740219411', '雲端應用程式設計', '資管二', 'test   ', 0, ''),
 ('D741201584', '系統分析與設計', '資管二甲', '假別請假規則測試', 1, ''),
 ('D741202222', '統計學', '資管二甲', 'test\r\n                      ', 0, '411401001'),
+('D741202223', '統計學實習', '資管二甲', '', 0, ''),
 ('D741202457', '經濟學', '資管二甲', 'test', 1, ''),
 ('D741202492', '資料結構', '資管二甲', 'test', 0, ''),
-('D741202795', '導師時間', '資管二甲', 'test\r\n                      ', 2, ''),
+('D741202795', '導師時間', '資管二甲', 'test', 2, ''),
 ('D741210681', '資料通訊與網路', '資管二甲', 'test           ', 0, ''),
 ('D742202457', '經濟學', '資管二乙', 'test     ', 0, ''),
 ('D742202795', '導師時間', '資管二乙', 'test      ', 0, ''),
@@ -137,6 +134,7 @@ INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
 ('0002', 'D741202492'),
 ('0003', 'D741210681'),
 ('0004', 'D741202222'),
+('0004', 'D742202795'),
 ('0005', 'D740209514'),
 ('0005', 'D741202457'),
 ('0006', 'DFTEN00772I'),
@@ -146,7 +144,7 @@ INSERT INTO `courseteacher` (`user_id`, `course_id`) VALUES
 ('0010', 'D740219411'),
 ('0011', 'D740202632'),
 ('0012', 'DNAO123456'),
-('411401001', 'D741202222');
+('411401001', 'D741202223');
 
 -- --------------------------------------------------------
 
@@ -164,6 +162,8 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
+('411401001', 'D742202457'),
+('411401001', 'D742202795'),
 ('411401085', 'D740202632'),
 ('411401085', 'D740209514'),
 ('411401085', 'D740219411'),
@@ -178,6 +178,7 @@ INSERT INTO `enrollments` (`user_id`, `course_id`) VALUES
 ('411401229', 'D740219411'),
 ('411401229', 'D741201584'),
 ('411401229', 'D741202222'),
+('411401229', 'D741202223'),
 ('411401229', 'D741202457'),
 ('411401229', 'D741202492'),
 ('411401229', 'D741202795'),
@@ -211,7 +212,14 @@ INSERT INTO `leaverule` (`rule_id`, `course_id`, `category_id`, `rule`) VALUES
 (12, 'D741201584', 4, 0),
 (13, 'D741201584', 5, 0),
 (14, 'D741201584', 6, 1),
-(15, 'D741201584', 7, 0);
+(15, 'D741201584', 7, 0),
+(16, 'D741202795', 1, 1),
+(17, 'D741202795', 2, 1),
+(18, 'D741202795', 3, 1),
+(19, 'D741202795', 4, 1),
+(20, 'D741202795', 5, 1),
+(21, 'D741202795', 6, 1),
+(22, 'D741202795', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -297,7 +305,8 @@ INSERT INTO `schedule` (`schedule_id`, `course_id`, `weekday_id`, `period`, `wee
 (43, 'D741202492', 4, 'D6', 0),
 (44, 'D741202492', 4, 'D7', 0),
 (45, 'DNAO123456', 6, 'D4', 0),
-(46, 'DNAO123456', 6, 'DN', 0);
+(46, 'DNAO123456', 6, 'DN', 0),
+(47, 'D741202223', 4, 'DN', 0);
 
 -- --------------------------------------------------------
 
@@ -311,7 +320,7 @@ CREATE TABLE `users` (
   `user_email` varchar(50) NOT NULL,
   `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `role` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `notify` int(1) NOT NULL COMMENT '0：接收通知 1：不接收通知\r\n'
+  `notify` int(1) NOT NULL COMMENT '0：不接收通知 1：接收通知\r\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -319,7 +328,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `password`, `user_email`, `user_name`, `role`, `notify`) VALUES
-('0001', '0000', 'tibby494171@gmail.com', '吳濟聰', '教授', 0),
+('0001', '0000', 'henrylambb@gmail.com', '吳濟聰', '教授', 1),
 ('0002', '0000', '', '蔡幸蓁', '教授', 0),
 ('0003', '0000', '', '林青峰', '教授', 0),
 ('0004', '0000', '', '黃曜輝', '教授', 0),
@@ -331,9 +340,9 @@ INSERT INTO `users` (`user_id`, `password`, `user_email`, `user_name`, `role`, `
 ('0010', '0000', '', '黃懷陞', '教授', 0),
 ('0011', '0000', '', '鄭美娟', '教授', 0),
 ('0012', '0000', '', '不給請假教授', '教授', 0),
-('411401001', '0000', 'tibby494171@gmail.com', '泥巴', '助教', 0),
+('411401001', '0000', 'henrylambb@gmail.com', '泥巴', '助教', 1),
 ('411401085', '0000', 'tibby494171@gmail.com', '朱唯綸', '學生', 0),
-('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生', 0);
+('411401229', '12345678', 'henrylambb@gmail.com', '林亨奕', '學生', 1);
 
 -- --------------------------------------------------------
 
@@ -439,19 +448,19 @@ ALTER TABLE `weekdays`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `application_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `leaverule`
 --
 ALTER TABLE `leaverule`
-  MODIFY `rule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `rule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `schedule_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- 已傾印資料表的限制式
