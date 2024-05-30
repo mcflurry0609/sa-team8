@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <a class="nosend" id="changeMindBtn" href="record.php" style="text-decoration-line: none;">改變心意</a>
+                    <a class="nosend" id="changeMindBtn" href="review.php" style="text-decoration-line: none;">改變心意</a>
                     <button type="submit" class="sendout" id="submitBtn">送出批准</button>
                 </div>
             </form>
