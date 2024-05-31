@@ -27,7 +27,7 @@
         $sql = "SELECT * FROM users WHERE user_id='$user_id'";
         $result = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($result);
-
+        $idLabel = ($role === '教授') ? '教職員編號' : '學號';
         mysqli_close($link);
     ?>
     <div class="layout">
@@ -42,13 +42,13 @@
                         </div>
                     </div>
                     <div class="id formgap">
-                        <div class="title">學號</div>
+                        <div class="title"><?php echo $idLabel; ?></div>
                         <div class="input">
                             <input type="text" class="inputbox" name="user_id" value="<?php echo $row['user_id']; ?>" readonly>
                         </div>
                     </div>
                     <div class="role formgap">
-                        <div class="title">身分</div>
+                        <div class="title">身份</div>
                         <div class="input">
                             <input type="text" class="inputbox" name="role" value="<?php echo $row['role']; ?>" readonly>
                         </div>

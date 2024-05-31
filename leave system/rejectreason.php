@@ -26,7 +26,7 @@
                 </div>
                 <div class="footer">
                     <a class="nosend" id="changeMindBtn" href="review.php" style="text-decoration-line: none;">改變心意</a>
-                    <button type="submit" class="sendout" id="submitBtn">送出批准</button>
+                    <button type="submit" class="sendout" id="submitBtn">拒絕請假申請</button>
                 </div>
             </form>
         </div>
