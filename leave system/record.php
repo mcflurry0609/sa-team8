@@ -110,17 +110,18 @@
                             }
                         }
                         $sql = "SELECT DISTINCT applications.application_id, applications.user_id, applications.course_id, applications.category_id, applications.date, applications.periods, applications.reason, applications.doc_name, applications.status, applications.rejectreason, applications.apply_time, 
-                                    courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
-                                    GROUP_CONCAT(teachers.user_name SEPARATOR ' ') AS teacher_names
-                                    FROM applications 
-                                    INNER JOIN category USING(category_id) 
-                                    INNER JOIN courses USING(course_id) 
-                                    INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
-                                    INNER JOIN users ON applications.user_id = users.user_id
-                                    INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
-                                    WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
-                                    GROUP BY applications.application_id
-                                    ORDER BY applications.apply_time DESC";
+                        courses.course_name, category.category_name, users.user_name AS student_name, courses.course_class,
+                        GROUP_CONCAT(CASE WHEN teachers.role = '助教' THEN CONCAT(teachers.user_name, ' 助教')ELSE CONCAT(teachers.user_name, ' 教授')END SEPARATOR ' ') AS teacher_names
+                        FROM applications 
+                        INNER JOIN category USING(category_id) 
+                        INNER JOIN courses USING(course_id) 
+                        INNER JOIN courseteacher ON applications.course_id = courseteacher.course_id
+                        INNER JOIN users ON applications.user_id = users.user_id
+                        INNER JOIN users AS teachers ON courseteacher.user_id = teachers.user_id
+                        WHERE applications.user_id = ".$_SESSION['user_id']." ".$status_condition."
+                        GROUP BY applications.application_id
+                        ORDER BY applications.apply_time DESC";
+
 
                         $result=mysqli_query($link,$sql);
                         while($row=mysqli_fetch_assoc($result)){
@@ -144,7 +145,7 @@
                                     <div class="timeslot">
                                         <li class="days">'.$row["date"]." ".$row["category_name"].'</li>
                                         <li class="session">'.$periods.'</li>
-                                        <li>'.$row["teacher_names"] .''." 教授".'</li>
+                                        <li>'.$row["teacher_names"] .'</li>
                                     </div>
                                     
                                 </div>
