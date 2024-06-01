@@ -65,7 +65,7 @@
                     <div class="email formgap">
                         <div class="title">Email</div>
                         <div class="input">
-                            <input type="email" class="inputbox" name="email" value="<?php echo $row['user_email']; ?>" <?php if ($row['notify'] == 1) echo 'required'; ?>>
+                            <input type="email" class="inputbox" name="email" pattern=".*@gmail.com.*" required title="必須包含 '@gmail.com'" value="<?php echo $row['user_email']; ?>" <?php if ($row['notify'] == 1) echo 'required'; ?>>
                         </div>
                     </div>
                 </div>
@@ -92,4 +92,3 @@
 </body>
 
 </html>
-
