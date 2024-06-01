@@ -99,9 +99,10 @@
                                 <div class="title">' . $category_name . '：</div>
                                 <div class="input">
                                     <select class="inputbox" id="categorySelect" name="rules[' . $category_id . ']" required>
-                                        <option value="">請選擇</option>
-                                        <option value="0" ' . $rule_value_0 . '>必須課前請假</option>
+                                        <option value="" disabled>請選擇</option>
                                         <option value="1" ' . $rule_value_1 . '>無限制</option>
+                                        <option value="0" ' . $rule_value_0 . '>必須課前請假</option>
+                                       
                                     </select>
                                 </div>
                               </div>';
