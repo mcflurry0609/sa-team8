@@ -74,9 +74,7 @@
                             證明文件
                             <div class="must">(必填)</div>
                         </div>
-                        <div class="">
-                            <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png" style="background-color: #fdfdfd;" required />
-                        </div>
+                            <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png" style="background-color: #fdfdfd; height:27px;" required />
                     </div>
                 </div>
                 <div class="footer">
