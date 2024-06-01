@@ -37,7 +37,7 @@
             mysqli_select_db($link, 'leave');
             
             if ($link->connect_error) {
-                die("连接失败: " . $link->connect_error);
+                die();
             }
             
             $application_id = $_GET['id'];
