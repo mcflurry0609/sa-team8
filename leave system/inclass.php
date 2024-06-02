@@ -177,21 +177,22 @@
                                              </div>';
                         }
 
-                        echo '<div class="recordcard">' .
-                                '<div class="record">' .
-                                    '<div class="recordtitle">' .
-                                        "<h3>$course_name<label for='' class='openclass'>&nbsp;&nbsp;$course_class</label></h3>" .
-                                        "<h5>$status</h5>" .
-                                        "<i class='fa-solid $icon_class'></i>" .
-                                    '</div>' .
-                                    '<div class="timeslot">' .
-                                        "<li class='days'>$week_text $weekday_text</li>" .
-                                        "<li class='session'>$periods</li>" .
-                                        "<li>$user_names ". $_SESSION['role'] ."</li>" .
-                                    '</div>' .
-                                '</div>' .
-                                $details_html .
-                             '</div>';
+                        echo '<div class="recordcard">
+                            <div class="record">
+                                <div class="recordtitle">
+                                    <h3>' . $course_name . '<label for="" class="openclass">&nbsp;&nbsp;' . $course_class . '</label></h3>
+                                    <h5>' . $status . '</h5>
+                                    <i class="fa-solid ' . $icon_class . '"></i>
+                                </div>
+                                <div class="timeslot">
+                                    <li class="days">' . $week_text . ' ' . $weekday_text . '</li>
+                                    <li class="session">' . $periods . '</li>
+                                    <li>' . $user_names . ' ' . $_SESSION['role'] . '</li>
+                                </div>
+                            </div>'
+                            . $details_html .
+                        '</div>';
+
                     }
                 } else {
                     echo "<p>您尚未任教任何課程。</p>";

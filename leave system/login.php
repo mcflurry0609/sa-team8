@@ -9,8 +9,6 @@
 
 <body>
     <?php
-        session_start(); // 如果你還沒有啟動 session，這一行是必須的。
-
         $user_id = $_POST['id'];
         $password = $_POST['password'];
 
@@ -26,18 +24,17 @@
             $sql_password = "SELECT * FROM users WHERE user_id='$user_id' AND password='$password'";
             $result_password = mysqli_query($link, $sql_password);
 
-            if ($row_password = mysqli_fetch_assoc($result_password)) {
-                $_SESSION['user_id'] = $row_password['user_id'];
-                $_SESSION['user_name'] = $row_password['user_name'];
-                $_SESSION['role'] = $row_password['role'];
+            if ($user_data = mysqli_fetch_assoc($result_password)) {
+                $_SESSION['user_id'] = $user_data['user_id'];
+                $_SESSION['user_name'] = $user_data['user_name'];
+                $_SESSION['role'] = $user_data['role'];
 
-                if ($row_password['role'] == '學生' || $row_password['role'] == '助教') {
+                if ($user_data['role'] == '學生' || $user_data['role'] == '助教') {
                     $redirect_url = "record.php";
-                } else if ($row_password['role'] == '教授') {
+                } else if ($user_data['role'] == '教授') {
                     $redirect_url = "review.php";
                 } else {
-                    // 可以增加其他角色的處理邏輯
-                    $redirect_url = "default.php"; // 假設有個預設頁面
+
                 }
 
                 header("Location: $redirect_url");

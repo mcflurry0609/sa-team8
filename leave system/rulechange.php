@@ -34,7 +34,7 @@
                     } elseif ($aon == 2) {
                         $aon_option2 = 'selected';
                     }                    
-                    echo '<input type="hidden" name="course_id" value="' . $course_id . '"> <!-- 將 course_id 作為隱藏字段傳遞 -->
+                    echo '<input type="hidden" name="course_id" value="'.$course_id.'"> <!-- 將 course_id 作為隱藏字段傳遞 -->
                         <div class="">
                             <div class="online formgap">
                                 <div class="title">
@@ -43,8 +43,8 @@
                                 </div>
                                 <div class="input">
                                     <select class="inputbox" id="aon" name="aon" required>
-                                        <option value="1" ' . $aon_option1 . '>接受線上請假</option>
-                                        <option value="2" ' . $aon_option2 . '>拒絕線上請假</option>
+                                        <option value="1" '.$aon_option1.'>接受線上請假</option>
+                                        <option value="2" '.$aon_option2.'>拒絕線上請假</option>
                                     </select>
                                 </div>
                             </div>
@@ -95,14 +95,13 @@
                             }
                         }
 
-                        echo '<div class="' . $category_id . '">
-                                <div class="title">' . $category_name . '：</div>
+                        echo '<div class="'. $category_id .'">
+                                <div class="title">'. $category_name .'：</div>
                                 <div class="input">
-                                    <select class="inputbox" id="categorySelect" name="rules[' . $category_id . ']" required>
-                                        <option value="" disabled>請選擇</option>
-                                        <option value="1" ' . $rule_value_1 . '>無限制</option>
-                                        <option value="0" ' . $rule_value_0 . '>必須課前請假</option>
-                                       
+                                    <select class="inputbox" id="categorySelect" name="rules['.$category_id.']" required>
+                                        <option value="">請選擇</option>
+                                        <option value="0" '. $rule_value_0 .'>必須課前請假</option>
+                                        <option value="1" '. $rule_value_1 .'>無限制</option>
                                     </select>
                                 </div>
                               </div>';

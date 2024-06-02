@@ -1,10 +1,6 @@
 <?php
     $link = mysqli_connect('localhost', 'root', '', 'leave');
 
-    if (!$link) {
-        die("資料庫連接失敗：" . mysqli_connect_error());
-    }
-
     // 獲取用戶提交的數據
     $user_id = $_SESSION['user_id']; // 從 session 獲取用戶ID
     $category_id = $_POST['category']; // 假別ID
@@ -65,7 +61,6 @@
         exit; 
     }
 
-    // 將申請信息存入資料庫
     $sql = "INSERT INTO applications (user_id, course_id, category_id, date, reason, doc_name, periods)
             VALUES ('$user_id', '$course_id', '$category_id', '$date', '$reason', '$target_file', '$Period')";
     if (mysqli_query($link, $sql)) {

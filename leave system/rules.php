@@ -35,10 +35,6 @@
                         $link = mysqli_connect('localhost', 'root');
                         mysqli_select_db($link, 'leave');
 
-                        if (!$link) {
-                            die("連接資料庫失敗: " . mysqli_connect_error());
-                        }
-
                         $query = "SELECT * FROM courses WHERE assistant = ?";
                         $stmt = mysqli_prepare($link, $query);
                         mysqli_stmt_bind_param($stmt, 'i', $current_user_id);
@@ -79,16 +75,16 @@
                     mysqli_select_db($link, 'leave');
                     $user_id = $_SESSION['user_id'];
                     $sql = "SELECT courses.course_id, courses.course_name, courses.course_class, courses.aon, courses.notice, schedule.week, schedule.weekday_id,
-                            GROUP_CONCAT(DISTINCT users.user_name SEPARATOR ' ') AS user_names,
-                            GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods
-                            FROM enrollments
-                            JOIN courses ON enrollments.course_id = courses.course_id
-                            JOIN courseteacher ON courses.course_id = courseteacher.course_id
-                            JOIN users ON courseteacher.user_id = users.user_id
-                            LEFT JOIN schedule ON courses.course_id = schedule.course_id
-                            WHERE enrollments.user_id = '$user_id'
-                            GROUP BY courses.course_id
-                            ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4',' DN', 'D5', 'D6', 'D7')";
+                    GROUP_CONCAT(DISTINCT CASE WHEN users.role = '助教' THEN CONCAT(users.user_name, ' 助教')ELSE CONCAT(users.user_name, ' 教授')END SEPARATOR ' ') AS teacher_names,
+                    GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods
+                    FROM enrollments
+                    JOIN courses ON enrollments.course_id = courses.course_id
+                    JOIN courseteacher ON courses.course_id = courseteacher.course_id
+                    JOIN users ON courseteacher.user_id = users.user_id
+                    LEFT JOIN schedule ON courses.course_id = schedule.course_id
+                    WHERE enrollments.user_id = '$user_id'
+                    GROUP BY courses.course_id
+                    ORDER BY schedule.weekday_id, FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7')";
                     $result = mysqli_query($link, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
@@ -99,8 +95,7 @@
                             $aon = $row['aon'];
                             $week = $row['week'];
                             $weekday_id = $row['weekday_id'];
-                            $periods = $row['sorted_periods']; 
-                            $user_names = $row['user_names']; 
+                            $periods = $row['sorted_periods'];
                             $notice = nl2br($row['notice']); 
                             $status = "";
                             $icon_class = "";
@@ -157,21 +152,22 @@
                                                  </div>';
                             }
 
-                            echo '<div class="recordcard">' .
-                                    '<div class="record">' .
-                                        '<div class="recordtitle">' .
-                                            "<h3>$course_name<label for='' class='openclass'>&nbsp;&nbsp;$course_class</label></h3>" .
-                                            "<h5>$status</h5>" .
-                                            "<i class='fa-solid $icon_class'></i>" .
-                                        '</div>'.
-                                    '<div class="timeslot">'.
-                                        "<li class='days'>$week_text $weekday_text</li>" .
-                                        "<li class='session'>$periods</li>" . 
-                                        "<li>$user_names 教授</li>" .
-                                    '</div>'.
-                                  '</div>'.
-                                  $details_html .
-                                 '</div>';
+                            echo '<div class="recordcard">
+                                <div class="record">
+                                    <div class="recordtitle">
+                                        <h3>' . $course_name . '<label for="" class="openclass">&nbsp;&nbsp;' . $course_class . '</label></h3>
+                                        <h5>' . $status . '</h5>
+                                        <i class="fa-solid ' . $icon_class . '"></i>
+                                    </div>
+                                    <div class="timeslot">
+                                        <li class="days">' . $week_text . ' ' . $weekday_text . '</li>
+                                        <li class="session">' . $periods . '</li>
+                                        <li>' . $row["teacher_names"] . '</li>
+                                    </div>
+                                </div>'
+                                . $details_html .
+                            '</div>';
+
                         }
                     } else {
                         echo "<p>您尚未選修任何課程。</p>";

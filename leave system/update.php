@@ -20,7 +20,8 @@
         mysqli_select_db($link,'leave');
         $sql = "SELECT * from applications 
                 INNER JOIN category USING(category_id) 
-                INNER JOIN courses USING(course_id) where application_id='$application_id'";
+                INNER JOIN courses USING(course_id) 
+                where application_id='$application_id'"; 
         $result = mysqli_query($link,$sql);
         if($row=mysqli_fetch_assoc($result)){
             $category_name=$row["category_name"];
@@ -28,7 +29,6 @@
             $course_name=$row["course_name"];
             $reason=$row["reason"];
             $row["doc_name"];
-
         }
     ?>
     <div class="layout">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="input">
                             <select class="inputbox" id="categorySelect" name="category" disabled style="color: black;">
-                                <option value="<?php echo $category_name; ?>"><?php echo $category_name; ?></option> <!--假別不可更改-->
+                                <option value=""><?php echo $category_name; ?></option> <!--假別不可更改-->
                             </select>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="input">
                             <select class="inputbox" id="courseSelect" name="course" disabled style="color: black;">
-                                <option value="<?php echo $course_name; ?>"><?php echo $course_name; ?></option> <!--課程不可更改-->
+                                <option value=""><?php echo $course_name; ?></option> <!--課程不可更改-->
                             </select>
                         </div>
                         <div class="period" id="periodsList">

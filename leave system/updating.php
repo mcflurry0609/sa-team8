@@ -7,7 +7,7 @@
     $periods = $_POST["periods"];
     $Period = "";
     if (empty($periods)) {
-        echo "<script>alert('請選擇節次後再送出申請！'); window.location.href = 'apply.php';</script>";
+        echo "<script>alert('請選擇節次後再送出申請！'); window.history.back();</script>";
         exit;
     }
     foreach ($periods as $period) {
