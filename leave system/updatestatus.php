@@ -5,11 +5,9 @@ if(isset($_GET['id']) && isset($_GET['action'])) {
     $application_id = $_GET['id'];
     $action = $_GET['action']; 
 
-    
-    $link=mysqli_connect('localhost','root');
-    mysqli_select_db($link,'leave');
+    $link = mysqli_connect('localhost', 'root');
+    mysqli_select_db($link, 'leave');
 
-    
     if($action === 'accept') {
         $new_status = '已批准';
     } elseif ($action === 'reject') {
@@ -17,11 +15,10 @@ if(isset($_GET['id']) && isset($_GET['action'])) {
     } else {
         echo "批准失敗，請重新批准";
         header("Location: review.php");
+        exit();
     }
 
-    
-    $update_query = "UPDATE applications SET status = '$new_status' 
-                    WHERE application_id = $application_id";
+    $update_query = "UPDATE applications SET status = '$new_status' WHERE application_id = $application_id";
     $update_result = mysqli_query($link, $update_query);
 
     // Get the user_id, date, course_id, periods, and apply_time from the applications table
@@ -38,26 +35,31 @@ if(isset($_GET['id']) && isset($_GET['action'])) {
     $course_query = "SELECT course_name FROM courses WHERE course_id = '$course_id'";
     $course_result = mysqli_query($link, $course_query);
     $course_name = mysqli_fetch_assoc($course_result)['course_name'];
-    
-    // Get the user_email from the users table
-    $email_query = "SELECT user_email FROM users WHERE user_id = '$user_id'";
-    $email_result = mysqli_query($link, $email_query);
-    $user_email = mysqli_fetch_assoc($email_result)['user_email'];
 
-    // Include the statusemail.php file to send the email
-    include('statusemail.php');
-    
+    // Get the user_email and notify from the users table
+    $email_notify_query = "SELECT user_email, notify FROM users WHERE user_id = '$user_id'";
+    $email_notify_result = mysqli_query($link, $email_notify_query);
+    $email_notify_data = mysqli_fetch_assoc($email_notify_result);
+    $user_email = $email_notify_data['user_email'];
+    $notify = $email_notify_data['notify'];
+
+    if ($notify == 1) {
+        // Include the statusemail.php file to send the email
+        include('statusemail.php');
+    }
+
     if($update_result) {
         header("Location: review.php");
         exit();
     } else {
         echo "批准失敗，請重新批准";
         header("Location: review.php");
+        exit();
     }
 
-    
 } else {
     echo "批准失敗，請重新批准";
     header("Location: review.php");
+    exit();
 }
 ?>
