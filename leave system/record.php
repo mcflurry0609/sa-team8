@@ -43,7 +43,6 @@
                         $link = mysqli_connect('localhost', 'root');
                         mysqli_select_db($link, 'leave');
 
-                        // 檢查連接是否成功
                         if (!$link) {
                             die("連接資料庫失敗: " . mysqli_connect_error());
                         }
@@ -67,7 +66,6 @@
                             </form>';
                         }
 
-                        // 釋放資源並關閉連接
                         mysqli_free_result($result);
                         mysqli_stmt_close($stmt);
                         mysqli_close($link);
@@ -191,22 +189,17 @@
         });
 
         function searchRecords() {
-            // 搜尋框
             var searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
             var searchDate = document.getElementById("searchDate").value;
 
-            // 尋找所有的請假紀錄
             var records = document.querySelectorAll(".recordcard");
 
             records.forEach(record => {
-                // 尋找紀錄中的課程名稱、教授名稱
                 var course = record.querySelector(".recordtitle h3").innerText.toLowerCase();
-                var student = record.querySelector(".timeslot li:nth-child(3)").innerText.toLowerCase();
-                var studentID = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
-                var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0]; // 取得紀錄中的日期部分
+                var user = record.querySelector(".timeslot li:last-child").innerText.toLowerCase();
+                var recordDate = record.querySelector(".timeslot li:first-child").innerText.split(' ')[0];
 
-                // 如果課程名稱、學生名稱或學號包含搜索的字串，並且日期等於搜索的日期，則顯示該紀錄；否則隱藏
-                if ((course.includes(searchInput) || student.includes(searchInput) || studentID.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
+                if ((course.includes(searchInput) || user.includes(searchInput)) && (searchDate === '' || recordDate === searchDate)) {
                     record.style.display = "block";
                 } else {
                     record.style.display = "none";
