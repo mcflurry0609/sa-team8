@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>規則修改</title>
+    <title>規則設定</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="pic/logoo.jpg" />
     <!-- CSS -->
@@ -19,7 +19,7 @@
     </style>
     <div class="layout">
         <div class="wrapper">
-        <h2>規則修改</h2>
+        <h2>規則設定</h2>
                 <form class="form" enctype="multipart/form-data" action="ruleset.php" method="post">
                     <input type="hidden" name="course_id" value="<?php echo $_GET['course_id']; ?>"> <!-- 將 course_id 作為隱藏字段傳遞之後POST出去 -->
                     <div class="">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="footer">
                         <a class="nosend" id="changeMindBtn" href="inclass.php" style="text-decoration-line: none;">改變心意</a>
-                        <button type="submit" class="sendout">確認修改</button>
+                        <button type="submit" class="sendout">確認送出</button>
                     </div>
                 </form>
         </div>
