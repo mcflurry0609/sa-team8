@@ -3,12 +3,6 @@
 $link=mysqli_connect('localhost','root');
 mysqli_select_db($link,'leave');
 
-
-if ($link->connect_error) {
-    die("Connection failed: " . $link->connect_error);
-}
-
-
 $user_id = $_SESSION['user_id']; 
 $date = $_POST['date']; // 選擇的日期
 $date1 = new DateTime('2024-02-26'); // 初始日期
@@ -25,10 +19,7 @@ $sql = "SELECT DISTINCT c.course_id, c.course_name, c.notice, s.week
         FROM enrollments e
         INNER JOIN courses c ON e.course_id = c.course_id
         INNER JOIN schedule s ON c.course_id = s.course_id
-        WHERE e.user_id = '$user_id'
-       
-        AND  DAYOFWEEK('$date')-1 =  s.weekday_id 
-        ";
+        WHERE e.user_id = '$user_id' AND  DAYOFWEEK('$date')-1 =  s.weekday_id ";
 $result = $link->query($sql);
 
 if ($result->num_rows > 0) {
@@ -43,10 +34,10 @@ if ($result->num_rows > 0) {
             } else {
                 $week=1; //單週上課
             }}
-        if($week!=$row['week']){
+        if($week!=$row['week']){ //當前週數跟課程上課週不符合就處理下一筆
             continue;
         }
-        echo '<option value="' . $row['course_id'] . '">' . $row['course_name'] . '</option>'; //生成下拉式選單選項
+        echo '<option value="'.$row['course_id'].'">'.$row['course_name'].'</option>'; //生成下拉式選單選項
     }
     echo '</select>';
 } else {

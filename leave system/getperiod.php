@@ -3,11 +3,6 @@
 $link = mysqli_connect('localhost', 'root');
 mysqli_select_db($link, 'leave');
 
-
-if ($link->connect_error) {
-    die("连接失败: " . $link->connect_error);
-}
-
 $course_id = $_POST['course_id']; //接課程id的值
 
 
@@ -19,15 +14,14 @@ $sql = "SELECT s.period, c.aon
 $result = $link->query($sql);
 
 $periods = array();
-$notOnlineLeavePrinted = false; //不可線上請假
+
 
 if ($result->num_rows > 0) {
     
     while ($row = $result->fetch_assoc()) {
         // 檢查課程能不能線上請假
-        if ($row['aon'] == 2 && !$notOnlineLeavePrinted) {
+        if ($row['aon'] == 2) {
             echo "不可線上請假";
-            $notOnlineLeavePrinted = true;
             break;
         } else {
             $periods = array_merge($periods, explode(',', $row["period"]));//可以請假就輸出節次

@@ -78,7 +78,7 @@
                     GROUP_CONCAT(DISTINCT CASE WHEN users.role = '助教' THEN CONCAT(users.user_name, ' 助教')ELSE CONCAT(users.user_name, ' 教授')END SEPARATOR ' ') AS teacher_names,
                     GROUP_CONCAT(DISTINCT schedule.period ORDER BY FIELD(schedule.period, 'D1', 'D2', 'D3', 'D4', 'DN', 'D5', 'D6', 'D7') SEPARATOR ' ') AS sorted_periods
                     FROM enrollments
-                    JOIN courses ON enrollments.course_id = courses.course_id
+                    JOIN courses ON enrollments.course_id = courses.course_id 
                     JOIN courseteacher ON courses.course_id = courseteacher.course_id
                     JOIN users ON courseteacher.user_id = users.user_id
                     LEFT JOIN schedule ON courses.course_id = schedule.course_id
