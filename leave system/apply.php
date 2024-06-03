@@ -14,7 +14,6 @@
 </head>
 
 <body>
-    
     <div class="layout">
         <div class="wrapper">
             <h2>請假申請</h2>
@@ -36,6 +35,7 @@
                                 <option value="6">心理假</option>
                                 <option value="7">哺育幼兒假</option>
                             </select>
+                           
                         </div>
                     </div>
                     <div class="date">
@@ -74,9 +74,7 @@
                             證明文件
                             <div class="must">(必填)</div>
                         </div>
-                        <div class="">
                             <input type="file" name="proof" class="inputbox" accept=".pdf, .jpg, .png" style="background-color: #fdfdfd; height:27px;" required />
-                        </div>
                     </div>
                 </div>
                 <div class="footer">
@@ -88,57 +86,53 @@
     </div>
 
     <script>
-            document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById('dateInput');
+        const periodsList = document.getElementById('periodsList');
+        
+        dateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
 
-                const dateInput = document.getElementById('dateInput'); //取得日期
-                dateInput.addEventListener('change', function() { //監聽日期
-                    const selectedDate = this.value; //將日期存進selectedDate中
+            periodsList.innerHTML = '';
 
-                    
-                    const xhr = new XMLHttpRequest(); //建立ajax request
-                    xhr.open('POST', 'getcourse.php', true); //方法post 目的地getcourse.php 設定為非同步請求
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //設定請求頭部，告訴伺服器請求體的內容類型，這裡是表單類型 選擇的日期。
-                    xhr.onreadystatechange = function() { //請求的狀態改變就執行
-                        if (xhr.readyState === XMLHttpRequest.DONE) { //請求完成就執行 0：unsent 1：opened  2：header_received 3：loading 4：done 確認請求已完成
-                            if (xhr.status === 200) { //200是請求成功 確認請求成功並且伺服器傳回了有效的回應
-                                //更新課程的下拉式選單
-                                const courseSelect = document.getElementById('courseSelect');
-                                courseSelect.innerHTML = xhr.responseText;
-                            } else {
-                                //錯誤時
-                                console.error('無法獲得課程資訊');
-                            }
-                        }
-                    };
-                    xhr.send(`date=${selectedDate}`); //傳值選擇的日期
-                });
-
-                
-                const courseSelect = document.getElementById('courseSelect'); //取得下拉式選單的課程
-                courseSelect.addEventListener('change', function() { //監聽下拉式選單，內容出現變化就執行
-                    
-                    const selectedCourseId = this.value; //取得當前選擇課程的id
-
-                    
-                    const xhr = new XMLHttpRequest(); //建立新的ajax請求
-                    xhr.open('POST', 'getperiod.php', true); // 方法post 目的地getperiod.php 設定為非同步請求
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //設定請求頭部，告訴伺服器請求體的內容類型，這裡是課程id
-                    xhr.onreadystatechange = function() { //請求的狀態改變就執行
-                        if (xhr.readyState === XMLHttpRequest.DONE) { //請求完成就執行
-                            if (xhr.status === 200) { //200是請求成功
-                                // 更新節次選擇
-                                const periodsList = document.getElementById('periodsList');
-                                periodsList.innerHTML = xhr.responseText;
-                            } else {
-                                //錯誤時
-                                console.error('無法獲得節次資訊');
-                            }
-                        }
-                    };
-                    xhr.send(`course_id=${selectedCourseId}`);//傳值當前的課程id
-                });
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'getcourse.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        courseSelect.innerHTML = xhr.responseText;
+                    } else {
+                        console.error('無法獲得課程資訊');
+                    }
+                }
+            };
+            xhr.send(`date=${selectedDate}`);
         });
-    </script>
+
+        const courseSelect = document.getElementById('courseSelect');
+        courseSelect.addEventListener('change', function() {
+            const selectedCourseId = this.value;
+
+ 
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'getperiod.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        periodsList.innerHTML = xhr.responseText;
+                    } else {
+                        console.error('無法獲得節次資訊');
+                    }
+                }
+            };
+            xhr.send(`course_id=${selectedCourseId}`);
+        });
+    });
+</script>
+
 </body>
 
 </html>
